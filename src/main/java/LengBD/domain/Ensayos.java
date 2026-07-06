@@ -15,37 +15,38 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "FIDE_ENSAYOS_TB")
 public class Ensayos implements Serializable {
+
     private static final long serialVersionUID = 1l;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID_ENSAYO")
+    @Column(name = "ID_ENSAYO")
     private Integer idEnsayo;
-    
-    @Column(name="NOMBRE", length=100)
+
+    @Column(name = "NOMBRE", length = 100)
     private String nombre;
-    
-    @Column(name="FECHA_INICIO")
-    private LocalDate fechaInicio;
-    
-    @Column(name="FECHA_FIN")
-    private LocalDate fechaFin;
-    
-    @Column(name="DESCRIPCION", length=100)
+
+    @Column(name = "FECHA_INICIO")
+    private LocalDateTime  fechaInicio;
+
+    @Column(name = "FECHA_FIN")
+    private LocalDateTime  fechaFin;
+
+    @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
-    private Usuario cedula;
-    
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+
+    @Column(name = "CEDULA")
+    private Long cedula; 
+
+    @Column(name = "ID_ESTADO")
+    private Integer idEstado;
 
 }

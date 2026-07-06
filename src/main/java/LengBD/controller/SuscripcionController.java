@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LengBD.controller;
 
 import LengBD.domain.Suscripcion;
@@ -22,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/suscripcion")
 public class SuscripcionController {
+
     @Autowired private SuscripcionService suscripcionService;
     @Autowired private PlanesRepository planesRepository;
     @Autowired private SuscripcionRepository suscripcionRepository;
@@ -29,7 +26,7 @@ public class SuscripcionController {
     @Autowired private FacturacionRepository facturacionRepository;
     @Autowired private MetodoPagoRepository metodoPagoRepository;
 
-     @GetMapping("/listado")
+    @GetMapping("/listado")
     public String listado(Model model) {
         model.addAttribute("planes", planesRepository.findAll());
         model.addAttribute("suscripciones", suscripcionRepository.findAll());

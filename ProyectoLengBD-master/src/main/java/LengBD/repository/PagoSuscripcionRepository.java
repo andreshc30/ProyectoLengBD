@@ -1,0 +1,56 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package LengBD.repository;
+
+import LengBD.domain.AsistenciaPresentacion;
+import LengBD.domain.Canton;
+import LengBD.domain.Caracteristicas;
+import LengBD.domain.Instrumento;
+import LengBD.domain.PagoSuscripcion;
+import LengBD.domain.Suscripcion;
+import jakarta.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PagoSuscripcionRepository extends JpaRepository<PagoSuscripcion, Integer>{
+        
+    @Procedure(procedureName = "FIDE_PAGO_SUSCRIPCION_INSERT_SP")
+    void insertarPagoSuscripcion(
+        @Param("P_ID_PAGO_SUSCRIPCION") Integer idPagoSuscripcion,
+        @Param("P_NOMBRE") String nombre,
+        @Param("P_DESCRIPCION") String descripcion,
+        @Param("P_MONTO") BigDecimal monto,
+        @Param("P_FECHA_PAGO") Date fechaPago,        
+        @Param("P_ID_ESTADO") Integer idEstado,
+        @Param("P_ID_METODO_PAGO") Integer idMetodoPago
+        
+    );
+    
+    @Procedure(procedureName = "FIDE_PAGO_SUSCRIPCION_UPDATE_SP")
+    void updatePagoSuscripcion(
+        @Param("P_ID_PAGO_SUSCRIPCION") Integer idPagoSuscripcion,
+        @Param("P_NOMBRE") String nombre,
+        @Param("P_DESCRIPCION") String descripcion,
+        @Param("P_MONTO") BigDecimal monto,
+        @Param("P_FECHA_PAGO") Date fechaPago,        
+        @Param("P_ID_ESTADO") Integer idEstado,
+        @Param("P_ID_METODO_PAGO") Integer idMetodoPago
+    );
+    
+    @Procedure(procedureName = "FIDE_PAGO_SUSCRIPCION_DELETE_LOGICO_SP")
+    void eliminarPagoSuscripcion(
+        @Param("P_ID_PAGO_SUSCRIPCION") Integer idPagoSuscripcion
+    );
+    
+}

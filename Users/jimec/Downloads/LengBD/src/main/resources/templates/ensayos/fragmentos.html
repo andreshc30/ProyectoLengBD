@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="tablaEnsayos">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Ensayos</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${ensayos}">
+                    <td th:text="${e.idEnsayo}"></td>
+                    <td th:text="${e.nombre}"></td>
+                    <td th:text="${#temporals.format(e.fechaInicio, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(e.fechaFin, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${e.descripcion}"></td>
+                    <td th:text="${e.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="tablaPresentaciones">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Presentaciones</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${presentaciones}">
+                    <td th:text="${p.idPresentacion}"></td>
+                    <td th:text="${p.nombre}"></td>
+                    <td th:text="${p.descripcion}"></td>
+                    <td th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#temporals.format(p.horaInicio, 'HH:mm')}"></td>
+                    <td th:text="${#temporals.format(p.horaFin, 'HH:mm')}"></td>
+                    <td th:text="${p.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

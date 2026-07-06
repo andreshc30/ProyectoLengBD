@@ -1,0 +1,555 @@
+/* =========================
+   FONDO + LAYOUT GENERAL
+========================= */
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Fondo neutro, limpio */
+body{
+    background-color: #f4f5f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Nunito', Arial, sans-serif;
+}
+
+.principal{
+    flex: 1;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar-blcm{
+    background-color: #2b2f38;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    padding: 1.4rem 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.blcm-title{
+    font-family: 'NunitoBold', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: white !important;
+    transition: transform .25s ease;
+}
+
+.blcm-title:hover{
+    transform: translateY(-3px);
+}
+
+.navbar-blcm .nav-link{
+    color: rgba(255,255,255,0.85) !important;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0 12px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.navbar-blcm .nav-link:hover{
+    transform: translateY(-3px);
+    color: #8fa8c9 !important;
+}
+
+.navbar-blcm .dropdown-menu{
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+}
+
+.navbar-blcm .navbar-toggler{
+    border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-blcm .navbar-toggler-icon{
+    filter: invert(1);
+}
+
+/* =========================
+   CARRUSEL (VERSIÓN ESTABLE)
+========================= */
+#carouselExample{
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.carousel-img{
+    height: 520px;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 768px){
+    .carousel-img{ height: 260px; }
+}
+
+.img-izq{ object-position: 25% center; }
+.img-centro{ object-position: 50% center; }
+.img-der{ object-position: 80% center; }
+
+/* =========================
+   ICONOS
+========================= */
+.btn-ig img{
+    height: 22px;
+    width: 22px;
+    object-fit: contain;
+    vertical-align: middle;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   SECCIÓN "SOBRE LA BANDA"
+========================= */
+.seccion-info{
+    position: relative;
+    margin-top: -6px;
+    padding: 30px 0 140px;
+    background: linear-gradient(
+        to bottom,
+        rgba(226,229,235,0.95) 0%,
+        rgba(226,229,235,0.85) 25%,
+        rgba(226,229,235,0.55) 55%,
+        rgba(226,229,235,0.25) 75%,
+        rgba(226,229,235,0.0) 100%
+        );
+}
+
+.seccion-info .card{
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.10);
+}
+
+.seccion-info .card-body{
+    padding: 2rem;
+}
+
+.seccion-info .seccion-titulo{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 35px;
+    letter-spacing: 0.2px;
+    color: #1f2126;
+}
+
+.seccion-info .seccion-texto{
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 20px;
+    line-height: 1.7;
+    color: rgba(0,0,0,0.72);
+}
+
+.seccion-info .nav-tabs{
+    border-bottom: 0;
+    gap: 6px;
+}
+
+.seccion-info .nav-tabs .nav-link{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    color: rgba(0,0,0,0.60);
+    border: none;
+    border-radius: 14px 14px 0 0;
+    padding: 12px 18px;
+    background: transparent;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.seccion-info .nav-tabs .nav-link.active{
+    color: #1f2126;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+    transform: translateY(-2px);
+}
+
+.seccion-info .nav-tabs .nav-link:hover{
+    transform: translateY(-2px);
+}
+
+/* =========================
+   APARTADO SECCIONES
+========================= */
+.section-card{
+    border: none;
+    overflow: hidden;
+    position: relative;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.14);
+    background: rgba(0,0,0,0.03);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.section-img{
+    height: 280px;
+    object-fit: cover;
+    transition: transform .5s ease;
+}
+
+.section-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.70), rgba(0,0,0,0.05));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px;
+    color: white;
+    opacity: 0;
+    transition: opacity .35s ease;
+}
+
+.section-overlay h5{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.section-overlay p{
+    font-size: 14px;
+    margin: 0;
+}
+
+.section-card:hover .section-img{
+    transform: scale(1.08);
+}
+
+.section-card:hover .section-overlay{
+    opacity: 1;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer-blcm{
+    background-color: #2b2f38;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    padding: 0.6rem 0;
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.12);
+    color: rgba(255,255,255,0.85);
+}
+
+.footer-brand{
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    color: white;
+    transition: transform .25s ease;
+}
+
+.footer-brand:hover{
+    transform: translateY(-3px);
+}
+
+.footer-slogan{
+    font-size: 1.02rem;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.footer-social{
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-btn{
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.social-btn img{
+    filter: brightness(0) invert(1);
+}
+
+.social-btn:hover{
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.20);
+}
+
+.footer-copy{
+    font-size: 0.9rem;
+    font-weight: 700;
+    opacity: 0.85;
+}
+
+.seccion-info .tab-content{
+    min-height: 220px;
+}
+.seccion-info .tab-pane{
+    transition: opacity .2s ease;
+}
+
+/* =========================
+   TEXTO TÍTULOS GENERALES
+========================= */
+.texto {
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 2rem;
+    color: #222;
+}
+
+/* =========================
+   RESPONSIVE GENERAL
+========================= */
+@media (max-width: 992px) {
+    .navbar-blcm .nav-link { margin: 2px 6px; }
+}
+
+@media (max-width: 768px) {
+    .blcm-title { font-size: 28px; }
+    .seccion-info .seccion-titulo { font-size: 26px; }
+    .seccion-info .seccion-texto  { font-size: 16px; }
+    .footer-brand   { font-size: 22px; }
+    .footer-slogan  { font-size: 0.88rem; }
+    .footer-copy    { font-size: 0.78rem; }
+    .texto { font-size: 1.6rem; }
+}
+
+@media (max-width: 576px) {
+    .blcm-title { font-size: 22px; }
+    .page-header h1 { font-size: 1.8rem; }
+    .page-header p  { font-size: 0.9rem; }
+    .seccion-info { padding: 20px 0 80px; }
+    .seccion-info .seccion-titulo { font-size: 22px; }
+    .seccion-info .seccion-texto  { font-size: 14px; }
+    .seccion-info .tab-content    { min-height: 180px; }
+    .section-img { height: 200px; }
+    .footer-slogan  { font-size: 0.80rem; }
+    .social-btn     { width: 36px; height: 36px; }
+
+}
+
+.evento-hero{
+    background: linear-gradient(
+        135deg,
+        rgba(43,47,56,0.96) 0%,
+        rgba(63,70,84,0.92) 100%
+    );
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.14);
+    color: white;
+}
+
+.evento-titulo{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 2.4rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+.evento-subtitulo{
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.88);
+}
+
+.evento-card{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 22px;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    padding: 1.7rem;
+    transition: transform .25s ease, box-shadow .25s ease;
+    height: 100%;
+}
+
+.evento-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 20px 38px rgba(0,0,0,0.14);
+}
+
+.evento-card h4{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1.2rem;
+    color: #1f2126;
+    margin-bottom: 0.9rem;
+}
+
+.evento-card p{
+    color: rgba(0,0,0,0.72);
+    line-height: 1.75;
+    margin-bottom: 0;
+}
+
+.evento-tag{
+    margin-top: 1rem;
+    display: inline-block;
+    background: rgba(43,47,56,0.08);
+    color: #2b2f38;
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.evento-table-wrap{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.evento-table{
+    margin: 0;
+}
+
+.evento-table thead th{
+    background-color: #2b2f38;
+    color: white;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding: 1rem;
+}
+
+.evento-table tbody td{
+    background-color: transparent;
+    border-color: rgba(0,0,0,0.08);
+    padding: 1rem;
+    color: rgba(0,0,0,0.76);
+    vertical-align: middle;
+}
+
+.evento-table tbody tr:hover{
+    background-color: rgba(143,168,201,0.08);
+}
+
+.evento-resumen{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 2rem;
+}
+
+.evento-resumen h3{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    color: #1f2126;
+}
+
+.evento-resumen p{
+    color: rgba(0,0,0,0.74);
+    line-height: 1.8;
+}
+
+.evento-btn{
+    background-color: #2b2f38;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 0.7rem 1.4rem;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1rem;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.evento-btn:hover{
+    background-color: #8fa8c9;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 25px rgba(0,0,0,0.16);
+}
+
+.evento-card-btn{
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: inherit;
+    width: 100%;
+    display: block;
+}
+
+.evento-card-btn:focus{
+    outline: none;
+}
+
+.evento-card-info{
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    padding: 2rem;
+}
+
+.evento-card-btn .evento-card{
+    width: 100%;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.evento-card-btn:hover .evento-card{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.evento-card-btn:focus .evento-card{
+    box-shadow: 0 0 0 3px rgba(143,168,201,0.35), 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.evento-card-info h4{
+    margin: 0;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1.15rem;
+    color: #1f2126;
+}
+
+.evento-card-info .evento-btn{
+    margin-top: 0.8rem;
+}
+
+@media (max-width: 768px){
+    .evento-hero{
+        padding: 2.2rem 1.4rem;
+    }
+
+    .evento-titulo{
+        font-size: 1.8rem;
+    }
+
+    .evento-subtitulo{
+        font-size: 0.95rem;
+    }
+
+    .evento-card{
+        padding: 1.3rem;
+    }
+
+    .evento-card-info{
+        min-height: 180px;
+        padding: 1.5rem;
+    }
+}

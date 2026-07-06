@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+    <header th:replace="~{general/fragmentos :: header}"></header>
+    
+    <main class="container my-4">
+        <h2>Suscripción y Pagos</h2>
+
+        <ul class="nav nav-tabs mt-3" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabPlanes">Planes</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSuscripciones">Suscripciones</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPagos">Pagos</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabFacturas">Facturación</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabMetodos">Métodos de Pago</button>
+            </li>
+        </ul>
+
+        <div class="tab-content border border-top-0 rounded-bottom p-3">
+            
+            <div th:replace="~{suscripcion_pagos/fragmentos_tabs :: tabPlanes}"></div>
+            <div th:replace="~{suscripcion_pagos/fragmentos_tabs :: tabSuscripciones}"></div>
+            <div th:replace="~{suscripcion_pagos/fragmentos_tabs :: tabPagos}"></div>
+            <div th:replace="~{suscripcion_pagos/fragmentos_tabs :: tabFacturas}"></div>
+            <div th:replace="~{suscripcion_pagos/fragmentos_tabs :: tabMetodos}"></div>
+
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

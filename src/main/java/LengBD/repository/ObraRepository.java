@@ -3,20 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package LengBD.repository;
-
-import LengBD.domain.AsistenciaPresentacion;
-import LengBD.domain.Canton;
-import LengBD.domain.Caracteristicas;
-import LengBD.domain.Facturacion;
-import LengBD.domain.Instrumento;
-import LengBD.domain.MaterialEstudio;
-import LengBD.domain.MetodoPago;
-import LengBD.domain.Movimiento;
-import LengBD.domain.PagoSuscripcion;
-import LengBD.domain.Suscripcion;
-import jakarta.persistence.EntityManager;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import LengBD.domain.Obra;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +12,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Repository
-public interface ObraRepository extends JpaRepository<Movimiento, Integer>{
-        
+public interface ObraRepository extends JpaRepository<Obra, Integer>{        
     @Procedure(procedureName = "FIDE_OBRA_INSERT_SP")
     void insertarObra(
         @Param("P_ID_OBRA") Integer idObra,
@@ -55,4 +43,5 @@ public interface ObraRepository extends JpaRepository<Movimiento, Integer>{
         @Param("P_ID_OBRA") Integer idObra
     );
     
+       
 }

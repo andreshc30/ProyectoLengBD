@@ -24,7 +24,6 @@ public class Obra implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_OBRA")
     private Integer idObra;
     
@@ -37,12 +36,10 @@ public class Obra implements Serializable {
     @Column(name="DETALLE", length=100)
     private String detalle;
     
-    @ManyToOne
-    @JoinColumn(name="ID_TIPO")
-    private Tipo idTipo;
-    
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_TIPO")
+    private Integer idTipo;
+
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

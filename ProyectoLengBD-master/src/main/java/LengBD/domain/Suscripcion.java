@@ -1,0 +1,54 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package LengBD.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "FIDE_SUSCRIPCION_TB")
+public class Suscripcion implements Serializable {
+    private static final long serialVersionUID = 1l;
+    
+    @Id
+    @Column(name="ID_SUSCRIPCION")
+    private Integer idSuscripcion;
+    
+    @Column(name="NOMBRE", length=100)
+    private String nombre;
+    
+    @Column(name="FECHA_INICIO")
+    private LocalDate fechaInicio;
+    
+    @Column(name="FECHA_FINAL")
+    private LocalDate fechaFinal;
+    
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO")
+    private Estado idEstado; 
+    
+    @Column(name="AUTO_RENOVAR", precision=1, scale=0)
+    private BigDecimal autoRenovar;
+    
+    @ManyToOne
+    @JoinColumn(name="ID_TIPO_PLAN")
+    private Tipo idTipoPlan; 
+    
+    @ManyToOne
+    @JoinColumn(name="ID_PAGO_SUSCRIPCION")
+    private PagoSuscripcion idPagoSuscripcion; 
+    
+}

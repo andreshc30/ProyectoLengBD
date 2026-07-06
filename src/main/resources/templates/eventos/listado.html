@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container my-4 principal">
+
+            <section class="evento-hero text-center mb-5">
+                <h2 class="evento-titulo">Gestión de Eventos</h2>
+
+            </section>
+
+            <section class="mb-5">
+                <h3 class="texto mb-4">Funciones implementadas</h3>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="evento-card h-100">
+                            <h4>TOTAL EVENTOS ACTIVOS</h4>
+
+                            <div class="evento-tag">
+                                Consulta el total de eventos activos
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="evento-card h-100">
+                            <h4>NOMBRE EVENTO</h4>
+
+                            <div class="evento-tag">
+                                Consulta el nombre del evento
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="mb-5">
+                <h3 class="texto mb-4">Agregar, actualizar o eliminar evento</h3>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="evento-card h-100 text-center">
+                            <h4>Agregar nuevo evento</h4>
+
+                            <button class="btn evento-btn mt-3">Agregar</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="evento-card h-100 text-center">
+                            <h4>Actualizar evento</h4>
+
+                            <button class="btn evento-btn mt-3">Actualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="evento-card h-100 text-center">
+                            <h4>Cancelar evento</h4>
+
+                            <button class="btn evento-btn mt-3">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="mb-5">
+                <h3 class="texto mb-4">Información de eventos y planes</h3>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+                        <button type="button" class="evento-card-btn w-100">
+                            <div class="evento-card evento-card-info h-100 text-center">
+                                <h4>Estado de los eventos</h4>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button type="button" class="evento-card-btn w-100">
+                            <div class="evento-card evento-card-info h-100 text-center">
+                                <h4>Próximos eventos</h4>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button type="button" class="evento-card-btn w-100">
+                            <div class="evento-card evento-card-info h-100 text-center">
+                                <h4>Suscripciones y planes</h4>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="evento-card evento-card-info h-100 text-center">
+                            <h4>Características de los planes</h4>
+                            <button class="btn evento-btn mt-3">Agregar nuevo plan</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="mb-4">
+                <div class="evento-resumen">
+                    <h3 class="mb-3">Resumen de eventos</h3>
+
+                </div>
+            </section>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>

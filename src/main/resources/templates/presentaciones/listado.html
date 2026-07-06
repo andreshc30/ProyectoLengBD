@@ -3,8 +3,12 @@
 <head th:replace="~{general/fragmentos :: head}"></head>
 <body>
     <header th:replace="~{general/fragmentos :: header}"></header>
-    <main class="container my-4">
+        <main class="container my-4">
         <h2>Presentaciones</h2>
+
+        <div class="border rounded p-3">
+            <div th:replace="~{presentaciones/fragmentos :: tablaPresentaciones}"></div>
+        </div>
     </main>
     <footer th:replace="~{general/fragmentos :: footer}"/>
 </body>

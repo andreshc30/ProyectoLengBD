@@ -23,7 +23,10 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+=======
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
 
 @Service
 public class SuscripcionService {
@@ -38,7 +41,11 @@ public class SuscripcionService {
     @SuppressWarnings("unchecked")
     public List<Suscripcion> listarSuscripciones() {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
+<<<<<<< HEAD
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+=======
+                
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
                 .withProcedureName("FIDE_SUSCRIPCION_READ_ALL_SP")
                 .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Suscripcion.class));
 
@@ -49,7 +56,10 @@ public class SuscripcionService {
     @SuppressWarnings("unchecked")
     public List<Planes> listarPlanes() {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
+<<<<<<< HEAD
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+=======
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
                 .withProcedureName("FIDE_PLANES_READ_ALL_SP")
                 .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Planes.class));
 
@@ -60,7 +70,10 @@ public class SuscripcionService {
     @SuppressWarnings("unchecked")
     public List<Pago> listarPagos() {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
+<<<<<<< HEAD
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+=======
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
                 .withProcedureName("FIDE_PAGO_SUSCRIP_READ_ALL_SP")
                 .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Pago.class));
 
@@ -71,7 +84,10 @@ public class SuscripcionService {
     @SuppressWarnings("unchecked")
     public List<Facturacion> listarFacturas() {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
+<<<<<<< HEAD
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+=======
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
                 .withProcedureName("FIDE_FACTURACION_READ_ALL_SP")
                 .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Facturacion.class));
 
@@ -82,13 +98,17 @@ public class SuscripcionService {
     @SuppressWarnings("unchecked")
     public List<MetodoPago> listarMetodosPago() {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
+<<<<<<< HEAD
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+=======
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc
                 .withProcedureName("FIDE_METODO_PAGO_READ_ALL_SP")
                 .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(MetodoPago.class));
 
         Map<String, Object> out = jdbcCall.execute();
         return (List<MetodoPago>) out.get("P_REGISTRO");
     }
+<<<<<<< HEAD
     
     @SuppressWarnings("unchecked")
     public Suscripcion buscarPorId(Integer id) {
@@ -157,3 +177,6 @@ public class SuscripcionService {
     
     
 }
+=======
+}
+>>>>>>> 05d6135faa99019f7e05bcf8372845e64711bffc

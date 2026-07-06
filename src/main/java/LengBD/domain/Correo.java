@@ -30,8 +30,7 @@ public class Correo implements Serializable {
     @Column(name="CORREO", length=100)
     private String correo;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

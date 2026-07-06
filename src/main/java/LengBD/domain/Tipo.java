@@ -35,8 +35,7 @@ public class Tipo implements Serializable {
     @Column(name="DESCRIPCION", length=100)
     private String descripcion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 }

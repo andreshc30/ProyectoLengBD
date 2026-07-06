@@ -43,17 +43,17 @@ public class Usuario implements Serializable {
     @Column(name="LOGO_URL", length=500)
     private String logoUrl;
     
-    @ManyToOne
-    @JoinColumn(name="ID_TIPO")
-    private Tipo idTipo; 
+    @Column(name="TELEFONO", length=100)
+    private String telefono;
     
-    @ManyToOne
-    @JoinColumn(name="ID_CORREO")
-    private Correo idCorreo; 
+    @Column(name="ID_TIPO")
+    private Integer idTipo; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_CORREO")
+    private Integer idCorreo; 
+    
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 
 }

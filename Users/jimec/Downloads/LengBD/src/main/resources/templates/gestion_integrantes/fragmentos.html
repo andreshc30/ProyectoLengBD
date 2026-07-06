@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="tablaIntegrantes">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Integrantes</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Logo URL</th>
+                    <th>Telefono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.cedula}"></td>
+                    <td th:text="${u.nombre}"></td>
+                    <td th:text="${u.primerApellido}"></td>
+                    <td th:text="${u.segundoApellido}"></td>
+                    <td th:text="${#temporals.format(u.fechaIngreso, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${u.logoUrl}"></td>
+                    <td th:text="${u.telefono}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

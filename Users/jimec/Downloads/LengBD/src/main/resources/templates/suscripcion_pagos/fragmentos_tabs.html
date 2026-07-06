@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="tabPlanes" class="tab-pane fade show active" id="tabPlanes">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Planes</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Periodicidad</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${planes}">
+                    <td th:text="${p.idTipoPlan}"></td>
+                    <td th:text="${p.nombre}"></td>
+                    <td th:text="${'₡' + #numbers.formatDecimal(p.precio, 1, 2)}"></td>
+                    <td th:text="${p.periodicidad}"></td>
+                    <td th:text="${p.descripcion}"></td>
+                    <td th:text="${p.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:fragment="tabSuscripciones" class="tab-pane fade" id="tabSuscripciones">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Suscripciones</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Final</th>
+                    <th>Auto Renovar</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${suscripciones}">
+                    <td th:text="${s.idSuscripcion}"></td>
+                    <td th:text="${s.nombre}"></td>
+                    <td th:text="${#temporals.format(s.fechaInicio, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#temporals.format(s.fechaFinal, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${s.autoRenovar == 1 ? 'Sí' : 'No'}"></td>
+                    <td th:text="${s.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:fragment="tabPagos" class="tab-pane fade" id="tabPagos">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Pagos de Suscripción</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Monto</th>
+                    <th>Fecha Pago</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pg : ${pagos}">
+                    <td th:text="${pg.idPagoSuscripcion}"></td>
+                    <td th:text="${pg.nombre}"></td>
+                    <td th:text="${'₡' + #numbers.formatDecimal(pg.monto, 1, 2)}"></td>
+                    <td th:text="${#temporals.format(pg.fechaPago, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${pg.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:fragment="tabFacturas" class="tab-pane fade" id="tabFacturas">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Facturación</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cédula</th>
+                    <th>Fecha Emisión</th>
+                    <th>Subtotal</th>
+                    <th>Impuestos</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="f : ${facturas}">
+                    <td th:text="${f.idFactura}"></td>
+                    <td th:text="${f.cedula}"></td>
+                    <td th:text="${#temporals.format(f.fechaEmision, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${'₡' + #numbers.formatDecimal(f.subtotal, 1, 2)}"></td>
+                    <td th:text="${'₡' + #numbers.formatDecimal(f.impuestos, 1, 2)}"></td>
+                    <td th:text="${'₡' + #numbers.formatDecimal(f.total, 1, 2)}"></td>
+                    <td th:text="${f.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:fragment="tabMetodos" class="tab-pane fade" id="tabMetodos">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Métodos de Pago</h5>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="m : ${metodos}">
+                    <td th:text="${m.idMetodoPago}"></td>
+                    <td th:text="${m.nombre}"></td>
+                    <td th:text="${m.descripcion}"></td>
+                    <td th:text="${m.idEstado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+    <header th:replace="~{general/fragmentos :: header}"></header>
+    <main class="container my-4">
+        <h2>Integrantes</h2>
+        <div class="border rounded p-3">
+            <div th:replace="~{gestion_integrantes/fragmentos :: tablaIntegrantes}"></div>
+        </div>
+    </main>
+    <footer th:replace="~{general/fragmentos :: footer}"/>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="frame">
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <div class="main-content dash-page">
+            <div class="form-container">
+                
+                <div class="dash-header">
+                    <div>
+                        <h1 class="dash-title" th:text="${integrante.id != null ? 'Editar Integrante' : 'Nuevo Integrante'}">Nuevo Integrante</h1>
+                        <p class="dash-sub">Completa los datos del músico para el registro oficial.</p>
+                    </div>
+                    <a th:href="@{/integrante/listado}" class="btn-outline">Volver al listado</a>
+                </div>
+
+                <div class="form-wrapper">
+                    <form th:action="@{/integrante/guardar}" th:object="${integrante}" method="POST" class="premium-form">
+                        
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="nombre">Nombre Completo</label>
+                                <input type="text" id="nombre" th:field="*{nombre}" class="input-premium" placeholder="Ej. Carlos Mendoza" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="seccion">Sección</label>
+                                <select id="seccion" th:field="*{seccion}" class="select-premium" required>
+                                    <option value="" disabled selected>Selecciona una sección...</option>
+                                    <option value="Viento Madera">Viento Madera</option>
+                                    <option value="Viento Metal">Viento Metal</option>
+                                    <option value="Percusión">Percusión</option>
+                                    <option value="Cuerdas">Cuerdas</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="instrumento">Instrumento</label>
+                                <input type="text" id="instrumento" th:field="*{instrumento}" class="input-premium" placeholder="Ej. Trompeta 1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rol">Rol del Usuario</label>
+                                <select id="rol" th:field="*{rol}" class="select-premium">
+                                    <option value="MUSICO">Músico (Estándar)</option>
+                                    <option value="ADMIN">Administrador</option>
+                                    <option value="DIRECTOR">Director Musical</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="telefono">Teléfono de Contacto</label>
+                                <input type="tel" id="telefono" th:field="*{telefono}" class="input-premium" placeholder="Ej. 8888-8888">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-solid">Guardar Integrante</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </div>
+</body>
+</html>

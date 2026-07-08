@@ -1,14 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{general/fragmentos :: head}"></head>
-<body>
-    <header th:replace="~{general/fragmentos :: header}"></header>
-    <main class="container my-4">
-        <h2>Integrantes</h2>
-        <div class="border rounded p-3">
-            <div th:replace="~{gestion_integrantes/fragmentos :: tablaIntegrantes}"></div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+    </head>
+    <body>
+        <div class="frame">
+            <header th:replace="~{general/fragmentos :: header}"></header>
+
+            <div class="main-content dash-page">
+                <div class="dash-container">
+
+                    <div class="dash-header">
+                        <div>
+                            <h1 class="dash-title">Integrantes</h1>
+                            <p class="dash-sub">Gestión del personal y roles activos</p>
+                        </div>
+                        <a th:href="@{/integrante/nuevo}" class="btn-solid">Nuevo Integrante</a>
+                    </div>
+
+                    <div class="dash-toolbar">
+                        <input type="text" id="busqueda" class="input-search" placeholder="Buscar por nombre, sección o instrumento...">
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Primer Apellido</th>
+                                    <th>Segundo Apellido</th>
+                                    <th>Fecha Ingreso</th>
+                                    <th>Telefono</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="u : ${usuarios}" class="filaIntegrante">
+                                    <td th:text="${u.cedula}"></td>
+                                    <td class="fw-bold text-main" th:text="${u.nombre}"></td>
+                                    <td th:text="${u.primerApellido}"></td>
+                                    <td th:text="${u.segundoApellido}"></td>
+                                    <td th:text="${#temporals.format(u.fechaIngreso, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td th:text="${u.telefono}"></td>
+                                    <td class="text-right actions-cell">
+                                        <a th:href="@{/integrante/editar/} + ${u.cedula}" class="link-edit">Editar</a>
+                                        <a th:href="@{/integrante/eliminar/} + ${u.cedula}" class="link-delete">Eliminar</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <footer th:replace="~{general/fragmentos :: footer}"></footer>
         </div>
-    </main>
-    <footer th:replace="~{general/fragmentos :: footer}"/>
-</body>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const busquedaInput = document.getElementById('busqueda');
+                if (busquedaInput) {
+                    busquedaInput.addEventListener('input', function () {
+                        let filtro = this.value.toLowerCase();
+                        document.querySelectorAll('.filaIntegrante').forEach(fila => {
+                            let texto = fila.textContent.toLowerCase();
+                            fila.style.display = texto.includes(filtro) ? '' : 'none';
+                        });
+                    });
+                }
+            });
+        </script>
+    </body>
 </html>

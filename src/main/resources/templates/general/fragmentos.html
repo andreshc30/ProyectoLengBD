@@ -1,50 +1,104 @@
-<!-- Fragmento #1 que irá en el head de todas las páginas, así se incluye todo lo necesario de configuración-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head th:fragment="head">
-    <title>Gestor de Bandas</title>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png"/>
-    <link rel="icon" type="image/png" sizes="256x256" href="/fav/favicon-256x256.png"/>
-    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/webjars/font-awesome/7.2.0/css/all.css}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BandCore - Sistema de Gestión</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script th:src="@{/js/script.js}"></script>
-    <script th:src="@{/webjars/jquery/4.0.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/2.11.7/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.min.js}"></script>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
+<body>
 
-<!-- Fragmento #2  define el encabezado de las páginas, en concreto el menú y enlaces rápidos -->
-<header th:fragment="header" class="header">
-    <nav class="navbar navbar-expand-sm p-0 navbar-blcm">
-        <div class="container-fluid">                    
-            <a th:href="@{/}" class="navbar-brand blcm-title">Inicio</a>
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <ul class="navbar-nav" sec:authorize="isAuthenticated()">
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/banda/listado}">Bandas</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/integrante/listado}">Integrantes</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/ensayo/listado}">Ensayos</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/eventos/listado}">Eventos</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/presentacion/listado}">Presentaciones</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/repertorio/listado}">Repertorio</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/suscripcion/listado}">Suscripción y Pagos</a></li>
-                </ul>
-                <div id="resultBlock"></div>
+<<<<<<< HEAD
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-lg navbar-blcm sticky-top">
+            <div class="container">
+                
+                <a class="navbar-brand blcm-title d-flex align-items-center gap-2" th:href="@{/}">
+                    <span style="background: var(--a5); color: var(--s9); border-radius: 8px; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                        <i class="ti ti-music fs-5"></i>
+                    </span>
+                    BandCore
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarPrincipal">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">Inicio</a>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="modulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Módulos
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark shadow-lg border-0" aria-labelledby="modulosDropdown" style="background-color: var(--s8);">
+                                <li><a class="dropdown-item py-2" th:href="@{/banda/listado}"><i class="ti ti-guitar-pick me-2 text-warning"></i> Banda</a></li>
+                                <li><a class="dropdown-item py-2" th:href="@{/integrante/listado}"><i class="ti ti-users me-2 text-warning"></i> Integrantes</a></li>
+                                <li><a class="dropdown-item py-2" th:href="@{/ensayo/listado}"><i class="ti ti-clipboard-check me-2 text-warning"></i> Ensayos</a></li>
+                                <li><a class="dropdown-item py-2" th:href="@{/presentacion/listado}"><i class="ti ti-microphone-2 me-2 text-warning"></i> Presentaciones</a></li>
+                                <li><a class="dropdown-item py-2" th:href="@{/repertorio/listado}"><i class="ti ti-music me-2 text-warning"></i> Repertorio</a></li>
+                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li><a class="dropdown-item py-2" th:href="@{/suscripcion/listado}"><i class="ti ti-credit-card me-2 text-warning"></i> Suscripción y Pagos</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="!isAuthenticated()">
+                            <a class="hbtn-p text-decoration-none" th:href="@{/login}">
+                                <i class="ti ti-login"></i> Ingresar
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" method="post" class="m-0 p-0">
+                                <button type="submit" class="hbtn-o w-100">
+                                    <i class="ti ti-logout"></i> Salir
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <footer th:fragment="footer" class="footer-blcm mt-auto py-4">
+        <div class="container text-center">
+            <div class="mb-3">
+                <a href="#" class="footer-brand text-decoration-none">BandCore</a>
+            </div>
+            <p class="footer-slogan text-light opacity-75 mb-4">El ritmo de tu banda, sincronizado.</p>
+            
+            <div class="footer-social mb-4">
+                <a href="#" class="social-btn text-decoration-none">
+                    <i class="ti ti-brand-facebook fs-4 text-white"></i>
+                </a>
+                <a href="#" class="social-btn text-decoration-none">
+                    <i class="ti ti-brand-instagram fs-4 text-white"></i>
+                </a>
+                <a href="#" class="social-btn text-decoration-none">
+                    <i class="ti ti-brand-youtube fs-4 text-white"></i>
+                </a>
+            </div>
+            
+            <div class="footer-copy">
+                &copy; 2026 BandCore. Todos los derechos reservados.
             </div>
         </div>
-    </nav>
-</header>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </footer>
 
-<!-- Fragmento #3  define el footer de las páginas, aparte de esto se podria incluir enlaces a redes socilaes y demás -->
-<footer class="footer-blcm mt-5" th:fragment="footer">
-    <div class="container text-center py-4">
-        <span>&copy; 2026 Mi Banda</span>
-    </div>
-</footer>
+</body>
+</html>

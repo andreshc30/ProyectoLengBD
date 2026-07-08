@@ -3,47 +3,149 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-<head th:replace="~{general/fragmentos :: head}"></head>
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
 
-<body>
-    <header th:replace="~{general/fragmentos :: header}"></header>
+    <body>
+        <div class="frame">
+            <header th:replace="~{general/fragmentos :: header}"></header>
 
-    <section>
-        <section class="seccion-info">
-            <div class="container">
-                <div class="card text-center panel">
-                    <div class="card-header bg-transparent border-0">
-                        <ul class="nav nav-tabs card-header-tabs justify-content-center" id="infoTabs" role="tablist">
-                            <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nosotros" type="button">Nosotros</button>
-                            </li>
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vision" type="button">Visión</button>
-                            </li>
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mision" type="button">Misión</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body tab-content">
-                        <div class="tab-pane fade show active" id="nosotros">
-                            <h5 class="card-title seccion-titulo">Sobre la Banda</h5>
-                            <p class="card-text seccion-texto"></p>
+            <div class="main-content">
+                <div class="hero-premium" id="hero">
+                    <div class="hero-content">
+                        <div class="hero-left">
+                            <h1 class="title-main">Gestiona tu banda con <span class="text-accent">precisión maestra.</span></h1>
+                            <p class="subtitle">La plataforma integral para músicos. Integrantes, ensayos, finanzas y repertorio en un solo sistema estructurado.</p>
+                            <div class="action-group">
+                                <a th:href="@{/suscripcion/listado}" class="btn-solid">Comenzar gratis</a>
+                                <a href="#modulos" class="btn-outline">Explorar módulos</a>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="vision">
-                            <h5 class="card-title seccion-titulo">Nuestra Visión</h5>
-                            <p class="card-text seccion-texto"></p>
-                        </div>
-                        <div class="tab-pane fade" id="mision">
-                            <h5 class="card-title seccion-titulo">Nuestra Misión</h5>
-                            <p class="card-text seccion-texto"></p>
+
+                        <div class="hero-right">
+                            <div class="fcard">
+                                <div><h6>Integrantes y roles</h6><p>Registro, secciones, instrumentos</p></div>
+                            </div>
+                            <div class="fcard">
+                                <div><h6>Ensayos y asistencia</h6><p>Agenda, control, justificaciones</p></div>
+                            </div>
+                            <div class="fcard">
+                                <div><h6>Finanzas y cuotas</h6><p>Movimientos, facturación, IVA</p></div>
+                            </div>
+                            <div class="fcard">
+                                <div><h6>Repertorio</h6><p>Obras y material de estudio</p></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </section>
 
-    <footer th:replace="~{general/fragmentos :: footer}"></footer>
-</body>
+                <div class="mods" id="modulos">
+                    <div class="mods-head">
+                        <div class="mbadge">Funcionalidades</div>
+                        <h2 class="mtitle">Módulos del sistema</h2>
+                        <p class="msub">Todo lo que tu banda necesita</p>
+                    </div>
+                    <div class="mgrid">
+                        <a th:href="@{/integrante/listado}" class="mc">
+                            <h5>Integrantes</h5>
+                            <p>Músicos, roles, solicitudes de ingreso</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                        <a th:href="@{/banda/listado}" class="mc">
+                            <h5>Banda</h5>
+                            <p>Secciones, instrumentos, redes</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                        <a th:href="@{/ensayo/listado}" class="mc">
+                            <h5>Ensayos</h5>
+                            <p>Agenda y control de asistencia</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                        <a th:href="@{/presentacion/listado}" class="mc">
+                            <h5>Presentaciones</h5>
+                            <p>Retretas, conciertos, eventos</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                        <a th:href="@{/repertorio/listado}" class="mc">
+                            <h5>Repertorio</h5>
+                            <p>Obras y material de estudio</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                        <a th:href="@{/suscripcion/listado}" class="mc">
+                            <h5>Suscripción y pagos</h5>
+                            <p>Planes, facturas, cuotas</p>
+                            <span class="mlink">Gestionar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <footer th:replace="~{general/fragmentos :: footer}"></footer>
+            </div>
+        </div>
+
+        <button id="chat-toggle" class="chat-btn"><i class="ti ti-message"></i></button>
+
+        <div id="chat-window" class="chat-window" style="display:none;">
+            <div class="chat-header">Asistente BandCore</div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Pregúntame sobre tu banda...">
+                    <button id="send-btn"><i class="ti ti-send"></i></button>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('click', function (e) {
+                // Toggle del chat
+                if (e.target.closest('#chat-toggle')) {
+                    const chatWindow = document.getElementById('chat-window');
+                    chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'flex' : 'none';
+                }
+
+                // Botón enviar
+                if (e.target.closest('#send-btn')) {
+                    console.log("Clic detectado en el botón enviar");
+                    enviarMensaje();
+                }
+            });
+
+            async function enviarMensaje() {
+                const input = document.getElementById('chat-input');
+                const message = input.value;
+                console.log("Mensaje capturado:", message); // DEBUG: Mira esto en la consola F12
+
+                if (!message.trim()) {
+                    console.log("Mensaje vacío, no se envía");
+                    return;
+                }
+
+                const container = document.getElementById('chat-messages');
+                container.innerHTML += `<p class="msg-user"><b>Tú:</b> ${message}</p>`;
+                input.value = '';
+
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(message)
+                    });
+
+                    if (!response.ok)
+                        throw new Error('Error en el servidor: ' + response.status);
+
+                    const data = await response.text();
+                    container.innerHTML += `<p class="msg-ai"><b>IA:</b> ${data}</p>`;
+                    container.scrollTop = container.scrollHeight;
+                } catch (err) {
+                    console.error("Error completo:", err);
+                    container.innerHTML += `<p class="msg-ai" style="color:red;">Error de conexión.</p>`;
+                }
+            }
+        </script>
+
+
+
+    </body>
 </html>

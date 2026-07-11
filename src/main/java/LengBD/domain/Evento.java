@@ -24,25 +24,25 @@ public class Evento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_EVENTO")
     private Integer idEvento;
     
-    @Column(name="NOMBRE", length=100)
+    @Column(name="NOMBRE", length=150)
     private String nombre;
     
-    @Column(name="DETALLE", length=100)
+    @Column(name="DETALLE", length=1000)
     private String detalle;
     
     @Column(name="FECHA")
     private LocalDate fecha;
     
-    @ManyToOne
-    @JoinColumn(name="ID_DIRECCION")
+    @Column(name="ID_DIRECCION")
     private Direccion direccion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_BANDA")
+    private Banda idBanda;
+    
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

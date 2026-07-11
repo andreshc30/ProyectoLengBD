@@ -24,22 +24,16 @@ public class Instrumento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_INSTRUMENTO")
     private Integer idInstrumento;
     
-    @Column(name="DESCRIPCION", length=100)
+    @Column(name="NOMBRE", length=100)
     private String descripcion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_SECCION")
+    @Column(name="ID_SECCION")
     private Seccion idSeccion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
-    
-    @Column(name="NOMBRE", length=100)
-    private String nombre;
 
 }

@@ -27,7 +27,6 @@ public class Ensayos implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ENSAYO")
     private Integer idEnsayo;
 
@@ -35,18 +34,21 @@ public class Ensayos implements Serializable {
     private String nombre;
 
     @Column(name = "FECHA_INICIO")
-    private LocalDateTime  fechaInicio;
+    private LocalDateTime fechaInicio;
 
     @Column(name = "FECHA_FIN")
-    private LocalDateTime  fechaFin;
+    private LocalDateTime fechaFin;
 
-    @Column(name = "DESCRIPCION", length = 100)
+    @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
 
-    @Column(name = "CEDULA")
-    private Long cedula; 
+    @Column(name = "ID_DIRECCION")
+    private Direccion idDireccion; 
+    
+    @Column(name = "ID_BANDA")
+    private Banda idBanda; 
 
     @Column(name = "ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 
 }

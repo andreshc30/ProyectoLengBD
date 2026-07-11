@@ -24,7 +24,6 @@ public class RedSocialBanda implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_RED_SOCIAL")
     private Integer idRedSocial;
     
@@ -34,12 +33,10 @@ public class RedSocialBanda implements Serializable {
     @Column(name="LINK_BANDA", length=500)
     private String linkbanda;
     
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
-    private Usuario cedula; 
+    @Column(name="ID_BANDA")
+    private Banda idBanda; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
     
 

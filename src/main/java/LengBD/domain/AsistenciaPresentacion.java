@@ -23,20 +23,16 @@ public class AsistenciaPresentacion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_ASISTENCIA_PRESENTACION")
     private Integer idAsistenciaPresentacion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_PRESENTACION")
-    private Presentacion idPresentacion;
+    @Column(name="ID_PRESENTACION")
+    private Integer idPresentacion;
     
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
-    private Usuario instrumento;
+    @Column(name="CEDULA")
+    private Long cedula;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

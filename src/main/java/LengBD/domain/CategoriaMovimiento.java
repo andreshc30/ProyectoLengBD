@@ -23,18 +23,16 @@ public class CategoriaMovimiento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_CATEGORIA_MOVIMIENTO")
     private Integer idCategoriaMovimiento;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @Column(name="DETALLE", length=100)
+    @Column(name="DETALLE", length=300)
     private String detalle;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

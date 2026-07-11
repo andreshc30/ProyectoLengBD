@@ -23,7 +23,6 @@ public class AsignacionInstrumento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_ASIGNACION")
     private Integer idAsignacion;
     
@@ -36,16 +35,13 @@ public class AsignacionInstrumento implements Serializable {
     @Column(length=100, name="MOTIVO")
     private String motivo;
     
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
+    @Column(name="CEDULA")
     private Usuario cedula;
     
-    @ManyToOne
-    @JoinColumn(name="ID_CATEGORIA")
-    private Instrumento instrumento;
+    @Column(name="ID_INSTRUMENTO")
+    private Instrumento idInstrumento;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado;
     
     

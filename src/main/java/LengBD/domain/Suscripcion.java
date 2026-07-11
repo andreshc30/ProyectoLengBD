@@ -34,16 +34,16 @@ public class Suscripcion implements Serializable {
     @Column(name="FECHA_FINAL")
     private LocalDate fechaFinal;
     
-    @Column(name="ID_ESTADO")
-    private Integer idEstado; 
-    
     @Column(name="AUTO_RENOVAR", precision=1, scale=0)
     private BigDecimal autoRenovar;
     
     @Column(name="ID_TIPO_PLAN")
-    private Integer idTipoPlan; 
+    private Planes idTipoPlan; 
     
-    // Cambiado de objeto 'PagoSuscripcion' a Integer plano
-    @Column(name="ID_PAGO_SUSCRIPCION")
-    private Integer idPagoSuscripcion; 
+    @Column(name="ID_BANDA")
+    private Banda idBanda; 
+    
+    @Column(name="ID_ESTADO")
+    private Estado idEstado; 
+    
 }

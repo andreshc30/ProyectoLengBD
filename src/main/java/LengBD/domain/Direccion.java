@@ -25,30 +25,22 @@ public class Direccion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_DIRECCION")
     private Integer idDireccion;
     
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name="ID_PROVINCIA")
+    @Column(name="ID_PROVINCIA")
     private Provincia idProvincia;
     
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name="ID_CANTON")
+    @Column(name="ID_CANTON")
     private Canton idCanton;
     
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name="ID_DISTRITO")
+    @Column(name="ID_DISTRITO")
     private Distrito idDistrito;
     
-    @Column(name="OTROS_DETALLES", length=100)
+    @Column(name="OTROS_DETALLES", length=300)
     private String otrosDetalles;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

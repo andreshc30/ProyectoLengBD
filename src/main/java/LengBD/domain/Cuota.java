@@ -24,29 +24,19 @@ public class Cuota implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_CUOTA")
     private Integer idCuota;
     
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
+    @Column(name="CEDULA")
     private Usuario cedula;
     
     @Column(name="FECHA")
     private LocalDate fecha;
     
-    @ManyToOne
-    @JoinColumn(name="ID_TIPO")
-    private Tipo idTipo;
-    
     @Column(name="MONTO_PAGADO", precision=12, scale=2)
     private BigDecimal montoPagado;
     
-    @Column(name="PERIODICIDAD")
-    private String periodicidada;
-    
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

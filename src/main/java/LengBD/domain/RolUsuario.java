@@ -25,22 +25,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "FIDE_ROL_USUARIOS_TB")
-@IdClass(RolUsuarioId.class)
 public class RolUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CEDULA")
+    @Column(name = "CEDULA")
     private Usuario cedula;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_ROL")
+    @Column(name = "ID_ROL")
     private Rol idRol;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_ESTADO")
+    @Column(name = "ID_ESTADO")
     private Estado idEstado;
 }

@@ -28,9 +28,6 @@ public class Facturacion implements Serializable {
     @Column(name="ID_FACTURA")
     private Integer idFactura;
 
-    @Column(name="CEDULA")
-    private Long cedula; // Usamos Long porque las cédulas pueden ser números grandes
-
     @Column(name="FECHA_EMISION")
     private LocalDate fechaEmision;
 
@@ -47,8 +44,14 @@ public class Facturacion implements Serializable {
     private Double total;
 
     @Column(name="ID_METODO_PAGO")
-    private Integer idMetodoPago;
+    private MetodoPago idMetodoPago;
+    
+    @Column(name="ID_CUOTA")
+    private Cuota idCuota;
+    
+    @Column(name="ID_SUSCRIPCION")
+    private Suscripcion idSuscripcion;
 
     @Column(name="ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 }

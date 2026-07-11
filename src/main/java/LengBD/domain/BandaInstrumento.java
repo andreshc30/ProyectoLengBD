@@ -15,11 +15,24 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import lombok.Data;
 
 @Data
-public class RolUsuarioId implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String cedula;  
-    private Integer idRol;   
+@Entity
+@Table(name = "FIDE_BANDA_INSTRUMENTO_TB")
+public class BandaInstrumento implements Serializable {
+    private static final long serialVersionUID = 1l;
+    
+    @Id
+    @Column(name="ID_BANDA")
+    private Integer idBanda;
+    
+    @Column(name="ID_INSTRUMENTO")
+    private Instrumento idInstrumento;
+    
+    @Column(name="ID_ESTADO")
+    private Estado idEstado; 
+    
+
 }

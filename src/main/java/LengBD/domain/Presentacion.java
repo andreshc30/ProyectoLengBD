@@ -27,32 +27,25 @@ public class Presentacion implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PRESENTACION")
     private Integer idPresentacion;
 
-    @Column(name = "NOMBRE", length = 100)
+    @Column(name = "NOMBRE", length = 150)
     private String nombre;
 
-    @Column(name = "DESCRIPCION", length = 100)
+    @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
-
-    @Column(name = "CEDULA")
-    private Long cedula;
+    
+    @Column(name = "FECHA")
+    private LocalDateTime fecha;
+    
+    @Column(name = "ID_BANDA")
+    private Banda idBanda;
 
     @Column(name = "ID_LUGAR")
     private Integer idLugar;
 
     @Column(name = "ID_ESTADO")
     private Integer idEstado;
-
-    @Column(name = "FECHA")
-    private LocalDateTime fecha;
-
-    @Column(name = "HORA_INICIO")
-    private LocalDateTime horaInicio;
-
-    @Column(name = "HORA_FIN")
-    private LocalDateTime horaFin;
 
 }

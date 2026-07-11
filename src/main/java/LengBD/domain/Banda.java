@@ -13,28 +13,44 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "FIDE_CARACTERISTICAS_TB")
-public class Caracteristicas implements Serializable {
+@Table(name = "FIDE_BANDA_TB")
+public class Banda implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID_CARACTERISTICA")
-    private Integer idCaracteristica;
+    @Column(name="ID_BANDA")
+    private Integer idBanda;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @Column(name="DESCRIPCION", length=100)
-    private String descripcion;
+    @Column(name="LOGO_URL", length=1024)
+    private String logoUrl;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="MONTO_CUOTA", precision=12, scale=2)
+    private BigDecimal montoCuota;
+    
+    @Column(name="FECHA_FUNDACION")
+    private LocalDate fechaFundacion;
+    
+    @Column(name="ID_DIRECCION")
+    private Direccion idDireccion;
+    
+    @Column(name="ID_CORREO")
+    private Correo idCorreo;
+    
+    @Column(name="ID_TELEFONO")
+    private Telefono idTelefono; 
+    
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
+    
 
 }

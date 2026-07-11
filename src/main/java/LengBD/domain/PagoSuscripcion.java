@@ -24,14 +24,13 @@ public class PagoSuscripcion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PAGO_SUSCRIPCION")
     private Integer idPagoSuscripcion;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @Column(name="DESCRIPCION", length=100)
+    @Column(name="DESCRIPCION", length=300)
     private String descripcion;
     
     @Column(name="MONTO", precision=12, scale=2)
@@ -40,8 +39,16 @@ public class PagoSuscripcion implements Serializable {
     @Column(name="FECHA_PAGO")
     private LocalDate fechaPago;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_METODO_PAGO")
+    private MetodoPago idMetodoPago; 
+    
+    @Column(name="ID_TIPO_PLAN")
+    private Planes idTipoPlan; 
+    
+    @Column(name="ID_SUSCRIPCION")
+    private Suscripcion idSuscripcion; 
+    
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

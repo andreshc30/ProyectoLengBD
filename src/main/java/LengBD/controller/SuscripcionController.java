@@ -40,7 +40,7 @@ public class SuscripcionController {
     @GetMapping("/nuevo")
     public String nuevaSuscripcion(Model model) {
         Suscripcion suscripcion = new Suscripcion();
-        suscripcion.setIdEstado(1); // Activo por defecto
+        //suscripcion.setIdEstado(1); // Activo por defecto
         model.addAttribute("suscripcion", suscripcion);
         return "suscripcion_pagos/formularioSuscripcion";
     }

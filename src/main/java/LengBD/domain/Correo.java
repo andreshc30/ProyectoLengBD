@@ -23,14 +23,13 @@ public class Correo implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_CORREO")
     private Integer idCorreo;
     
-    @Column(name="CORREO", length=100)
+    @Column(name="CORREO", length=150)
     private String correo;
     
     @Column(name="ID_ESTADO")
-    private Integer idEstado; 
+    private Estado idEstado; 
 
 }

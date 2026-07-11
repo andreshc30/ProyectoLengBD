@@ -25,14 +25,13 @@ public class Tipo implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_TIPO")
     private Integer idTipo;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @Column(name="DESCRIPCION", length=100)
+    @Column(name="DESCRIPCION", length=300)
     private String descripcion;
     
     @Column(name="ID_ESTADO")

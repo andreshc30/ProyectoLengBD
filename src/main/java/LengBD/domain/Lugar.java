@@ -24,19 +24,16 @@ public class Lugar implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_LUGAR")
     private Integer idLugar;
     
-    @Column(name="NOMBRE", length=100)
+    @Column(name="NOMBRE", length=150)
     private String nombre;
     
-    @ManyToOne
-    @JoinColumn(name="ID_DIRECCION")
+    @Column(name="ID_DIRECCION")
     private Direccion idDireccion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
 
 }

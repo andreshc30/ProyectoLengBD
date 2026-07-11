@@ -37,9 +37,12 @@ public class Obra implements Serializable {
     private String detalle;
     
     @Column(name="ID_TIPO")
-    private Integer idTipo;
+    private Tipo idTipo;
+    
+    @Column(name="ID_BANDA")
+    private Banda idBanda;
 
     @Column(name="ID_ESTADO")
-    private Integer idEstado; 
+    private Estado idEstado; 
 
 }

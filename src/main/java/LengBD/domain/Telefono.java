@@ -27,13 +27,8 @@ public class Telefono implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @Column(name = "CEDULA")
-    private String cedula;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId                        
-    @JoinColumn(name = "CEDULA")
-    private Usuario usuario;
+    @Column(name = "ID_TELEFONO")
+    private String idTelefono;
     
     @Column(name="TELEFONO", length=100)
     private String telefono;

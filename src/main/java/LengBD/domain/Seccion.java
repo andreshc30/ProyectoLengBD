@@ -31,11 +31,13 @@ public class Seccion implements Serializable {
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @Column(name="DESCRIPCION", length=100)
+    @Column(name="DESCRIPCION", length=300)
     private String descripcion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_BANDA")
+    private Banda idBanda; 
+    
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
     
 

@@ -49,7 +49,7 @@ public class SuscripcionService {
                 .addValue("P_FECHA_FINAL", suscripcion.getFechaFinal())
                 .addValue("P_AUTO_RENOVAR", suscripcion.getAutoRenovar())
                 .addValue("P_ID_TIPO_PLAN", suscripcion.getIdTipoPlan())
-                .addValue("P_ID_PAGO_SUSCRIPCION", suscripcion.getIdPagoSuscripcion())
+                //.addValue("P_ID_PAGO_SUSCRIPCION", suscripcion.getIdPagoSuscripcion())
                 .addValue("P_ID_ESTADO", suscripcion.getIdEstado());
 
         jdbcCall.execute(params);
@@ -67,7 +67,7 @@ public class SuscripcionService {
                 .addValue("P_FECHA_FINAL", suscripcion.getFechaFinal())
                 .addValue("P_AUTO_RENOVAR", suscripcion.getAutoRenovar())
                 .addValue("P_ID_TIPO_PLAN", suscripcion.getIdTipoPlan())
-                .addValue("P_ID_PAGO_SUSCRIPCION", suscripcion.getIdPagoSuscripcion())
+                //.addValue("P_ID_PAGO_SUSCRIPCION", suscripcion.getIdPagoSuscripcion())
                 .addValue("P_ID_ESTADO", suscripcion.getIdEstado());
 
         jdbcCall.execute(params);

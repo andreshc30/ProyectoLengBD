@@ -24,7 +24,6 @@ public class Provincia implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PROVINCIA")
     private Integer idProvincia;
     

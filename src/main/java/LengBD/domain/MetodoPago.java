@@ -27,9 +27,6 @@ public class MetodoPago implements Serializable {
     @Column(name="NOMBRE", length=100)
     private String nombre;
 
-    @Column(name="DESCRIPCION", length=300)
-    private String descripcion;
-
     @Column(name="ID_ESTADO")
     private Integer idEstado;
 }

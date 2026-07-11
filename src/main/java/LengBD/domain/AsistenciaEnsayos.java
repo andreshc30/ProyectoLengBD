@@ -23,20 +23,16 @@ public class AsistenciaEnsayos implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_ASISTENCIA_ENSAYOS")
     private Integer idAsistenciaEnsayos;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ENSAYO")
+    @Column(name="ID_ENSAYO")
     private Ensayos idEnsayo;
     
-    @ManyToOne
-    @JoinColumn(name="CEDULA")
-    private Usuario instrumento;
+    @Column(name="CEDULA")
+    private Usuario cedula;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado;
 }
 

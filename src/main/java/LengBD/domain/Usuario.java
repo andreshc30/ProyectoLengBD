@@ -24,7 +24,6 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="CEDULA")
     private Integer cedula;
     
@@ -43,17 +42,23 @@ public class Usuario implements Serializable {
     @Column(name="LOGO_URL", length=500)
     private String logoUrl;
     
-    @Column(name="TELEFONO", length=100)
-    private String telefono;
-    
-    @Column(name="ID_TIPO")
-    private Integer idTipo; 
+    @Column(name="ID_TELEFONO", length=100)
+    private Telefono idTelefono; 
     
     @Column(name="ID_CORREO")
-    private Integer idCorreo; 
+    private Correo idCorreo; 
+    
+    @Column(name="ID_SECCION")
+    private Seccion idSeccion; 
+    
+    @Column(name="ID_DIRECCION")
+    private Direccion idDireccion; 
+    
+    @Column(name="ID_BANDA")
+    private Banda idBanda; 
     
     @Column(name="ID_ESTADO")
-    private Integer idEstado; 
+    private Estado idEstado; 
     
 
 }

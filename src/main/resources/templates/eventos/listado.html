@@ -2,8 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="~{general/fragmentos :: head}"></head>
     <body>
-        <header th:replace="~{general/fragmentos :: header}"></header>
+        <header>
+            <div class="Center">
+                <div class="site-logo">
+                    <h1><a th:href="@{/}">BandCore</a></h1>
+                </div>
 
+                <nav class="Navigation">
+                    <ul>
+                        <li>                                
+                            <a th:href="@{/}">Inicio</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>                                
+                            <a th:href="@{/audiciones/listado}">Audiciones</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/banda/listado}">Banda</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li class="active">
+                            <a th:href="@{/eventos/listado}">Eventos</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/suscripcion/listado}">Suscripción</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div id="mobile_sec">
+                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </header>
         <main class="container my-4 principal">
 
             <section class="evento-hero text-center mb-5">

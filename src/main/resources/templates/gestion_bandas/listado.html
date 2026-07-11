@@ -1,14 +1,434 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{general/fragmentos :: head}"></head>
-<body>
-    <header th:replace="~{general/fragmentos :: header}"></header>
-    <main class="container my-4">
-        <h2>Bandas</h2>
-        <div class="border rounded p-3">
-            <div th:replace="~{gestion_bandas/fragmentos :: tablaBandas}"></div>
-        </div>
-    </main>
-    <footer th:replace="~{general/fragmentos :: footer}"/>
-</body>
-</html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="Center">
+                <div class="site-logo">
+                    <h1><a th:href="@{/}">BandCore</a></h1>
+                </div>
+
+                <nav class="Navigation">
+                    <ul>
+                        <li>                                
+                            <a th:href="@{/}">Inicio</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>                                
+                            <a th:href="@{/audiciones/listado}">Audiciones</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li class="active">
+                            <a th:href="@{/banda/listado}">Banda</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/eventos/listado}">Eventos</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/suscripcion/listado}">Suscripción</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div id="mobile_sec">
+                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </header>
+        <section th:fragment="Page-Wrapper">
+            <div id="wrapper">
+                <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
+                        <div class="sidebar">
+                            <i class="fas fa-laugh-wink"></i>
+                        </div>
+                        <div class="sidebar-brand-text mx-3">BLCM</div>
+                    </a>
+                    <hr class="sidebar-divider my-0">
+                        <a href="#" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                            Salir
+                        </a>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/inicio/listado}">
+                                <i class="fas fa-fw"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <hr class="sidebar-divider">
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Director</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Lideres de Seccion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Cajas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Liras</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Principales</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Bombos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Tenores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Güiros</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Folclore</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ya casi">Color Guard</a>
+                            </li>
+                            <div class="text-center d-none d-md-inline mt-4">
+                                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                            </div>
+                            </ul>
+                            <div id="content-wrapper" class="d-flex flex-column">
+                                <div id="content">
+                                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                        <div class="identity-banner">
+                                            <div class="identity-overlay"></div>
+                                            <div class="identity-content">
+                                                <h1>Banda Lírica Cantonal de Moravia</h1>
+                                                <p class="identity-lema">El ritmo que nos une</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total de integrantes en la banda</div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">150 integrantes</div>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="card border-left-success shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Cantidad de Secciones</div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">7 Secciones</div>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-layer-group fa-2x text-gray-300"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="card shadow h-100 py-2" style="border-left: .25rem dashed #858796;">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Otra seccion <span class="badge bg-secondary">Próximamente</span></div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Cargando...</div>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-ellipsis fa-2x text-gray-300"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow h-100">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-calendar-days me-2"></i>Calendario de Ensayos — Julio</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                4 de Julio
+                                                                <span class="badge bg-success">Ensayo</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center text-muted">
+                                                                11 de Julio
+                                                                <span class="badge bg-secondary">Sin ensayo — vacaciones</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                18 de Julio
+                                                                <span class="badge bg-success">Ensayo</span>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                25 de Julio
+                                                                <span class="badge bg-success">Ensayo</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow h-100 card-cuenta-regresiva">                                  
+                                                    <div class="card-body d-flex flex-column align-items-center justify-content-center text-center py-4">
+                                                        <i class="fas fa-hourglass-half fa-2x mb-2"></i>
+                                                        <div class="text-xs font-weight-bold text-uppercase mb-2" style="opacity:.85; letter-spacing:.05em;">Cuenta regresiva para la próxima presentación</div>
+                                                        <div class="display-6 font-weight-bold" id="cuenta-regresiva">Cargando...</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-8 mb-4">
+                                                <div class="card shadow">
+                                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Anuncios</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item d-flex align-items-start">
+                                                                <i class="fas fa-bullhorn fa-lg text-primary mr-3 mt-1"></i>
+                                                                <div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <span class="font-weight-bold">Director</span>
+                                                                        <span class="text-muted small">08 Jul 2026</span>
+                                                                    </div>
+                                                                    <div>Recuerden traer el uniforme completo para el ensayo del 18 de Julio.</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="list-group-item d-flex align-items-start">
+                                                                <i class="fas fa-bullhorn fa-lg text-warning mr-3 mt-1"></i>
+                                                                <div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <span class="font-weight-bold">Lider de Seccion - Liras</span>
+                                                                        <span class="text-muted small">05 Jul 2026</span>
+                                                                    </div>
+                                                                    <div>Ensayo extra de sección el sábado a las 3pm, punto de encuentro de siempre.</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="list-group-item d-flex align-items-start">
+                                                                <i class="fas fa-bullhorn fa-lg text-success mr-3 mt-1"></i>
+                                                                <div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <span class="font-weight-bold">Director</span>
+                                                                        <span class="text-muted small">01 Jul 2026</span>
+                                                                    </div>
+                                                                    <div>Ya está disponible el calendario de ensayos de Julio, revísenlo arriba.</div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-4">
+                                                <div class="card shadow">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Publicar anuncio</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form>
+                                                            <div class="form-group">
+                                                                <textarea class="form-control" rows="3" placeholder="Escribe un anuncio para la banda..."></textarea>
+                                                            </div>
+                                                            <button type="button" class="btn btn-primary btn-sm" disabled>Publicar</button>
+                                                            <small class="form-text text-muted">Disponible cuando se conecte el backend.</small>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </section>
+                            <section th:fragment="boton">
+                                <a class="scroll-to-top rounded" href="#page-top">
+                                    <i class="fas fa-angle-up"></i>
+                                </a>
+
+                                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                                                <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Selecciona "Salir" a continuación si estás listo para finalizar tu sesión actual.</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
+                                                <form th:action="@{/logout}" method="post">
+                                                    <button class="btn btn-primary" type="submit">Salir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+                            </body>
+                            <script>
+                                // Inyectamos la variable desde el backend de Java
+
+                                const fechaEvento = new Date("[[${fechaEvento}]]").getTime();
+                                const x = setInterval(function () {
+                                    const ahora = new Date().getTime();
+                                    const distancia = fechaEvento - ahora;
+                                    const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                                    const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                                    const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+                                    document.getElementById("cuenta-regresiva").innerHTML =
+                                            dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
+
+                                    if (distancia < 0) {
+                                        clearInterval(x);
+                                        document.getElementById("cuenta-regresiva").innerHTML = "¡Evento en curso!";
+                                    }
+                                }, 1000);
+                            </script>
+                            </html> 
+
+
+
+                            <!--
+                            PARTE DE BANER ESTÁTICA
+                            Fijos: roles estructurales
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/director/listado}">Director</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/lideres/listado}">Lideres de Seccion</a>
+                            </li>
+                            
+                            <hr class="sidebar-divider">
+                            
+                            <!-- 
+                            
+                            SIDEBAR DINAMICO
+                            Dinámicas: las secciones musicales vienen de la BD 
+                            <li class="nav-item" th:each="seccion : ${secciones}">
+                                <a class="nav-link"
+                                   th:href="@{'/seccion/' + ${seccion.idSeccion}}"
+                                   th:text="${seccion.nombre}">Nombre Sección</a>
+                            </li> 
+                            
+                            -->
+
+
+
+                            <!-- 
+                            INFO DE LOS 3 CARDS DE ARRIBA
+                            <div class="identity-content">
+                               <h1 th:text="${nombreBanda}">Nombre de la Banda</h1>
+                           </div>-->
+
+                            <!-- Total integrantes 
+                           <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                th:text="${totalIntegrantes} + ' integrantes'"></div>
+                           
+                            <!-- Cantidad de secciones 
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                 th:text="${cantidadSecciones} + ' Secciones'"></div>  -->
+
+
+                            <!-- 
+                            BOARD DE ANUNCIOS
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                            
+                                    <li class="list-group-item d-flex align-items-start" th:each="anuncio : ${anuncios}">
+                                        <i class="fas fa-bullhorn fa-lg mr-3 mt-1"
+                                           th:classappend=color del anuncio></i>
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="font-weight-bold" th:text="${anuncio.autor}">Director</span>
+                                                <span class="text-muted small"
+                                                      th:text="${#temporals.format(anuncio.fecha, 'dd MMM yyyy')}">08 Jul 2026</span>
+                                            </div>
+                                            <div th:text="${anuncio.mensaje}">Texto del anuncio...</div>
+                                        </div>
+                                    </li>
+                            
+                            <!-- Si no hay anuncios 
+                            <li class="list-group-item text-muted text-center" th:if="${#lists.isEmpty(anuncios)}">
+                                No hay anuncios por el momento.
+                            </li>
+                    
+                        </ul>
+                    </div> -->
+
+
+                            <!-- 
+                            CALENDARIO
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                            
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                        th:each="ensayo : ${ensayos}"
+                                        th:classappend="${!ensayo.hayEnsayo} ? 'text-muted' : ''">
+                            
+                                        <span th:text="${#temporals.format(ensayo.fecha, 'd')} + ' de ' + ${#temporals.format(ensayo.fecha, 'MMMM')}">
+                                            4 de Julio
+                                        </span>
+                            
+                            <!-- Badge verde si hay ensayo, gris si no 
+                            <span th:if="${ensayo.hayEnsayo}" class="badge bg-success">Ensayo</span>
+                            <span th:unless="${ensayo.hayEnsayo}" class="badge bg-secondary"
+                                  th:text="${ensayo.motivo}">Sin ensayo</span>
+                        </li>
+                
+                        <li class="list-group-item text-muted text-center" th:if="${#lists.isEmpty(ensayos)}">
+                            No hay ensayos programados este mes.
+                        </li>
+                
+                    </ul>
+                </div>-->
+
+
+
+                            <!--
+                            PUBLICACION DE ANUNCIO
+                            <div class="col-lg-4 mb-4" sec:authorize="hasRole('DIRECTOR')">
+                                <div class="card shadow">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Publicar anuncio</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{/anuncios/publicar}" method="post">
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="mensaje" rows="3"
+                                                          placeholder="Escribe un anuncio para la banda..."></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">Publicar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--

@@ -25,11 +25,37 @@ public class SecurityConfig {
                 .ignoringRequestMatchers("/api/chat")
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/img/**", "/", "/api/chat").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(login -> login.permitAll())
-            .logout(logout -> logout.permitAll());
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/api/chat",
+                                "/webjars/**",
+                                "/logo/**",
+                                "/fonts/**",
+                                "/",
+                                "/audiciones/listado",
+                                "/eventos/listado",
+                                "/general/listado",
+                                "/gestion_bandas/listado",
+                                "/login"
+                ).permitAll()
+                .anyRequest().authenticated())
+                .formLogin(form -> form
+                .loginPage("/login") // GET muestra el form
+                .loginProcessingUrl("/procesar-login") // POST distinto para procesar
+                .failureUrl("/login?error=true")
+                .permitAll()
+                
+        )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/inicio/listado")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                .exceptionHandling(ex -> ex.accessDeniedPage("/acceso_denegado"))
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
+                );
 
         return http.build();
     }

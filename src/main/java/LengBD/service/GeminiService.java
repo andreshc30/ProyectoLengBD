@@ -55,32 +55,24 @@ public class GeminiService {
     }
     
     
-    @Value("${gemini.api.key}")
-    private String API_KEY;
+    private static final String API_KEY = "APIKEY";
     private final String URL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=" + API_KEY;
+
     public String llamarGemini(String mensaje) {
         RestTemplate restTemplate = new RestTemplate();
-        // Ejemplo: Inyectar contexto antes de enviar
         String promptFinal = "Eres el asistente inteligente de BandCore. Responde brevemente: " + mensaje;
         String mensajeLimpio = promptFinal.replace("\"", "\\\"");
         String jsonPayload = String.format("{\"contents\": [{\"parts\": [{\"text\": \"%s\"}]}]}", mensajeLimpio);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jsonPayload, headers);
-
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(URL, entity, String.class);
-
-            // --- PARSER: Extraer el texto ---
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
-
-            // Navegamos por el JSON: candidates -> [0] -> content -> parts -> [0] -> text
             return root.path("candidates").get(0)
                     .path("content").path("parts").get(0)
                     .path("text").asText();
-
         } catch (Exception e) {
             return "Error al procesar la respuesta: " + e.getMessage();
         }

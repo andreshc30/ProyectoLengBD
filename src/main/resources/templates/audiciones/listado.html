@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="Center">
+                <div class="site-logo">
+                    <h1><a th:href="@{/}">BandCore</a></h1>
+                </div>
+
+                <nav class="Navigation">
+                    <ul>
+                        <li>                                
+                            <a th:href="@{/}">Inicio</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li class="active">                                
+                            <a th:href="@{/audiciones/listado}">Audiciones</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/banda/listado}">Banda</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/eventos/listado}">Eventos</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                        <li>
+                            <a th:href="@{/suscripcion/listado}">Suscripción</a>
+                            <span class="menu-item-bg"></span>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div id="mobile_sec">
+                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </header>
+
+        <section>
+            <div class="audiciones__scroll">
+
+                <!-- ===== MAQUETA: cards de ejemplo  ===== -->
+
+                <!-- Ejemplo 1: banda CON audiciones activas -->
+                <div class="banda-card">
+                    <img src="/img/BLCMV2.svg" alt="Logo" class="banda-card__logo">
+                        <h3 class="banda-card__nombre">Banda Lírica de Moravia</h3>
+                        <a href="#" class="banda-card__btn banda-card__btn--activo">Postularme</a>
+                </div>
+
+                <!-- Ejemplo 2: banda CON audiciones activas -->
+                <div class="banda-card">
+                    <img src="/img/imgT.jpg" alt="Logo" class="banda-card__logo">
+                        <h3 class="banda-card__nombre">Banda Municipal de Tibás</h3>
+                        <a href="#" class="banda-card__btn banda-card__btn--activo">Postularme</a>
+                </div>
+
+                <!-- Ejemplo 3: banda SIN audiciones (boton desactivado) -->
+                <div class="banda-card">
+                    <img src="/img/imgC.png" alt="Logo" class="banda-card__logo">
+                        <h3 class="banda-card__nombre">Banda de conciertos de Cartago</h3>
+                        <button class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
+                </div>
+
+                <!-- ===== EJEMPLO DE COMO SERÍA CON BD ===== -->
+                <!-- <div class="audiciones__scroll">
+                          <div class="banda-card" th:each="banda : ${bandas}">
+                            <img th:src="@{'/img/' + ${banda.logoUrl}}" alt="Logo" class="banda-card__logo">
+                                <h3 class="banda-card__nombre" th:text="${banda.nombre}">Nombre</h3>
+
+                                    <a th:if="${banda.audicionesActivas}"
+                                        th:href="@{'/audiciones/formulario/' + ${banda.idBanda}}"
+                                         class="banda-card__btn banda-card__btn--activo">Postularme</a>
+
+                                        <button th:unless="${banda.audicionesActivas}"
+                                        class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
+                            </div>
+                        </div> -->
+            </div>
+        </section>
+
+                
+                <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
+</html>

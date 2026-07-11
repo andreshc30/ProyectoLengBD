@@ -9,143 +9,351 @@
     </head>
 
     <body>
-        <div class="frame">
-            <header th:replace="~{general/fragmentos :: header}"></header>
-
-            <div class="main-content">
-                <div class="hero-premium" id="hero">
-                    <div class="hero-content">
-                        <div class="hero-left">
-                            <h1 class="title-main">Gestiona tu banda con <span class="text-accent">precisión maestra.</span></h1>
-                            <p class="subtitle">La plataforma integral para músicos. Integrantes, ensayos, finanzas y repertorio en un solo sistema estructurado.</p>
-                            <div class="action-group">
-                                <a th:href="@{/suscripcion/listado}" class="btn-solid">Comenzar gratis</a>
-                                <a href="#modulos" class="btn-outline">Explorar módulos</a>
-                            </div>
+        <body>
+            <div class="app-layout">
+                <header>
+                    <div class="Center">
+                        <div class="site-logo">
+                            <h1><a th:href="@{/}">BandCore</a></h1>
                         </div>
 
-                        <div class="hero-right">
-                            <div class="fcard">
-                                <div><h6>Integrantes y roles</h6><p>Registro, secciones, instrumentos</p></div>
+                        <nav class="Navigation">
+                            <ul>
+                                <li class="active">                                
+                                    <a th:href="@{/}">Inicio</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>                                
+                                    <a th:href="@{/audiciones/listado}">Audiciones</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>
+                                    <a th:href="@{/banda/listado}">Banda</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>
+                                    <a th:href="@{/eventos/listado}">Eventos</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>
+                                    <a th:href="@{/suscripcion/listado}">Suscripción</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div id="mobile_sec">
+                            <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+                </header>
+                <section class="hero-section" id="home">
+                    <div class="hero-wrapper">
+                        <div class="container">
+
+                            <div class="hero-text">
+                                <h3 class="hero-title">Gestiona tu banda con <span>precisión maestra.</span></h3>
+                                <p class="hero-description">La plataforma integral para músicos. Integrantes, ensayos, finanzas y repertorio en un solo sistema estructurado.</p>
+                                <a class="btn-primary" th:href="@{/suscripcion/listado}">COMENZAR</a>
                             </div>
-                            <div class="fcard">
-                                <div><h6>Ensayos y asistencia</h6><p>Agenda, control, justificaciones</p></div>
+
+                            <div class="hero-gallery">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                    </div>
+
+                                    <div class="carousel-inner custom-carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img th:src="@{/img/img1.jpg}" class="d-block w-100 custom-carousel-img" alt="Banda Municipal Tibás">
+                                                <div class="carousel-caption d-none d-md-block custom-caption">
+                                                    <h5>Banda Municipal Tibás</h5>
+                                                </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img th:src="@{/img/img2.jpg}" class="d-block w-100 custom-carousel-img" alt="Banda Lírica Moravia">
+                                                <div class="carousel-caption d-none d-md-block custom-caption">
+                                                    <h5>Banda Lírica Moravia</h5>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="fcard">
-                                <div><h6>Finanzas y cuotas</h6><p>Movimientos, facturación, IVA</p></div>
+
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="seccion-info">
+                    <div class="container">
+                        <div class="card text-center">
+                            <div class="card-header bg-transparent border-0">
+                                <ul class="nav nav-tabs card-header-tabs justify-content-center" id="infoTabs" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nosotros" type="button">Nosotros</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vision" type="button">Visión</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mision" type="button">Misión</button>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="fcard">
-                                <div><h6>Repertorio</h6><p>Obras y material de estudio</p></div>
+                            <div class="card-body tab-content">
+                                <div class="tab-pane fade show active" id="nosotros">
+                                    <h5 class="card-title seccion-titulo">Sobre la Banda</h5>
+                                    <p class="card-text seccion-texto">
+                                        BandCore nace de una necesidad real: coordinar músicos, controlar asistencia, administrar cuotas y organizar presentaciones no debería depender de hojas de cálculo dispersas y papel.
+                                        Por eso creamos una plataforma pensada para agrupaciones musicales: integrantes, asistencia, finanzas y repertorio en un solo lugar, con una estructura que se adapta a bandas de cualquier tamaño.
+                                        Menos logística, más música.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="vision">
+                                    <h5 class="card-title seccion-titulo">Nuestra Visión</h5>
+                                    <p class="card-text seccion-texto">
+                                        Ser la plataforma de referencia para la administración de bandas y agrupaciones musicales 
+                                        en Costa Rica, reconocida por transformar 
+                                        la organización de cada agrupación desde bandas comunales hasta ensambles profesionales
+                                        en un proceso estructurado, transparente y accesible.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="mision">
+                                    <h5 class="card-title seccion-titulo">Nuestra Misión</h5>
+                                    <p class="card-text seccion-texto">
+                                        Facilitar la gestión integral de bandas y agrupaciones musicales a 
+                                        través de una plataforma que centraliza integrantes, 
+                                        ensayos, asistencia, finanzas 
+                                        y repertorio, permitiendo que directores y músicos dediquen su tiempo 
+                                        a lo que realmente importa: la música.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div class="mods" id="modulos">
-                    <div class="mods-head">
-                        <div class="mbadge">Funcionalidades</div>
-                        <h2 class="mtitle">Módulos del sistema</h2>
-                        <p class="msub">Todo lo que tu banda necesita</p>
+
+                <section class="services" id="services">
+                    <div class="services__header">
+                        <h2 class="services__title">Todo en un solo lugar</h2>
+                        <p class="services__intro">
+                            BandCore reúne las herramientas que tu agrupación necesita para
+                            funcionar sin fricción. Integrantes, ensayos, finanzas y repertorio,
+                            gestionados desde una plataforma pensada para músicos.
+                        </p>
+                        <span class="services__divider"></span>
                     </div>
-                    <div class="mgrid">
-                        <a th:href="@{/integrante/listado}" class="mc">
-                            <h5>Integrantes</h5>
-                            <p>Músicos, roles, solicitudes de ingreso</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
-                        <a th:href="@{/banda/listado}" class="mc">
-                            <h5>Banda</h5>
-                            <p>Secciones, instrumentos, redes</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
-                        <a th:href="@{/ensayo/listado}" class="mc">
-                            <h5>Ensayos</h5>
-                            <p>Agenda y control de asistencia</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
-                        <a th:href="@{/presentacion/listado}" class="mc">
-                            <h5>Presentaciones</h5>
-                            <p>Retretas, conciertos, eventos</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
-                        <a th:href="@{/repertorio/listado}" class="mc">
-                            <h5>Repertorio</h5>
-                            <p>Obras y material de estudio</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
-                        <a th:href="@{/suscripcion/listado}" class="mc">
-                            <h5>Suscripción y pagos</h5>
-                            <p>Planes, facturas, cuotas</p>
-                            <span class="mlink">Gestionar</span>
-                        </a>
+
+                    <div class="services__grid">
+                        <!-- Card 1 -->
+                        <article class="service-card">
+                            <div class="service-card__bg" style="background-image: url('/img/service1.jpg');"></div>
+                            <div class="service-card__overlay"></div>
+                            <div class="service-card__content">
+                                <div class="service-card__icon">
+                                    <i class="ti ti-users-group" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="service-card__name">Audiciones</h3>
+                                <h4>Abre formularios de audiciones para que más gente se una a tu agrupación</h4>
+                            </div>
+                        </article>
+
+                        <!-- Card 2 -->
+                        <article class="service-card">
+                            <div class="service-card__bg" style="background-image: url('/img/service2.jpg');"></div>
+                            <div class="service-card__overlay"></div>
+                            <div class="service-card__content">
+                                <div class="service-card__icon">
+                                    <i class="ti ti-calendar-check" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="service-card__name">Banda</h3>
+                                <h4>Administra la banda como un profesional</h4>
+                            </div>
+                        </article>
+
+                        <!-- Card 3 -->
+                        <article class="service-card">
+                            <div class="service-card__bg" style="background-image: url('/img/service3.jpg');"></div>
+                            <div class="service-card__overlay"></div>
+                            <div class="service-card__content">
+                                <div class="service-card__icon">
+                                    <i class="ti ti-cash" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="service-card__name">Eventos</h3>
+                                <h4>Explora eventos que hay cerca para que podás inscribir a tu banda</h4>
+                            </div>
+                        </article>
+
+                        <!-- Card 4 -->
+                        <article class="service-card">
+                            <div class="service-card__bg" style="background-image: url('/img/service4.jpg');"></div>
+                            <div class="service-card__overlay"></div>
+                            <div class="service-card__content">
+                                <div class="service-card__icon">
+                                    <i class="ti ti-music" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="service-card__name">Suscripcion</h3>
+                                <h4>Lleva la batuta de tu agrupación al siguiente nivel.</h4>
+                            </div>
+                        </article>
                     </div>
-                </div>
+                </section>
 
-                <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+                <section class="pricing" id="pricing">
+                    <div class="pricing__header">
+                        <h2 class="pricing__title">Planes</h2>
+                        <p class="pricing__intro">
+                            Elegí el plan según el tamaño de tu agrupación. Todos incluyen
+                            gestión de integrantes, asistencia y repertorio. Podés cambiar de
+                            plan cuando lo necesites.
+                        </p>
+                        <span class="pricing__divider"></span>
+                    </div>
+
+                    <div class="pricing__table">
+
+                        <div class="plan">
+                            <div class="plan__label"><span>Básico</span></div>
+                            <div class="plan__price">
+                                <span class="plan__amount">$5</span>
+                                <span class="plan__period">/mes</span>
+                            </div>
+                            <div class="plan__features">
+                                <div class="plan__feature">Hasta<br>25 integrantes</div>
+                                <div class="plan__feature">Control de<br>asistencia</div>
+                                <div class="plan__feature">Gestión de<br>repertorio</div>
+                                <div class="plan__feature">Soporte<br>por correo</div>
+                            </div>
+                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                        </div>
+
+                        <div class="plan">
+                            <div class="plan__label"><span>Estándar</span></div>
+                            <div class="plan__price">
+                                <span class="plan__amount">$12</span>
+                                <span class="plan__period">/mes</span>
+                            </div>
+                            <div class="plan__features">
+                                <div class="plan__feature">Hasta<br>75 integrantes</div>
+                                <div class="plan__feature">Asistencia<br>por secciones</div>
+                                <div class="plan__feature">Módulo<br>financiero</div>
+                                <div class="plan__feature">Soporte<br>prioritario</div>
+                            </div>
+                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                        </div>
+
+                        <div class="plan plan--featured">
+                            <div class="plan__label"><span>Pro</span></div>
+                            <div class="plan__price">
+                                <span class="plan__amount">$25</span>
+                                <span class="plan__period">/mes</span>
+                            </div>
+                            <div class="plan__features">
+                                <div class="plan__feature">Integrantes<br>ilimitados</div>
+                                <div class="plan__feature">Reportes<br>avanzados</div>
+                                <div class="plan__feature">Finanzas<br>completas</div>
+                                <div class="plan__feature">Soporte<br>dedicado</div>
+                            </div>
+                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section>
+                    <footer th:fragment="footer" class="footer-blcm mt-5">
+                        <div class="container text-center py-4">
+                            <div class="footer-brand">BandCore</div>
+                            <div class="footer-slogan">
+                                Prioriza la musica
+                            </div>
+                            <div class="footer-social mt-3">
+                                <a class="social-btn ig">
+                                    <img th:src="@{/img/instagram.svg}" height="22">
+                                </a>
+                                <a class="social-btn fb" >
+                                    <img th:src="@{/img/facebook.svg}" height="22">
+                                </a>
+                                <a class="social-btn tk" >
+                                    <img th:src="@{/img/tiktok.svg}" height="22">
+                                </a>
+                            </div>
+                            <hr class="footer-divider my-4">
+                                <div class="footer-copy">
+                                    © 2026 BandCore — Todos los derechos reservados - Grupo2<br>
+                                </div>
+                        </div>
+                    </footer>
+                </section>
             </div>
-        </div>
 
-        <button id="chat-toggle" class="chat-btn"><i class="ti ti-message"></i></button>
+            <script>
+                document.addEventListener('click', function (e) {
+                    // Toggle del chat
+                    if (e.target.closest('#chat-toggle')) {
+                        const chatWindow = document.getElementById('chat-window');
+                        chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'flex' : 'none';
+                    }
 
-        <div id="chat-window" class="chat-window" style="display:none;">
-            <div class="chat-header">Asistente BandCore</div>
-            <div id="chat-messages" class="chat-messages"></div>
-            <div class="chat-input">
-                <input type="text" id="chat-input" placeholder="Pregúntame sobre tu banda...">
-                    <button id="send-btn"><i class="ti ti-send"></i></button>
-            </div>
-        </div>
+                    // Botón enviar
+                    if (e.target.closest('#send-btn')) {
+                        console.log("Clic detectado en el botón enviar");
+                        enviarMensaje();
+                    }
+                });
 
-        <script>
-            document.addEventListener('click', function (e) {
-                // Toggle del chat
-                if (e.target.closest('#chat-toggle')) {
-                    const chatWindow = document.getElementById('chat-window');
-                    chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'flex' : 'none';
+                async function enviarMensaje() {
+                    const input = document.getElementById('chat-input');
+                    const message = input.value;
+                    console.log("Mensaje capturado:", message); // DEBUG: Mira esto en la consola F12
+
+                    if (!message.trim()) {
+                        console.log("Mensaje vacío, no se envía");
+                        return;
+                    }
+
+                    const container = document.getElementById('chat-messages');
+                    container.innerHTML += `<p class="msg-user"><b>Tú:</b> ${message}</p>`;
+                    input.value = '';
+
+                    try {
+                        const response = await fetch('/api/chat', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(message)
+                        });
+
+                        if (!response.ok)
+                            throw new Error('Error en el servidor: ' + response.status);
+
+                        const data = await response.text();
+                        container.innerHTML += `<p class="msg-ai"><b>IA:</b> ${data}</p>`;
+                        container.scrollTop = container.scrollHeight;
+                    } catch (err) {
+                        console.error("Error completo:", err);
+                        container.innerHTML += `<p class="msg-ai" style="color:red;">Error de conexión.</p>`;
+                    }
                 }
-
-                // Botón enviar
-                if (e.target.closest('#send-btn')) {
-                    console.log("Clic detectado en el botón enviar");
-                    enviarMensaje();
-                }
-            });
-
-            async function enviarMensaje() {
-                const input = document.getElementById('chat-input');
-                const message = input.value;
-                console.log("Mensaje capturado:", message); // DEBUG: Mira esto en la consola F12
-
-                if (!message.trim()) {
-                    console.log("Mensaje vacío, no se envía");
-                    return;
-                }
-
-                const container = document.getElementById('chat-messages');
-                container.innerHTML += `<p class="msg-user"><b>Tú:</b> ${message}</p>`;
-                input.value = '';
-
-                try {
-                    const response = await fetch('/api/chat', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(message)
-                    });
-
-                    if (!response.ok)
-                        throw new Error('Error en el servidor: ' + response.status);
-
-                    const data = await response.text();
-                    container.innerHTML += `<p class="msg-ai"><b>IA:</b> ${data}</p>`;
-                    container.scrollTop = container.scrollHeight;
-                } catch (err) {
-                    console.error("Error completo:", err);
-                    container.innerHTML += `<p class="msg-ai" style="color:red;">Error de conexión.</p>`;
-                }
-            }
-        </script>
+            </script>
 
 
 
-    </body>
+
+
+        </body>
 </html>

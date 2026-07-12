@@ -41,7 +41,7 @@ public class AsignacionInstrumentoService {
 
     public AsignacionListadoDTO buscarPorId(Integer id) {
         return readAllAsignacionInstrumento().stream()
-                .filter(asig -> asig.getIdAsignacion().equals(id))
+                .filter(asigIns -> asigIns.getIdAsignacion().equals(id))
                 .findFirst()
                 .orElse(null);
     }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class IntegranteComboDTO {
-    private Integer cedula;
+    private Long cedula;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;

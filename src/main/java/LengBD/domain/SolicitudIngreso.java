@@ -24,9 +24,8 @@ public class SolicitudIngreso implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_SOLICITUD")
-    private SolicitudIngreso idSolicitud;
+    private Integer idSolicitud;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -43,25 +42,20 @@ public class SolicitudIngreso implements Serializable {
     @Column(name="FECHA_SOLICITUD")
     private LocalDate fechaSolicitud;
     
-    @ManyToOne
-    @JoinColumn(name="ID_CORREO", referencedColumnName = "ID_CORREO")
-    private Correo idCorreo; 
+    @Column(name="ID_CORREO")
+    private Integer idCorreo; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_SECCION", referencedColumnName = "ID_SECCION")
-    private Seccion idSeccion; 
+    @Column(name="ID_SECCION")
+    private Integer idSeccion; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
-    private Banda idBanda; 
+    @Column(name="ID_BANDA")
+    private Integer idBanda; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_TELEFONO", referencedColumnName = "ID_TELEFONO")
-    private Telefono idTelefono; 
+    @Column(name="ID_TELEFONO")
+    private Integer idTelefono; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 
 }

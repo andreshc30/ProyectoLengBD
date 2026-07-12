@@ -29,7 +29,7 @@ public class BandaInstrumento implements Serializable {
     private Integer idBanda;
     
     @Column(name="ID_INSTRUMENTO")
-    private Instrumento idInstrumento;
+    private Integer idInstrumento;
     
     @Column(name="ID_ESTADO")
     private Estado idEstado; 

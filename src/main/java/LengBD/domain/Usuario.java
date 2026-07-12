@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     
     @Id
     @Column(name="CEDULA")
-    private Integer cedula;
+    private Long cedula;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -42,28 +42,22 @@ public class Usuario implements Serializable {
     @Column(name = "LOGO_URL", length = 500)
     private String logoUrl;
 
-//    @ManyToOne
-//    @JoinColumn(name = "ID_TELEFONO", referencedColumnName = "CEDULA")
-//    private Telefono idTelefono;
+    @Column(name = "ID_TELEFONO")
+    private Integer idTelefono;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_CORREO", referencedColumnName = "ID_CORREO")
-    private Correo idCorreo;
+    @Column(name = "ID_CORREO")
+    private Integer idCorreo;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_SECCION", referencedColumnName = "ID_SECCION")
-    private Seccion idSeccion;
+    @Column(name = "ID_SECCION")
+    private Integer idSeccion;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
-    private Direccion idDireccion;
+    @Column(name = "ID_DIRECCION")
+    private Integer idDireccion;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_BANDA", referencedColumnName = "ID_BANDA")
-    private Banda idBanda;
+    @Column(name = "ID_BANDA")
+    private Integer idBanda;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado;
+    @Column(name = "ID_ESTADO")
+    private Integer idEstado;
 
 }

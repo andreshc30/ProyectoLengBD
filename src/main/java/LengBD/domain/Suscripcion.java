@@ -24,9 +24,8 @@ public class Suscripcion implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_SUSCRIPCION")
-    private Suscripcion idSuscripcion;
+    private Integer idSuscripcion;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -40,16 +39,13 @@ public class Suscripcion implements Serializable {
     @Column(name="AUTO_RENOVAR", precision=1, scale=0)
     private BigDecimal autoRenovar;
     
-    @ManyToOne
-    @JoinColumn(name="ID_TIPO_PLAN", referencedColumnName = "ID_TIPO_PLAN")
-    private Planes idTipoPlan; 
+    @Column(name="ID_TIPO_PLAN")
+    private Integer idTipoPlan; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
-    private Banda idBanda; 
+    @Column(name="ID_BANDA")
+    private Integer idBanda; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 }

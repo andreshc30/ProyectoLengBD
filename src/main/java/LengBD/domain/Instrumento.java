@@ -31,9 +31,9 @@ public class Instrumento implements Serializable {
     private String nombre;
     
     @Column(name="ID_SECCION")
-    private Seccion idSeccion;
+    private Integer idSeccion;
     
     @Column(name="ID_ESTADO")
-    private Estado idEstado; 
+    private Integer idEstado; 
 
 }

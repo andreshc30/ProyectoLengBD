@@ -24,9 +24,8 @@ public class Evento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_EVENTO")
-    private Evento idEvento;
+    private Integer idEvento;
     
     @Column(name="NOMBRE", length=150)
     private String nombre;
@@ -37,16 +36,13 @@ public class Evento implements Serializable {
     @Column(name="FECHA")
     private LocalDate fecha;
     
-    @ManyToOne
-    @JoinColumn(name="ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
-    private Direccion direccion;
+    @Column(name="ID_DIRECCION")
+    private Integer direccion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
-    private Banda idBanda;
+    @Column(name="ID_BANDA")
+    private Integer idBanda;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

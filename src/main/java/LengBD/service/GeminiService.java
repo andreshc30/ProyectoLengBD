@@ -37,7 +37,7 @@ public class GeminiService {
 
     private String responderSobreIntegrantes(String pregunta) {
         // Consultamos a Oracle
-        var listaIntegrantes = usuarioRepository.findAll();
+        var listaIntegrantes = usuarioRepository.readAllUsuario();
         
         // Convertimos la lista a un texto simple para la IA
         StringBuilder contexto = new StringBuilder("Aquí tienes la lista de integrantes de la banda: ");

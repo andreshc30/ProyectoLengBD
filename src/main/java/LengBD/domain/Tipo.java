@@ -25,9 +25,8 @@ public class Tipo implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_TIPO")
-    private Tipo idTipo;
+    private Integer idTipo;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -35,8 +34,7 @@ public class Tipo implements Serializable {
     @Column(name="DESCRIPCION", length=300)
     private String descripcion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
     
 }

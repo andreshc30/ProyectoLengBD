@@ -27,15 +27,13 @@ public class Telefono implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TELEFONO")
     private Integer idTelefono;
     
     @Column(name="TELEFONO", length=100)
     private String telefono;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 }

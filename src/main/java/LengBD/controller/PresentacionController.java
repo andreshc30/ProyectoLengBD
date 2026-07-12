@@ -19,7 +19,7 @@ public class PresentacionController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        model.addAttribute("presentaciones", presentacionService.listarPresentaciones());
+        model.addAttribute("presentaciones", presentacionService.readAllPresentacion());
         return "presentaciones/listado";
     }
 }

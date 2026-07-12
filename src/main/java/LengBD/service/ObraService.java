@@ -4,8 +4,10 @@
  */
 package LengBD.service;
 
-
+import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Obra;
+import LengBD.domain.ObraListadoDTO;
+import LengBD.repository.ObraRepository;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -14,23 +16,35 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ObraService {
-
-    private final DataSource dataSource;
-
     @Autowired
-    public ObraService(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private ObraRepository obraRepository;
+
+    public void insertarObra(Obra obra) {
+        obraRepository.insertarObra(obra);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Obra> listarObras() {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("FIDE_OBRA_READ_ALL_SP")
-                .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Obra.class));
-
-        Map<String, Object> out = jdbcCall.execute();
-        return (List<Obra>) out.get("P_REGISTRO");
+    public void actualizarObra(Obra obra) {
+        obraRepository.actualizarObra(obra);
     }
+    
+    public List<ObraListadoDTO> readAllObra() {
+        return obraRepository.readAllObra();
+    }
+
+    public void eliminarObra(Integer idObra) {
+        Obra obra = new Obra();
+        obra.setIdObra(idObra);
+        obraRepository.deleteObra(obra);
+    }
+    
+    public ObraListadoDTO buscarPorId(Integer id) {
+        return readAllObra().stream()
+                .filter(asis -> asis.getIdObra().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+    
 }

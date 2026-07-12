@@ -24,9 +24,8 @@ public class PagoSuscripcion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PAGO_SUSCRIPCION")
-    private PagoSuscripcion idPagoSuscripcion;
+    private Integer idPagoSuscripcion;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -40,20 +39,16 @@ public class PagoSuscripcion implements Serializable {
     @Column(name="FECHA_PAGO")
     private LocalDate fechaPago;
     
-    @ManyToOne
-    @JoinColumn(name="ID_METODO_PAGO", referencedColumnName = "ID_METODO_PAGO")
-    private MetodoPago idMetodoPago; 
+    @Column(name="ID_METODO_PAGO")
+    private Integer idMetodoPago; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_TIPO_PLAN", referencedColumnName = "ID_TIPO_PLAN")
-    private Planes idTipoPlan; 
+    @Column(name="ID_TIPO_PLAN")
+    private Integer idTipoPlan; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_SUSCRIPCION", referencedColumnName = "ID_SUSCRIPCION")
-    private Suscripcion idSuscripcion; 
+    @Column(name="ID_SUSCRIPCION")
+    private Integer idSuscripcion; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

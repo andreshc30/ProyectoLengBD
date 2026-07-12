@@ -1,0 +1,46 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package LengBD.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import lombok.Data;
+
+@Data
+public class PagoSuscripcionListadoDTO implements Serializable {
+    private static final long serialVersionUID = 1l;
+    
+    private Integer idPagoSuscripcion;
+    
+    private String nombre;
+    
+    private String descripcion;
+    private String nombreMetodoPago;
+    private String nombreTipoPlan;
+    private String nombreSuscripcion;
+    private String estado;
+    
+    private BigDecimal monto;
+    
+    private LocalDate fechaPago;
+    
+    private Integer idMetodoPago; 
+    
+    private Integer idTipoPlan; 
+    
+    private Integer idSuscripcion; 
+    
+    private Integer idEstado; 
+
+}

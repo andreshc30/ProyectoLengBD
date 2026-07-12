@@ -24,9 +24,8 @@ public class MaterialEstudio implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_MATERIAL")
-    private MaterialEstudio idMaterial;
+    private Integer idMaterial;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -37,12 +36,10 @@ public class MaterialEstudio implements Serializable {
     @Column(name="RUTA_MATERIAL_ESTUDIO", length=500)
     private String rutaMaterialEstudio;
     
-    @ManyToOne
-    @JoinColumn(name="ID_SECCION", referencedColumnName = "ID_SECCION")
-    private Seccion idSeccion;
+    @Column(name="ID_SECCION")
+    private Integer idSeccion;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

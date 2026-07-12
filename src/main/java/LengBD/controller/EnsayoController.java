@@ -4,7 +4,7 @@
  */
 package LengBD.controller;
 
-import LengBD.service.EnsayoService;
+import LengBD.service.EnsayosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EnsayoController {
 
     @Autowired
-    private EnsayoService ensayoService;
+    private EnsayosService ensayoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        model.addAttribute("ensayos", ensayoService.listarEnsayos());
+        model.addAttribute("ensayos", ensayoService.readAllEnsayos());
         return "ensayos/listado";
     }
 }

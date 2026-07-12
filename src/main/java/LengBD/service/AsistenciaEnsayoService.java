@@ -6,6 +6,7 @@ package LengBD.service;
 
 import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.AsistenciaEnsayo;
+import LengBD.domain.AsistenciaEnsayoListadoDTO;
 import LengBD.repository.AsistenciaEnsayoRepository;
 import java.util.List;
 import java.util.Map;
@@ -29,21 +30,21 @@ public class AsistenciaEnsayoService {
         asistenciaEnsayoRepository.actualizarAsistenciaEnsayo(asistenciaEnsayo);
     }
     
-    public List<AsistenciaEnsayo> readAllAsistenciaEnsayo() {
+    public List<AsistenciaEnsayoListadoDTO> readAllAsistenciaEnsayo() {
         return asistenciaEnsayoRepository.readAllAsistenciaEnsayo();
     }
 
-    public void eliminarAsistenciaEnsayo(Integer idAsignacion) {
+    public void eliminarAsistenciaEnsayo(Integer idAsistenciaEnsayo) {
         AsistenciaEnsayo asistenciaEnsayo = new AsistenciaEnsayo();
-        asistenciaEnsayo.setIdAsistenciaEnsayos(idAsignacion);
+        asistenciaEnsayo.setIdAsistenciaEnsayos(idAsistenciaEnsayo);
         asistenciaEnsayoRepository.deleteAsistenciaEnsayo(asistenciaEnsayo);
     }
     
-//    public AsignacionListadoDTO buscarPorId(Integer id) {
-//        return readAllAsistenciaEnsayo().stream()
-//                .filter(asis -> asis.getIdAsistenciaEnsayos().equals(id))
-//                .findFirst()
-//                .orElse(null);
-//    }
+    public AsistenciaEnsayoListadoDTO buscarPorId(Integer id) {
+        return readAllAsistenciaEnsayo().stream()
+                .filter(asisEns -> asisEns.getIdAsistenciaEnsayos().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
     
 }

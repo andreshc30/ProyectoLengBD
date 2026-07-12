@@ -1,15 +1,24 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package LengBD.service;
 
+import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Instrumento;
+import LengBD.domain.InstrumentoListadoDTO;
 import LengBD.repository.InstrumentoRepository;
 import java.util.List;
+import java.util.Map;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class InstrumentoService {
-
     @Autowired
     private InstrumentoRepository instrumentoRepository;
 
@@ -17,22 +26,25 @@ public class InstrumentoService {
         instrumentoRepository.insertarInstrumento(instrumento);
     }
 
-    public void updateInstrumento(Instrumento instrumento) {
-        instrumentoRepository.updateInstrumento(instrumento);
+    public void actualizarInstrumento(Instrumento instrumento) {
+        instrumentoRepository.actualizarInstrumento(instrumento);
     }
-
-    public List<Instrumento> readAllInstrumento() {
+    
+    public List<InstrumentoListadoDTO> readAllInstrumento() {
         return instrumentoRepository.readAllInstrumento();
     }
 
     public void eliminarInstrumento(Integer idInstrumento) {
-        instrumentoRepository.eliminarInstrumento(idInstrumento);
+        Instrumento instrumento = new Instrumento();
+        instrumento.setIdInstrumento(idInstrumento);
+        instrumentoRepository.deleteInstrumento(instrumento);
     }
-
-    public Instrumento buscarPorId(Integer id) {
+    
+    public InstrumentoListadoDTO buscarPorId(Integer id) {
         return readAllInstrumento().stream()
-                .filter(inst -> inst.getIdInstrumento().equals(id))
+                .filter(asis -> asis.getIdInstrumento().equals(id))
                 .findFirst()
                 .orElse(null);
     }
+    
 }

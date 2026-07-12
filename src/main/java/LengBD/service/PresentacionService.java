@@ -4,7 +4,10 @@
  */
 package LengBD.service;
 
+import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Presentacion;
+import LengBD.domain.PresentacionListadoDTO;
+import LengBD.repository.PresentacionRepository;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -13,23 +16,35 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class PresentacionService {
-
-    private final DataSource dataSource;
-
     @Autowired
-    public PresentacionService(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private PresentacionRepository presentacionRepository;
+
+    public void insertarPresentacion(Presentacion presentacion) {
+        presentacionRepository.insertarPresentacion(presentacion);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Presentacion> listarPresentaciones() {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("FIDE_PRESENTACION_READ_ALL_SP")
-                .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Presentacion.class));
-
-        Map<String, Object> out = jdbcCall.execute();
-        return (List<Presentacion>) out.get("P_REGISTRO");
+    public void actualizarPresentacion(Presentacion presentacion) {
+        presentacionRepository.actualizarPresentacion(presentacion);
     }
+    
+    public List<PresentacionListadoDTO> readAllPresentacion() {
+        return presentacionRepository.readAllPresentacion();
+    }
+
+    public void eliminarPresentacion(Integer idPresentacion) {
+        Presentacion presentacion = new Presentacion();
+        presentacion.setIdPresentacion(idPresentacion);
+        presentacionRepository.deletePresentacion(presentacion);
+    }
+    
+    public PresentacionListadoDTO buscarPorId(Integer id) {
+        return readAllPresentacion().stream()
+                .filter(asis -> asis.getIdPresentacion().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+    
 }

@@ -24,9 +24,8 @@ public class Movimiento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_MOVIMIENTO")
-    private Movimiento idMovimiento;
+    private Integer idMovimiento;
     
     @Column(name="CANTIDAD", precision=14, scale=2)
     private BigDecimal cantidad;
@@ -37,20 +36,16 @@ public class Movimiento implements Serializable {
     @Column(name="DETALLE", length=500)
     private String detalle;
     
-    @ManyToOne
-    @JoinColumn(name="ID_CATEGORIA_MOVIMIENTO", referencedColumnName = "ID_CATEGORIA_MOVIMIENTO")
-    private CategoriaMovimiento idCategoriaMovimiento;
+    @Column(name="ID_CATEGORIA_MOVIMIENTO")
+    private Integer idCategoriaMovimiento;
     
-    @ManyToOne
-    @JoinColumn(name="ID_METODO_PAGO", referencedColumnName = "ID_METODO_PAGO")
-    private MetodoPago idMetodoPago;
+    @Column(name="ID_METODO_PAGO")
+    private Integer idMetodoPago;
     
-    @ManyToOne
-    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
-    private Banda idBanda;
+    @Column(name="ID_BANDA")
+    private Integer idBanda;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

@@ -4,7 +4,10 @@
  */
 package LengBD.service;
 
-import LengBD.domain.Usuario;
+import LengBD.domain.AsignacionListadoDTO;
+import LengBD.domain.Banda;
+import LengBD.domain.BandaListadoDTO;
+import LengBD.repository.BandaRepository;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -16,21 +19,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BandaService {
-
-    private final DataSource dataSource;
-
     @Autowired
-    public BandaService(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private BandaRepository bandaRepository;
+
+    public void insertarBanda(Banda banda) {
+        bandaRepository.insertarBanda(banda);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Usuario> listarBandas() {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("FIDE_BANDAS_READ_ALL_SP")
-                .returningResultSet("P_REGISTRO", BeanPropertyRowMapper.newInstance(Usuario.class));
-
-        Map<String, Object> out = jdbcCall.execute();
-        return (List<Usuario>) out.get("P_REGISTRO");
+    public void actualizarBanda(Banda banda) {
+        bandaRepository.actualizarBanda(banda);
     }
+    
+    public List<BandaListadoDTO> readAllBanda() {
+        return bandaRepository.readAllBanda();
+    }
+
+    public void eliminarBanda(Integer idBanda) {
+        Banda banda = new Banda();
+        banda.setIdBanda(idBanda);
+        bandaRepository.deleteBanda(banda);
+    }
+    
+    public BandaListadoDTO buscarPorId(Integer id) {
+        return readAllBanda().stream()
+                .filter(band -> band.getIdBanda().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+    
 }

@@ -24,9 +24,8 @@ public class Publicacion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PUBLICACION")
-    private Publicacion idPublicacion;
+    private Integer idPublicacion;
     
     @Column(name="FECHA")
     private LocalDate fecha;
@@ -37,13 +36,11 @@ public class Publicacion implements Serializable {
     @Column(name="DETALLE", length=1000)
     private String detalle;
     
-    @ManyToOne
-    @JoinColumn(name="ID_RED_SOCIAL", referencedColumnName = "ID_RED_SOCIAL")
-    private RedSocialBanda idRedSocial; 
+    @Column(name="ID_RED_SOCIAL")
+    private Integer idRedSocial; 
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
     
 
 }

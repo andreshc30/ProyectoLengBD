@@ -26,7 +26,7 @@ public class Obra implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_OBRA")
-    private Integer idObra;
+    private Obra idObra;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

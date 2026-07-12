@@ -24,7 +24,7 @@ public class Planes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_TIPO_PLAN")
-    private Integer idTipoPlan;
+    private Planes idTipoPlan;
 
     @Column(name="NOMBRE", length=100)
     private String nombre;
@@ -40,5 +40,5 @@ public class Planes implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 }

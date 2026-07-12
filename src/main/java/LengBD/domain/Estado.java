@@ -24,7 +24,6 @@ public class Estado implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_ESTADO")
     private Integer idEstado;
     

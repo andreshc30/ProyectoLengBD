@@ -26,7 +26,7 @@ public class RedSocialBanda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_RED_SOCIAL")
-    private Integer idRedSocial;
+    private RedSocialBanda idRedSocial;
     
     @Column(name="PLATAFORMA", length=100)
     private String plataforma;

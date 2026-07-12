@@ -29,7 +29,7 @@ public class Presentacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PRESENTACION")
-    private Integer idPresentacion;
+    private Presentacion idPresentacion;
 
     @Column(name = "NOMBRE", length = 150)
     private String nombre;
@@ -46,10 +46,10 @@ public class Presentacion implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="ID_LUGAR", referencedColumnName = "ID_LUGAR")
-    private Integer idLugar;
+    private Lugar idLugar;
 
     @ManyToOne
     @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 
 }

@@ -26,7 +26,7 @@ public class Movimiento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_MOVIMIENTO")
-    private Integer idMovimiento;
+    private Movimiento idMovimiento;
     
     @Column(name="CANTIDAD", precision=14, scale=2)
     private BigDecimal cantidad;

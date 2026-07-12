@@ -29,7 +29,7 @@ public class Facturacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_FACTURA")
-    private Integer idFactura;
+    private Facturacion idFactura;
 
     @Column(name="FECHA_EMISION")
     private LocalDate fechaEmision;

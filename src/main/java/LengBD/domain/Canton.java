@@ -23,15 +23,13 @@ public class Canton implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_CANTON")
     private Integer idCanton;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Estado idEstado; 
+    @Column(name="ID_ESTADO")
+    private Integer idEstado; 
 
 }

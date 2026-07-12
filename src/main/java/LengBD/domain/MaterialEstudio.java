@@ -26,7 +26,7 @@ public class MaterialEstudio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_MATERIAL")
-    private Integer idMaterial;
+    private MaterialEstudio idMaterial;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

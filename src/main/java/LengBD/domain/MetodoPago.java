@@ -32,5 +32,5 @@ public class MetodoPago implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 }

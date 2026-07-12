@@ -30,7 +30,7 @@ public class Pago implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PAGO")
-    private Integer idPago;
+    private Pago idPago;
     
     @Column(name="MONTO")
     private Double monto;
@@ -40,7 +40,7 @@ public class Pago implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="ID_METODO_PAGO", referencedColumnName = "ID_METODO_PAGO")
-    private Integer idMetodoPago;
+    private MetodoPago idMetodoPago;
     
     @ManyToOne
     @JoinColumn(name="ID_SUSCRIPCION", referencedColumnName = "ID_SUSCRIPCION")
@@ -52,7 +52,7 @@ public class Pago implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
-    private Integer idEstado;
+    private Estado idEstado;
 
     
 }

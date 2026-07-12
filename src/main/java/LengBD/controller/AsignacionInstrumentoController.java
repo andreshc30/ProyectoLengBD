@@ -73,16 +73,9 @@ public class AsignacionInstrumentoController {
             asignacion.setFechaInicio(dto.getFechaInicio());
             asignacion.setFechaFinal(dto.getFechaFinal());
             asignacion.setMotivo(dto.getMotivo());
-
-            Usuario u = new Usuario();
-            u.setCedula(dto.getCedula());
-            Instrumento i = new Instrumento();
-            i.setIdInstrumento(dto.getIdInstrumento());
-            Estado e = new Estado();
-            e.setIdEstado(dto.getIdEstado());
-            asignacion.setUsuario(u);
-            asignacion.setInstrumento(i);
-            asignacion.setEstado(e);
+            asignacion.setCedula(dto.getCedula());
+            asignacion.setIdInstrumento(dto.getIdInstrumento());
+            asignacion.setIdEstado(dto.getIdEstado());
 
             if (dto.getIdAsignacion() != null) {
                 asignacionInstrumentoService.actualizarAsignacionInstrumento(asignacion);

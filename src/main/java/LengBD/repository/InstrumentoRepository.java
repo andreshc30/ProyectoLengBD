@@ -52,8 +52,8 @@ public class InstrumentoRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_INSTRUMENTO", instrumento.getIdInstrumento());
         params.put("P_DESCRIPCION", instrumento.getNombre());
-        params.put("P_ID_SECCION", instrumento.getIdSeccion()!= null ? instrumento.getIdSeccion().getIdSeccion() : null);
-        params.put("P_ID_ESTADO", instrumento.getIdEstado() != null ? instrumento.getIdEstado().getIdEstado() : null);
+        params.put("P_ID_SECCION", instrumento.getIdSeccion());
+        params.put("P_ID_ESTADO", instrumento.getIdEstado());
 
         insertCall.execute(params);
     }
@@ -62,8 +62,8 @@ public class InstrumentoRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_INSTRUMENTO", instrumento.getIdInstrumento());
         params.put("P_DESCRIPCION", instrumento.getNombre());
-        params.put("P_ID_SECCION", instrumento.getIdSeccion() != null ? instrumento.getIdSeccion().getIdSeccion() : null);
-        params.put("P_ID_ESTADO", instrumento.getIdEstado() != null ? instrumento.getIdEstado().getIdEstado() : null);
+        params.put("P_ID_SECCION", instrumento.getIdSeccion());
+        params.put("P_ID_ESTADO", instrumento.getIdEstado());
 
         updateCall.execute(params);
     }

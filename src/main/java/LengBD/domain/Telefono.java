@@ -29,7 +29,7 @@ public class Telefono implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TELEFONO")
-    private String idTelefono;
+    private Integer idTelefono;
     
     @Column(name="TELEFONO", length=100)
     private String telefono;

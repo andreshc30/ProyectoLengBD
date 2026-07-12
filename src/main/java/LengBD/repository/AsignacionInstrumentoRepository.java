@@ -58,13 +58,12 @@ public class AsignacionInstrumentoRepository {
 
     public void insertarAsignacionInstrumento(AsignacionInstrumento asignacion) {
     Map<String, Object> params = new HashMap<>();
-    params.put("P_ID_ASIGNACION", asignacion.getIdAsignacion());
     params.put("P_FECHA_INICIO", asignacion.getFechaInicio());
     params.put("P_FECHA_FINAL", asignacion.getFechaFinal());
     params.put("P_MOTIVO", asignacion.getMotivo());
-    params.put("P_CEDULA", asignacion.getUsuario() != null ? asignacion.getUsuario().getCedula() : null);
-    params.put("P_ID_INSTRUMENTO", asignacion.getInstrumento() != null ? asignacion.getInstrumento().getIdInstrumento() : null);
-    params.put("P_ID_ESTADO", asignacion.getEstado() != null ? asignacion.getEstado().getIdEstado() : null);
+    params.put("P_CEDULA", asignacion.getCedula());
+    params.put("P_ID_INSTRUMENTO", asignacion.getIdInstrumento());
+    params.put("P_ID_ESTADO", asignacion.getIdEstado());
     
     asignacionInstrumentoInsertCall.execute(params);
 }
@@ -76,9 +75,9 @@ public void actualizarAsignacionInstrumento(AsignacionInstrumento asignacion) {
     params.put("P_FECHA_INICIO", asignacion.getFechaInicio());
     params.put("P_FECHA_FINAL", asignacion.getFechaFinal());
     params.put("P_MOTIVO", asignacion.getMotivo());
-    params.put("P_CEDULA", asignacion.getUsuario() != null ? asignacion.getUsuario().getCedula() : null);
-    params.put("P_ID_INSTRUMENTO", asignacion.getInstrumento() != null ? asignacion.getInstrumento().getIdInstrumento() : null);
-    params.put("P_ID_ESTADO", asignacion.getEstado() != null ? asignacion.getEstado().getIdEstado() : null);
+    params.put("P_CEDULA", asignacion.getCedula());
+    params.put("P_ID_INSTRUMENTO", asignacion.getIdInstrumento());
+    params.put("P_ID_ESTADO", asignacion.getIdEstado());
     
     asignacionInstrumentoUpdateCall.execute(params);
 }

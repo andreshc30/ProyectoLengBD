@@ -26,7 +26,7 @@ public class Publicacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PUBLICACION")
-    private Integer idPublicacion;
+    private Publicacion idPublicacion;
     
     @Column(name="FECHA")
     private LocalDate fecha;

@@ -4,6 +4,7 @@
  */
 package LengBD.service;
 
+import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.AsistenciaEnsayo;
 import LengBD.repository.AsistenciaEnsayoRepository;
 import java.util.List;
@@ -37,4 +38,12 @@ public class AsistenciaEnsayoService {
         asistenciaEnsayo.setIdAsistenciaEnsayos(idAsignacion);
         asistenciaEnsayoRepository.deleteAsistenciaEnsayo(asistenciaEnsayo);
     }
+    
+//    public AsignacionListadoDTO buscarPorId(Integer id) {
+//        return readAllAsistenciaEnsayo().stream()
+//                .filter(asis -> asis.getIdAsistenciaEnsayos().equals(id))
+//                .findFirst()
+//                .orElse(null);
+//    }
+    
 }

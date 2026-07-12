@@ -26,7 +26,7 @@ public class Lugar implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_LUGAR")
-    private Integer idLugar;
+    private Lugar idLugar;
     
     @Column(name="NOMBRE", length=150)
     private String nombre;

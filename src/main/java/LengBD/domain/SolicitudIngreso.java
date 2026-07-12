@@ -26,7 +26,7 @@ public class SolicitudIngreso implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_SOLICITUD")
-    private Integer idSolicitud;
+    private SolicitudIngreso idSolicitud;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

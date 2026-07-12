@@ -26,7 +26,7 @@ public class PagoSuscripcion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PAGO_SUSCRIPCION")
-    private Integer idPagoSuscripcion;
+    private PagoSuscripcion idPagoSuscripcion;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

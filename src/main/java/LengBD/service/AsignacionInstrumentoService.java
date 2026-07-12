@@ -25,7 +25,6 @@ public class AsignacionInstrumentoService {
         asignacionInstrumentoRepository.insertarAsignacionInstrumento(asignacionInstrumento);
     }
 
-    // En AsignacionInstrumentoService.java
     public void actualizarAsignacionInstrumento(AsignacionInstrumento asignacionInstrumento) {
         asignacionInstrumentoRepository.actualizarAsignacionInstrumento(asignacionInstrumento);
     }

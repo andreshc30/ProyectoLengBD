@@ -25,16 +25,13 @@ public class BandaInstrumento implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_BANDA")
     private Integer idBanda;
     
-    @ManyToOne
-    @JoinColumn(name="ID_INSTRUMENTO", referencedColumnName = "ID_INSTRUMENTO")
+    @Column(name="ID_INSTRUMENTO")
     private Instrumento idInstrumento;
     
-    @ManyToOne
-    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
+    @Column(name="ID_ESTADO")
     private Estado idEstado; 
     
 

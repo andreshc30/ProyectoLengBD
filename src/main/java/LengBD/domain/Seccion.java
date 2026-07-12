@@ -26,7 +26,7 @@ public class Seccion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_SECCION")
-    private Integer idSeccion;
+    private Seccion idSeccion;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

@@ -26,7 +26,7 @@ public class Justificacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_JUSTIFICACION")
-    private Integer idJustificacion;
+    private Justificacion idJustificacion;
     
     @Column(name="MOTIVO", length=500)
     private String motivo;

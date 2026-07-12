@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     
     @Id
     @Column(name="CEDULA")
-    private Long cedula;
+    private Integer cedula;
     
     @Column(name="NOMBRE", length=100)
     private String nombre;

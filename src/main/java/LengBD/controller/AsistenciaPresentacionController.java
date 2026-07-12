@@ -4,12 +4,12 @@
  */
 package LengBD.controller;
 
-import LengBD.domain.AsignacionInstrumento;
-import LengBD.domain.AsignacionListadoDTO;
+import LengBD.domain.AsistenciaPresentacion;
+import LengBD.domain.AsistenciaPresentacionListadoDTO;
 import LengBD.domain.Estado;
 import LengBD.domain.Instrumento;
 import LengBD.domain.Usuario;
-import LengBD.service.AsignacionInstrumentoService;
+import LengBD.service.AsistenciaPresentacionService;
 import LengBD.service.AudicionesService;
 import LengBD.service.EstadoService;
 import LengBD.service.InstrumentoService;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/asistenciaEnsayo")
+@RequestMapping("/asistenciaPresentacion")
 public class AsistenciaPresentacionController {
 
     @Autowired
@@ -42,45 +42,42 @@ public class AsistenciaPresentacionController {
     private EstadoService estadoService;
 
     @Autowired
-    private AsignacionInstrumentoService asignacionInstrumentoService;
+    private AsistenciaPresentacionService asistenciaPresentacionService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        List<AsignacionListadoDTO> lista = asignacionInstrumentoService.readAllAsignacionInstrumento();
+        List<AsistenciaPresentacionListadoDTO> lista = asistenciaPresentacionService.readAllAsistenciaPresentacion();
         model.addAttribute("asignaciones", lista);
-        return "asignacionInstrumento/listado";
+        return "asistenciaPresentacion/listado";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
-        model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());
+        model.addAttribute("asistenciaPresentacion", new AsistenciaPresentacionListadoDTO());
         cargarCombos(model);
         return "formularioIntegrantes";
     }
 
-    @GetMapping("/editar/{idAsignacion}")
-    public String editar(@PathVariable("idAsignacion") Integer id, Model model) {
-        model.addAttribute("asignacionInstrumento", asignacionInstrumentoService.buscarPorId(id));
+    @GetMapping("/editar/{idAsistenciaPresentacion}")
+    public String editar(@PathVariable("idAsistenciaPresentacion") Integer id, Model model) {
+        model.addAttribute("asistenciaPresentacion", asistenciaPresentacionService.buscarPorId(id));
         cargarCombos(model);
         return "formularioIntegrantes";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute AsignacionListadoDTO dto, RedirectAttributes ra) {
+    public String guardar(@ModelAttribute AsistenciaPresentacionListadoDTO dto, RedirectAttributes ra) {
         try {
-            AsignacionInstrumento asignacion = new AsignacionInstrumento();
-            asignacion.setIdAsignacion(dto.getIdAsignacion());
-            asignacion.setFechaInicio(dto.getFechaInicio());
-            asignacion.setFechaFinal(dto.getFechaFinal());
-            asignacion.setMotivo(dto.getMotivo());
-            asignacion.setCedula(dto.getCedula());
-            asignacion.setIdInstrumento(dto.getIdInstrumento());
-            asignacion.setIdEstado(dto.getIdEstado());
+            AsistenciaPresentacion asistenciaPresentacion = new AsistenciaPresentacion();
+            asistenciaPresentacion.setIdAsistenciaPresentacion(dto.getIdAsistenciaPresentacion());
+            asistenciaPresentacion.setIdPresentacion(dto.getIdPresentacion());
+            asistenciaPresentacion.setCedula(dto.getCedula());
+            asistenciaPresentacion.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdAsignacion() != null) {
-                asignacionInstrumentoService.actualizarAsignacionInstrumento(asignacion);
+            if (dto.getIdAsistenciaPresentacion() != null) {
+                asistenciaPresentacionService.actualizarAsistenciaPresentacion(asistenciaPresentacion);
             } else {
-                asignacionInstrumentoService.insertarAsignacionInstrumento(asignacion);
+                asistenciaPresentacionService.insertarAsistenciaPresentacion(asistenciaPresentacion);
             }
             ra.addFlashAttribute("todoOk", "Asignación guardada correctamente");
         } catch (Exception ex) {
@@ -91,9 +88,9 @@ public class AsistenciaPresentacionController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminar(@RequestParam("idAsignacion") Integer idAsignacion, RedirectAttributes ra) {
+    public String eliminar(@RequestParam("idAsistenciaPresentacion") Integer idAsistenciaPresentacion, RedirectAttributes ra) {
         try {
-            asignacionInstrumentoService.eliminarAsignacionInstrumento(idAsignacion);
+            asistenciaPresentacionService.eliminarAsistenciaPresentacion(idAsistenciaPresentacion);
             ra.addFlashAttribute("todoOk", "Asignación eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");

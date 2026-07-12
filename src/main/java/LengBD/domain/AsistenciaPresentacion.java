@@ -25,7 +25,7 @@ public class AsistenciaPresentacion implements Serializable {
     private Integer idPresentacion;
     
     @Column(name="CEDULA")
-    private Long cedula;
+    private Integer cedula;
     
     @Column(name="ID_ESTADO")
     private Integer idEstado;

@@ -19,7 +19,7 @@ public class AsistenciaPresentacionListadoDTO implements Serializable {
     
     private Integer idPresentacion;
     private String nombrePresentacion;
-    private Long cedula;
+    private Integer cedula;
     private String nombreUsuario;
     private String nombreEstado;
     private Integer idEstado;

@@ -21,8 +21,6 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "FIDE_FACTURACION_TB")
 public class FacturacionListadoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

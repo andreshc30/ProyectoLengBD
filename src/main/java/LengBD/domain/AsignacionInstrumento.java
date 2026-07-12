@@ -36,7 +36,7 @@ public class AsignacionInstrumento implements Serializable {
     private String motivo;
     
     @Column(name="CEDULA")
-    private Long cedula; 
+    private Integer cedula; 
     
     @Column(name="ID_INSTRUMENTO")
     private Integer idInstrumento;

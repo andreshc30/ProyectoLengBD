@@ -30,7 +30,7 @@ public class AsistenciaEnsayo implements Serializable {
     private Integer idEnsayo;
     
     @Column(name="CEDULA")
-    private Long cedula;
+    private Integer cedula;
     
     @Column(name="ID_ESTADO")
     private Integer idEstado;

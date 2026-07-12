@@ -21,7 +21,7 @@ import lombok.Data;
 public class UsuarioListadoDTO implements Serializable {
     private static final long serialVersionUID = 1l;
     
-    private Long cedula;
+    private Integer cedula;
     
     private String nombre;
     

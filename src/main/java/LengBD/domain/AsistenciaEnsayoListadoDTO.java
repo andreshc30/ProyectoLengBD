@@ -9,7 +9,7 @@ public class AsistenciaEnsayoListadoDTO {
     private Integer idEnsayo;
     private String nombreEnsayo;
     private String nombreUsuario;
-    private Long cedula;         
+    private Integer cedula;         
     private String nombreEstado;
     private Integer idEstado;           
 }

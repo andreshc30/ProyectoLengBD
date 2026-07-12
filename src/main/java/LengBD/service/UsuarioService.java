@@ -34,7 +34,7 @@ public class UsuarioService {
         return usuarioRepository.readAllUsuario();
     }
 
-    public void eliminarUsuario(Long cedula) {
+    public void eliminarUsuario(Integer cedula) {
         Usuario usuario = new Usuario();
         usuario.setCedula(cedula);
         usuarioRepository.deleteUsuario(usuario);

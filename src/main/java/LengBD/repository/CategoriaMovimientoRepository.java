@@ -6,7 +6,6 @@ package LengBD.repository;
 
 import LengBD.domain.AsistenciaPresentacion;
 import LengBD.domain.Canton;
-import LengBD.domain.Caracteristicas;
 import LengBD.domain.CategoriaMovimiento;
 import LengBD.domain.Correo;
 import LengBD.domain.Instrumento;

@@ -28,7 +28,7 @@ public class Instrumento implements Serializable {
     private Integer idInstrumento;
     
     @Column(name="NOMBRE", length=100)
-    private String descripcion;
+    private String nombre;
     
     @Column(name="ID_SECCION")
     private Seccion idSeccion;

@@ -39,26 +39,31 @@ public class Usuario implements Serializable {
     @Column(name="FECHA_INGRESO")
     private LocalDate fechaIngreso;
     
-    @Column(name="LOGO_URL", length=500)
+    @Column(name = "LOGO_URL", length = 500)
     private String logoUrl;
-    
-    @Column(name="ID_TELEFONO", length=100)
-    private Telefono idTelefono; 
-    
-    @Column(name="ID_CORREO")
-    private Correo idCorreo; 
-    
-    @Column(name="ID_SECCION")
-    private Seccion idSeccion; 
-    
-    @Column(name="ID_DIRECCION")
-    private Direccion idDireccion; 
-    
-    @Column(name="ID_BANDA")
-    private Banda idBanda; 
-    
-    @Column(name="ID_ESTADO")
-    private Estado idEstado; 
-    
+
+//    @ManyToOne
+//    @JoinColumn(name = "ID_TELEFONO", referencedColumnName = "CEDULA")
+//    private Telefono idTelefono;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_CORREO", referencedColumnName = "ID_CORREO")
+    private Correo idCorreo;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_SECCION", referencedColumnName = "ID_SECCION")
+    private Seccion idSeccion;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
+    private Direccion idDireccion;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_BANDA", referencedColumnName = "ID_BANDA")
+    private Banda idBanda;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO")
+    private Estado idEstado;
 
 }

@@ -1,52 +1,97 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package LengBD.repository;
 
+/**
+ *
+ * @author peper
+ */
 import LengBD.domain.AsignacionInstrumento;
-import LengBD.domain.AsistenciaPresentacion;
-import jakarta.persistence.EntityManager;
+import LengBD.domain.AsignacionListadoDTO;
+import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.data.repository.query.Param;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
-public interface AsignacionInstrumentoRepository extends JpaRepository<AsignacionInstrumento, Integer>{
+public class AsignacionInstrumentoRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private SimpleJdbcCall asignacionInstrumentoInsertCall;
+    private SimpleJdbcCall asignacionInstrumentoUpdateCall;
+    private SimpleJdbcCall asignacionInstrumentoDeleteCall;
+    private SimpleJdbcCall asignacionInstrumentoReadAllCall;
+
+    @PostConstruct
+    public void init() {
+        asignacionInstrumentoInsertCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_ASIGNACION_INSTRUMENTO_INSERT_SP");
+
+        asignacionInstrumentoUpdateCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_ASIGNACION_INSTRUMENTO_UPDATE_SP");
+
+        asignacionInstrumentoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_ASIGNACION_INSTRUMENTO_DELETE_SP");
+
+         
+        asignacionInstrumentoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
+        .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+        .withProcedureName("FIDE_ASIGNACION_INSTRUMENTO_READ_ALL_SP")
+        .returningResultSet("P_REGISTRO",
+                BeanPropertyRowMapper.newInstance(AsignacionListadoDTO.class));
+}
     
-    @Procedure(procedureName = "FIDE_ASIGNACION_INSTRUMENTO_INSERT_SP")
-    void insertarAsignacionInstrumento(
-        @Param("P_ID_ASIGNACION_INSTRUMENTO") Integer idAsignacionInstrumento,
-        @Param("P_FECHA_INICIO") Date fechaInicio,
-        @Param("P_FECHA_FINAL") Date fechaFinal,
-        @Param("P_MOTIVO") String motivo,
-        @Param("P_CEDULA") Integer cedula,
-        @Param("P_ID_INSTRUMENTO") Integer idInstrumento,
-        @Param("P_ID_ESTADO") Integer idEstado
-        
-    );
+
+    public void insertarAsignacionInstrumento(AsignacionInstrumento asignacion) {
+    Map<String, Object> params = new HashMap<>();
+    params.put("P_ID_ASIGNACION", asignacion.getIdAsignacion());
+    params.put("P_FECHA_INICIO", asignacion.getFechaInicio());
+    params.put("P_FECHA_FINAL", asignacion.getFechaFinal());
+    params.put("P_MOTIVO", asignacion.getMotivo());
+    params.put("P_CEDULA", asignacion.getUsuario() != null ? asignacion.getUsuario().getCedula() : null);
+    params.put("P_ID_INSTRUMENTO", asignacion.getInstrumento() != null ? asignacion.getInstrumento().getIdInstrumento() : null);
+    params.put("P_ID_ESTADO", asignacion.getEstado() != null ? asignacion.getEstado().getIdEstado() : null);
     
-    @Procedure(procedureName = "FIDE_ASIGNACION_INSTRUMENTO_UPDATE_SP")
-    void updateAsignacionInstrumento(
-        @Param("P_ID_ASIGNACION_INSTRUMENTO") Integer idAsignacionInstrumento,
-        @Param("P_FECHA_INICIO") Date fechaInicio,
-        @Param("P_FECHA_FINAL") Date fechaFinal,
-        @Param("P_MOTIVO") String motivo,
-        @Param("P_CEDULA") Integer cedula,
-        @Param("P_ID_INSTRUMENTO") Integer idInstrumento,
-        @Param("P_ID_ESTADO") Integer idEstado
-    );
+    asignacionInstrumentoInsertCall.execute(params);
+}
+
+public void actualizarAsignacionInstrumento(AsignacionInstrumento asignacion) {
+    Map<String, Object> params = new HashMap<>();
     
-    @Procedure(procedureName = "FIDE_ASIGNACION_INSTRUMENTO_DELETE_LOGICO_SP")
-    void eliminarAsignacionInstrumento(
-        @Param("P_ID_ASIGNACION_INSTRUMENTO") Integer idAsignacionInstrumento,
-        @Param("P_ID_PRESENTACION") Integer idPresentacion
-    );
+    params.put("P_ID_ASIGNACION", asignacion.getIdAsignacion());
+    params.put("P_FECHA_INICIO", asignacion.getFechaInicio());
+    params.put("P_FECHA_FINAL", asignacion.getFechaFinal());
+    params.put("P_MOTIVO", asignacion.getMotivo());
+    params.put("P_CEDULA", asignacion.getUsuario() != null ? asignacion.getUsuario().getCedula() : null);
+    params.put("P_ID_INSTRUMENTO", asignacion.getInstrumento() != null ? asignacion.getInstrumento().getIdInstrumento() : null);
+    params.put("P_ID_ESTADO", asignacion.getEstado() != null ? asignacion.getEstado().getIdEstado() : null);
     
+    asignacionInstrumentoUpdateCall.execute(params);
+}
+
+    public List<AsignacionListadoDTO> readAllAsignacionInstrumento() {
+        Map<String, Object> result = asignacionInstrumentoReadAllCall.execute();
+        return (List<AsignacionListadoDTO>) result.get("P_REGISTRO");
+    }
+
+    public void deleteAsignacionInstrumento(AsignacionInstrumento asignacionInstrumento) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_ASIGNACION", asignacionInstrumento.getIdAsignacion());
+        asignacionInstrumentoDeleteCall.execute(params);
+    }
+
 }

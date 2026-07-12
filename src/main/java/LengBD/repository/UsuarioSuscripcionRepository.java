@@ -5,7 +5,7 @@
 package LengBD.repository;
 
 import LengBD.domain.Usuario;
-import LengBD.domain.UsuarioSuscripcion;
+import LengBD.domain.BandaSuscripcion;
 import java.time.LocalDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  * @author peper
  */
 @Repository
-public interface UsuarioSuscripcionRepository  extends JpaRepository<UsuarioSuscripcion, Integer> {
+public interface UsuarioSuscripcionRepository  extends JpaRepository<BandaSuscripcion, Integer> {
     
     @Procedure(procedureName = "FIDE_USUARIO_SUSCRIPCION_INSERT_SP")
     void insertarUsuarioSuscripcion(

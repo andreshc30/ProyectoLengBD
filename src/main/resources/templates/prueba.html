@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Gestión de Asignación</h4>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/asignacionInstrumento/guardar}" th:object="${asignacionInstrumento}" method="post">
+                    
+                    <input type="hidden" th:field="*{idAsignacion}">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Integrante (Cédula):</label>
+                            <input type="text" class="form-control" th:field="*{usuario.cedula}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha Inicio:</label>
+                            <input type="date" class="form-control" th:field="*{fechaInicio}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Motivo:</label>
+                            <textarea class="form-control" th:field="*{motivo}" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success">Guardar Asignación</button>
+                        <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

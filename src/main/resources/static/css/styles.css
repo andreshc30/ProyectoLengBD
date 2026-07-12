@@ -1098,3 +1098,65 @@ footer {
 .card-cuenta-regresiva .text-xs {
     color: #a0aab2 !important; /* Gris claro */
 }
+
+/* =========================================
+   AJUSTES PARA EL PANEL DEL DIRECTOR (Bootstrap override)
+========================================= */
+
+/* Suaviza los bordes y sombras de las tarjetas */
+#content .card {
+    border: none;
+    border-radius: 0.75rem;
+}
+
+#content .card-header {
+    background-color: #f8f9fc; /* Un gris muy sutil */
+    border-bottom: 1px solid #e3e6f0;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+/* Efecto hover suave en la tabla de integrantes */
+#content .table-hover tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+#content .table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Ajusta los botones de los formularios para que se vean más modernos */
+#content form .btn {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 0.5rem;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#content form .btn:active {
+    transform: translateY(1px);
+}
+
+/* Etiquetas (Labels) más limpias */
+#content form .form-label {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+/* Dale más espacio al formulario */
+.card-body {
+    padding: 2rem !important;
+}
+
+/* Mejora los inputs para que no se sientan apretados */
+.form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+}
+
+/* Un borde más definido para el formulario */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1) !important;
+}

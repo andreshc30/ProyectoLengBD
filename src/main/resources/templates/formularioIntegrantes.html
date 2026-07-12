@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Gestión de Asignación de Instrumentos</h4>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/asignacionInstrumento/guardar}" method="post">
+
+                    <input type="hidden" name="idAsignacion"
+                           th:value="${asignacionInstrumento.idAsignacion}">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Integrante:</label>
+                            <select class="form-select form-control" name="cedula" required>
+                                <option value="">-- Seleccione integrante --</option>
+                                <option th:each="u : ${usuarios}"
+                                        th:value="${u.cedula}"
+                                        th:text="${u.nombre + ' ' + u.primerApellido}"
+                                        th:selected="${asignacionInstrumento.cedula != null
+                                                       and asignacionInstrumento.cedula == u.cedula}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Instrumento:</label>
+                            <select class="form-select form-control" name="idInstrumento" required>
+                                <option value="">-- Seleccione instrumento --</option>
+                                <option th:each="i : ${instrumentos}"
+                                        th:value="${i.idInstrumento}"
+                                        th:text="${i.nombre}"
+                                        th:selected="${asignacionInstrumento.idInstrumento != null
+                                                       and asignacionInstrumento.idInstrumento == i.idInstrumento}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Estado:</label>
+                            <select class="form-select form-control" name="idEstado" required>
+                                <option value="">-- Seleccione --</option>
+                                <option th:each="e : ${estados}"
+                                        th:value="${e.idEstado}"
+                                        th:text="${e.estado}"
+                                        th:selected="${asignacionInstrumento.idEstado != null
+                                                       and asignacionInstrumento.idEstado == e.idEstado}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Fecha Inicio:</label>
+                            <input type="date" class="form-control" name="fechaInicio"
+                                   th:value="${asignacionInstrumento.fechaInicio}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Fecha Final:</label>
+                            <input type="date" class="form-control" name="fechaFinal"
+                                   th:value="${asignacionInstrumento.fechaFinal}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label font-weight-bold">Motivo de la asignación:</label>
+                            <textarea class="form-control" name="motivo" rows="3"
+                                      placeholder="Detalles del préstamo..."
+                                      th:text="${asignacionInstrumento.motivo}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-right">
+                        <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Guardar Asignación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

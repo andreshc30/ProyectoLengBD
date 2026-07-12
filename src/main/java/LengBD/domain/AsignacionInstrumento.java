@@ -35,15 +35,19 @@ public class AsignacionInstrumento implements Serializable {
     @Column(length=100, name="MOTIVO")
     private String motivo;
     
-    @Column(name="CEDULA")
-    private Usuario cedula;
+    @ManyToOne
+    @JoinColumn(name="CEDULA", referencedColumnName = "CEDULA")
+    private Usuario usuario; 
     
-    @Column(name="ID_INSTRUMENTO")
-    private Instrumento idInstrumento;
+    @ManyToOne
+    @JoinColumn(name="ID_INSTRUMENTO", referencedColumnName = "ID_INSTRUMENTO")
+    private Instrumento instrumento;
     
-    @Column(name="ID_ESTADO")
-    private Estado idEstado;
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
+    private Estado estado;
+}
     
     
 
-}
+

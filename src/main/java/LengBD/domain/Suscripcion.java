@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ public class Suscripcion implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_SUSCRIPCION")
     private Integer idSuscripcion;
     
@@ -37,13 +40,16 @@ public class Suscripcion implements Serializable {
     @Column(name="AUTO_RENOVAR", precision=1, scale=0)
     private BigDecimal autoRenovar;
     
-    @Column(name="ID_TIPO_PLAN")
+    @ManyToOne
+    @JoinColumn(name="ID_TIPO_PLAN", referencedColumnName = "ID_TIPO_PLAN")
     private Planes idTipoPlan; 
     
-    @Column(name="ID_BANDA")
+    @ManyToOne
+    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
     private Banda idBanda; 
     
-    @Column(name="ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
     
 }

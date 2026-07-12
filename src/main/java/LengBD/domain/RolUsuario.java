@@ -30,12 +30,15 @@ public class RolUsuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CEDULA")
     private Usuario cedula;
 
-    @Column(name = "ID_ROL")
+    @ManyToOne
+    @JoinColumn(name="ID_ROL", referencedColumnName = "ID_ROL")
     private Rol idRol;
 
-    @Column(name = "ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado;
 }

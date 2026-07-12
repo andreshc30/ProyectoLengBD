@@ -25,13 +25,16 @@ public class BandaSuscripcion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_BANDA")
     private Integer idBanda;
     
-    @Column(name="ID_SUSCRIPCION")
+    @ManyToOne
+    @JoinColumn(name="ID_SUSCRIPCION", referencedColumnName = "ID_SUSCRIPCION")
     private Suscripcion idSuscripcion;
     
-    @Column(name="ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
     
 

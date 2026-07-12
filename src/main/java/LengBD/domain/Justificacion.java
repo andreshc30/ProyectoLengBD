@@ -24,16 +24,19 @@ public class Justificacion implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_JUSTIFICACION")
     private Integer idJustificacion;
     
     @Column(name="MOTIVO", length=500)
     private String motivo;
     
-    @Column(name="ID_ASISTENCIA_ENSAYOS")
-    private AsistenciaEnsayos idAsistenciaEnsayos;
+    @ManyToOne
+    @JoinColumn(name="ID_ASISTENCIA_ENSAYOS", referencedColumnName = "ID_ASISTENCIA_ENSAYOS")
+    private AsistenciaEnsayo idAsistenciaEnsayos;
     
-    @Column(name="ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
 
 }

@@ -27,6 +27,7 @@ public class Presentacion implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PRESENTACION")
     private Integer idPresentacion;
 
@@ -39,13 +40,16 @@ public class Presentacion implements Serializable {
     @Column(name = "FECHA")
     private LocalDateTime fecha;
     
-    @Column(name = "ID_BANDA")
+    @ManyToOne
+    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
     private Banda idBanda;
 
-    @Column(name = "ID_LUGAR")
+    @ManyToOne
+    @JoinColumn(name="ID_LUGAR", referencedColumnName = "ID_LUGAR")
     private Integer idLugar;
 
-    @Column(name = "ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Integer idEstado;
 
 }

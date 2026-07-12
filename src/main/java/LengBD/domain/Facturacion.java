@@ -13,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ public class Facturacion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_FACTURA")
     private Integer idFactura;
 
@@ -43,15 +46,19 @@ public class Facturacion implements Serializable {
     @Column(name="TOTAL")
     private Double total;
 
-    @Column(name="ID_METODO_PAGO")
+    @ManyToOne
+    @JoinColumn(name="ID_METODO_PAGO", referencedColumnName = "ID_METODO_PAGO")
     private MetodoPago idMetodoPago;
     
-    @Column(name="ID_CUOTA")
+    @ManyToOne
+    @JoinColumn(name="ID_CUOTA", referencedColumnName = "ID_CUOTA")
     private Cuota idCuota;
     
-    @Column(name="ID_SUSCRIPCION")
+    @ManyToOne
+    @JoinColumn(name="ID_SUSCRIPCION", referencedColumnName = "ID_SUSCRIPCION")
     private Suscripcion idSuscripcion;
 
-    @Column(name="ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado;
 }

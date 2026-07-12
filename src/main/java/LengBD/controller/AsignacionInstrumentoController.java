@@ -32,7 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/asignacionInstrumento")
 public class AsignacionInstrumentoController {
 
-   
     @Autowired
     private IntegrantesService integrantesService;
 
@@ -41,8 +40,7 @@ public class AsignacionInstrumentoController {
 
     @Autowired
     private EstadoService estadoService;
-    
-    
+
     @Autowired
     private AsignacionInstrumentoService asignacionInstrumentoService;
 
@@ -54,48 +52,51 @@ public class AsignacionInstrumentoController {
     }
 
     @GetMapping("/nuevo")
-public String nuevo(Model model) {
-    model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());
-    cargarCombos(model);
-    return "formularioIntegrantes";
-}
+    public String nuevo(Model model) {
+        model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());
+        cargarCombos(model);
+        return "formularioIntegrantes";
+    }
 
     @GetMapping("/editar/{idAsignacion}")
-public String editar(@PathVariable("idAsignacion") Integer id, Model model) {
-    model.addAttribute("asignacionInstrumento", asignacionInstrumentoService.buscarPorId(id));
-    cargarCombos(model);
-    return "formularioIntegrantes";
-}
+    public String editar(@PathVariable("idAsignacion") Integer id, Model model) {
+        model.addAttribute("asignacionInstrumento", asignacionInstrumentoService.buscarPorId(id));
+        cargarCombos(model);
+        return "formularioIntegrantes";
+    }
 
     @PostMapping("/guardar")
-public String guardar(@ModelAttribute AsignacionListadoDTO dto, RedirectAttributes ra) {
-    try {
-        AsignacionInstrumento asignacion = new AsignacionInstrumento();
-        asignacion.setIdAsignacion(dto.getIdAsignacion());
-        asignacion.setFechaInicio(dto.getFechaInicio());
-        asignacion.setFechaFinal(dto.getFechaFinal());
-        asignacion.setMotivo(dto.getMotivo());
+    public String guardar(@ModelAttribute AsignacionListadoDTO dto, RedirectAttributes ra) {
+        try {
+            AsignacionInstrumento asignacion = new AsignacionInstrumento();
+            asignacion.setIdAsignacion(dto.getIdAsignacion());
+            asignacion.setFechaInicio(dto.getFechaInicio());
+            asignacion.setFechaFinal(dto.getFechaFinal());
+            asignacion.setMotivo(dto.getMotivo());
 
-        Usuario u = new Usuario();     u.setCedula(dto.getCedula());
-        Instrumento i = new Instrumento(); i.setIdInstrumento(dto.getIdInstrumento());
-        Estado e = new Estado();       e.setIdEstado(dto.getIdEstado());
-        asignacion.setUsuario(u);
-        asignacion.setInstrumento(i);
-        asignacion.setEstado(e);
+            Usuario u = new Usuario();
+            u.setCedula(dto.getCedula());
+            Instrumento i = new Instrumento();
+            i.setIdInstrumento(dto.getIdInstrumento());
+            Estado e = new Estado();
+            e.setIdEstado(dto.getIdEstado());
+            asignacion.setUsuario(u);
+            asignacion.setInstrumento(i);
+            asignacion.setEstado(e);
 
-        if (dto.getIdAsignacion() != null) {
-            asignacionInstrumentoService.actualizarAsignacionInstrumento(asignacion);
-        } else {
-            asignacionInstrumentoService.insertarAsignacionInstrumento(asignacion);
+            if (dto.getIdAsignacion() != null) {
+                asignacionInstrumentoService.actualizarAsignacionInstrumento(asignacion);
+            } else {
+                asignacionInstrumentoService.insertarAsignacionInstrumento(asignacion);
+            }
+            ra.addFlashAttribute("todoOk", "Asignación guardada correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        ra.addFlashAttribute("todoOk", "Asignación guardada correctamente");
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
+        return "redirect:/banda/secciones/listadoDirector";
     }
-    return "redirect:/banda/secciones/listadoDirector";
-}
-    
+
     @PostMapping("/eliminar")
     public String eliminar(@RequestParam("idAsignacion") Integer idAsignacion, RedirectAttributes ra) {
         try {

@@ -37,10 +37,12 @@ public class MaterialEstudio implements Serializable {
     @Column(name="RUTA_MATERIAL_ESTUDIO", length=500)
     private String rutaMaterialEstudio;
     
-    @Column(name="ID_SECCION")
+    @ManyToOne
+    @JoinColumn(name="ID_SECCION", referencedColumnName = "ID_SECCION")
     private Seccion idSeccion;
     
-    @Column(name="ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
 
 }

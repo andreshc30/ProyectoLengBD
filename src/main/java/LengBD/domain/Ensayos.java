@@ -27,6 +27,7 @@ public class Ensayos implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ENSAYO")
     private Integer idEnsayo;
 
@@ -42,13 +43,16 @@ public class Ensayos implements Serializable {
     @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
 
-    @Column(name = "ID_DIRECCION")
+    @ManyToOne
+    @JoinColumn(name="ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
     private Direccion idDireccion; 
     
-    @Column(name = "ID_BANDA")
+    @ManyToOne
+    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
     private Banda idBanda; 
 
-    @Column(name = "ID_ESTADO")
+    @ManyToOne
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado;
 
 }

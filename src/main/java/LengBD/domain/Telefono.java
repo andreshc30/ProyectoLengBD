@@ -27,6 +27,7 @@ public class Telefono implements Serializable {
     private static final long serialVersionUID = 1l;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TELEFONO")
     private String idTelefono;
     
@@ -34,7 +35,7 @@ public class Telefono implements Serializable {
     private String telefono;
     
     @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
     
 }

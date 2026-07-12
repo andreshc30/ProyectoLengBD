@@ -43,20 +43,24 @@ public class SolicitudIngreso implements Serializable {
     @Column(name="FECHA_SOLICITUD")
     private LocalDate fechaSolicitud;
     
-    @Column(name="ID_CORREO")
+    @ManyToOne
+    @JoinColumn(name="ID_CORREO", referencedColumnName = "ID_CORREO")
     private Correo idCorreo; 
     
-    @Column(name="ID_SECCION")
+    @ManyToOne
+    @JoinColumn(name="ID_SECCION", referencedColumnName = "ID_SECCION")
     private Seccion idSeccion; 
     
-    @Column(name="ID_BANDA")
+    @ManyToOne
+    @JoinColumn(name="ID_BANDA", referencedColumnName = "ID_BANDA")
     private Banda idBanda; 
     
-    @Column(name="ID_TELEFONO")
+    @ManyToOne
+    @JoinColumn(name="ID_TELEFONO", referencedColumnName = "ID_TELEFONO")
     private Telefono idTelefono; 
     
     @ManyToOne
-    @JoinColumn(name="ID_ESTADO")
+    @JoinColumn(name="ID_ESTADO", referencedColumnName = "ID_ESTADO")
     private Estado idEstado; 
     
 

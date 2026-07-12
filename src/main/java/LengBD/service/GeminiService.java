@@ -18,12 +18,7 @@ import org.springframework.http.*;
 
 @Service
 public class GeminiService {
-    
-
-    
-    
-    
-    private final UsuarioRepository usuarioRepository; // Inyectamos el repositorio
+    private final UsuarioRepository usuarioRepository;
     
     public GeminiService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;

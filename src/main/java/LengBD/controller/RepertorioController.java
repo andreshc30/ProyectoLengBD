@@ -5,7 +5,6 @@
 package LengBD.controller;
 
 import LengBD.domain.Obra;
-import LengBD.repository.ObraRepository;
 import LengBD.service.RepertorioService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/repertorio")
 public class RepertorioController {
 
-    @Autowired
-    private RepertorioService repertorioService;
-
-    @Autowired
-    private ObraRepository obraRepository;
+//    @Autowired
+//    private RepertorioService repertorioService;
+//
+//    @Autowired
+    //private ObraRepository obraRepository;
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        model.addAttribute("obras", obraRepository.findAll());
+        //model.addAttribute("obras", obraRepository.findAll());
         return "repertorio/listado";
     }
 }

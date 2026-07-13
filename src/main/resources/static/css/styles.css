@@ -973,6 +973,42 @@ footer {
     color: #fff;
 }
 
+/* Flecha indicadora en los links que abren un grupo colapsable */
+.nav-item .nav-link[data-bs-toggle="collapse"]::after {
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    float: right;
+    transition: transform 0.2s ease;
+}
+
+.nav-item .nav-link[data-bs-toggle="collapse"]:not(.collapsed)::after {
+    transform: rotate(180deg);
+}
+
+/* Contenedor de los sub-links dentro de cada grupo colapsable */
+.collapse-inner {
+    padding: 0.5rem 0;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.collapse-item {
+    display: block;
+    padding: 0.5rem 1.5rem 0.5rem 2.75rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.collapse-item:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #4dabf7;
+}
+
 /* =========================================
    Banner de Identidad de la Banda
    ========================================= */

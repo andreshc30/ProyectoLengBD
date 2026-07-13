@@ -49,24 +49,26 @@ public class EventoRepository {
 
         eventoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_EVENTO_DELETE_SP");
+                .withProcedureName("FIDE_EVENTO_DELETE_LOGICO_SP");
 
         eventoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_EVENTO_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));;
+                        BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));;
     }
 
     public void insertarEvento(Evento evento) {
         Map<String, Object> params = new HashMap<>();
+
+        params.put("P_ID_EVENTO", evento.getIdEvento());
         params.put("P_NOMBRE", evento.getNombre());
         params.put("P_DETALLE", evento.getDetalle());
         params.put("P_FECHA", evento.getFecha());
         params.put("P_ID_DIRECCION", evento.getDireccion());
         params.put("P_ID_ESTADO", evento.getIdEstado());
         params.put("P_ID_BANDA", evento.getIdBanda());
-        eventoUpdateCall.execute(params);
+
         eventoInsertCall.execute(params);
     }
 
@@ -82,8 +84,7 @@ public class EventoRepository {
         eventoUpdateCall.execute(params);
     }
 
-    public 
-        List<EventoListadoDTO> readAllEvento() {
+    public List<EventoListadoDTO> readAllEvento() {
         Map<String, Object> result = eventoReadAllCall.execute();
         return (List<EventoListadoDTO>) result.get("p_cursor");
     }

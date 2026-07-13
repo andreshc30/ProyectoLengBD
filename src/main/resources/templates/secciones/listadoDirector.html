@@ -50,9 +50,10 @@
                         </a>
                     </li>
                     <hr class="sidebar-divider">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-                    </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
+                        </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">Líderes de Sección</a>
                     </li>
@@ -273,6 +274,19 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                            </div>
+                            
+
+                            <div class="card shadow mb-4 border-left-primary">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso</h6>
+                                    <a th:href="@{/solicitudes/listado}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-inbox me-1"></i> Ver solicitudes
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0 text-muted">Revisá y gestioná las solicitudes de aspirantes que quieren unirse a la banda.</p>
                                 </div>
                             </div>
 

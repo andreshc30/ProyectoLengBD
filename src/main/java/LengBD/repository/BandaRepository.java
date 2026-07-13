@@ -54,7 +54,7 @@ public class BandaRepository {
         bandaReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_BANDA_SP")
-                .returningResultSet("p_cursor",
+                .returningResultSet("P_REGISTRO",
                 BeanPropertyRowMapper.newInstance(BandaListadoDTO.class));;
     }
 
@@ -87,7 +87,7 @@ public class BandaRepository {
 
     public List<BandaListadoDTO> readAllBanda() {
         Map<String, Object> result = bandaReadAllCall.execute();
-        return (List<BandaListadoDTO>) result.get("p_cursor");
+        return (List<BandaListadoDTO>) result.get("P_REGISTRO");
     }
 
     public void deleteBanda(Banda banda) {

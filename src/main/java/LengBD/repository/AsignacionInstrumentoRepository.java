@@ -50,7 +50,7 @@ public class AsignacionInstrumentoRepository {
          
         asignacionInstrumentoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
         .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-        .withProcedureName("FIDE_ASIGNACION_INSTRUMENTO_READ_ALL_SP")
+        .withProcedureName("FIDE_LISTAR_ASIGNACION_INSTRUMENTO_SP")
         .returningResultSet("P_REGISTRO",
                 BeanPropertyRowMapper.newInstance(AsignacionListadoDTO.class));
 }

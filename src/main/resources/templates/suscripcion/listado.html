@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+
+                <body>
+                    <header>
+                    <div class="Center">
+                        <div class="site-logo">
+                            <h1><a th:href="@{/}">BandCore</a></h1>
+                        </div>
+
+                        <nav class="Navigation">
+                            <ul>
+                                <li>                                
+                                    <a th:href="@{/}">Inicio</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>                                
+                                    <a th:href="@{/audiciones/listado}">Audiciones</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>
+                                    <a th:href="@{/banda/listado}">Banda</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li>
+                                    <a th:href="@{/eventos/listado}">Eventos</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                                <li class="active">
+                                    
+                                    <a th:href="@{/suscripcion/listado}">Suscripción</a>
+                                    <span class="menu-item-bg"></span>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div id="mobile_sec">
+                            <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+                </header>
+                    <section class="pricing" id="pricing">
+                        <div class="pricing__header">
+                            <h2 class="pricing__title">Planes</h2>
+                            <p class="pricing__intro">
+                                Elegí el plan según el tamaño de tu agrupación. Todos incluyen
+                                gestión de integrantes, asistencia y repertorio. Podés cambiar de
+                                plan cuando lo necesites.
+                            </p>
+                            <span class="pricing__divider"></span>
+                        </div>
+
+                        <div class="pricing__table">
+
+                            <div class="plan">
+                                <div class="plan__label"><span>Básico</span></div>
+                                <div class="plan__price">
+                                    <span class="plan__amount">$5</span>
+                                    <span class="plan__period">/mes</span>
+                                </div>
+                                <div class="plan__features">
+                                    <div class="plan__feature">Hasta<br>25 integrantes</div>
+                                    <div class="plan__feature">Control de<br>asistencia</div>
+                                    <div class="plan__feature">Gestión de<br>repertorio</div>
+                                    <div class="plan__feature">Soporte<br>por correo</div>
+                                </div>
+                                <a th:href="@{/suscripcion/formulario(plan='Basico')}" ... >Seleccionar</a>
+                            </div>
+
+                            <div class="plan">
+                                <div class="plan__label"><span>Estándar</span></div>
+                                <div class="plan__price">
+                                    <span class="plan__amount">$12</span>
+                                    <span class="plan__period">/mes</span>
+                                </div>
+                                <div class="plan__features">
+                                    <div class="plan__feature">Hasta<br>75 integrantes</div>
+                                    <div class="plan__feature">Asistencia<br>por secciones</div>
+                                    <div class="plan__feature">Módulo<br>financiero</div>
+                                    <div class="plan__feature">Soporte<br>prioritario</div>
+                                </div>
+                                <a th:href="@{/suscripcion/formulario(plan='Estandar')}" ... >Seleccionar</a> 
+                            </div>
+
+                            <div class="plan plan--featured">
+                                <div class="plan__label"><span>Pro</span></div>
+                                <div class="plan__price">
+                                    <span class="plan__amount">$25</span>
+                                    <span class="plan__period">/mes</span>
+                                </div>
+                                <div class="plan__features">
+                                    <div class="plan__feature">Integrantes<br>ilimitados</div>
+                                    <div class="plan__feature">Reportes<br>avanzados</div>
+                                    <div class="plan__feature">Finanzas<br>completas</div>
+                                    <div class="plan__feature">Soporte<br>dedicado</div>
+                                </div>
+                                <a th:href="@{/suscripcion/formulario(plan='Pro')}" ... >Seleccionar</a>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+                </body>
+                </html>

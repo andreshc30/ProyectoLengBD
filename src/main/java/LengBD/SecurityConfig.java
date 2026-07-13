@@ -28,16 +28,22 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/api/chat",
-                                "/webjars/**",
-                                "/logo/**",
-                                "/fonts/**",
-                                "/",
-                                "/audiciones/listado",
-                                "/eventos/listado",
-                                "/general/listado",
-                                "/gestion_bandas/listado",
-                                "/secciones/listadoDirector",
-                                "/login"
+                    "/webjars/**",
+                    "/logo/**",
+                    "/fonts/**",
+                    "/",
+                    "/solicitudes/**",
+                    "/solicitudes/guardar",
+                    "/audiciones/listado",
+                    "/error", 
+                    // -------------------------
+                    "/audiciones/solicitudes/formulario", 
+                    "/audiciones/solicitudes/guardar",
+                    "/eventos/listado",
+                    "/general/listado",
+                    "/gestion_bandas/listado",
+                    "/secciones/listadoDirector",
+                    "/login"
                 ).permitAll()
                 .anyRequest().authenticated())
                 .formLogin(form -> form

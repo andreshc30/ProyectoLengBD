@@ -43,55 +43,33 @@
                 <div id="mobile_sec">
                     <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
                 </div>
-
                 <div class="clear"></div>
             </div>
         </header>
 
         <section>
             <div class="audiciones__scroll">
+                
+                <div class="banda-card" th:each="banda : ${bandas}">
 
-                <!-- ===== MAQUETA: cards de ejemplo  ===== -->
+                    <img th:src="${banda.logoUrl != null ? banda.logoUrl : '/img/default-logo.png'}" alt="Logo de la banda" class="banda-card__logo">
+                        <h3 class="banda-card__nombre" th:text="${banda.nombre}">Nombre de la Banda</h3>
 
-                <!-- Ejemplo 1: banda CON audiciones activas -->
-                <div class="banda-card">
-                    <img src="/img/BLCMV2.svg" alt="Logo" class="banda-card__logo">
-                        <h3 class="banda-card__nombre">Banda Lírica de Moravia</h3>
-                        <a href="#" class="banda-card__btn banda-card__btn--activo">Postularme</a>
+                        <a th:if="${banda.idEstado != null and banda.idEstado == 1}"
+                           th:href="@{/solicitudes/nuevo(bandaPreseleccionada=${banda.idBanda})}"
+                           class="banda-card__btn banda-card__btn--activo">Postularme</a>
+
+                        <button th:unless="${banda.idEstado != null and banda.idEstado == 1}"
+                                class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(bandas)}" class="text-center" style="width: 100%; padding: 2rem;">
+                    <h3>No hay bandas registradas en este momento.</h3>
                 </div>
 
-                <!-- Ejemplo 2: banda CON audiciones activas -->
-                <div class="banda-card">
-                    <img src="/img/imgT.jpg" alt="Logo" class="banda-card__logo">
-                        <h3 class="banda-card__nombre">Banda Municipal de Tibás</h3>
-                        <a href="#" class="banda-card__btn banda-card__btn--activo">Postularme</a>
-                </div>
-
-                <!-- Ejemplo 3: banda SIN audiciones (boton desactivado) -->
-                <div class="banda-card">
-                    <img src="/img/imgC.png" alt="Logo" class="banda-card__logo">
-                        <h3 class="banda-card__nombre">Banda de conciertos de Cartago</h3>
-                        <button class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
-                </div>
-
-                <!-- ===== EJEMPLO DE COMO SERÍA CON BD ===== -->
-                <!-- <div class="audiciones__scroll">
-                          <div class="banda-card" th:each="banda : ${bandas}">
-                            <img th:src="@{'/img/' + ${banda.logoUrl}}" alt="Logo" class="banda-card__logo">
-                                <h3 class="banda-card__nombre" th:text="${banda.nombre}">Nombre</h3>
-
-                                    <a th:if="${banda.audicionesActivas}"
-                                        th:href="@{'/audiciones/formulario/' + ${banda.idBanda}}"
-                                         class="banda-card__btn banda-card__btn--activo">Postularme</a>
-
-                                        <button th:unless="${banda.audicionesActivas}"
-                                        class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
-                            </div>
-                        </div> -->
             </div>
         </section>
 
-                
-                <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
     </body>
 </html>

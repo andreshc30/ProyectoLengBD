@@ -49,7 +49,7 @@ public class JustificacionRepository {
 
         justificacionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_JUSTIFICACION_DELETE_SP");
+                .withProcedureName("FIDE_JUSTIFICACION_DELETE_LOGICO_SP");
 
         justificacionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -63,7 +63,6 @@ public class JustificacionRepository {
         params.put("P_MOTIVO", justificacion.getMotivo());
         params.put("P_ID_ASISTENCIA_ENSAYOS", justificacion.getIdAsistenciaEnsayos());
         params.put("P_ID_ESTADO", justificacion.getIdEstado());
-        justificacionUpdateCall.execute(params);
         justificacionInsertCall.execute(params);
     }
 

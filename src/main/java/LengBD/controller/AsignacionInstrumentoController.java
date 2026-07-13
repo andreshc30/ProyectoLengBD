@@ -6,17 +6,11 @@ package LengBD.controller;
 
 import LengBD.domain.AsignacionInstrumento;
 import LengBD.domain.AsignacionListadoDTO;
-import LengBD.domain.Estado;
-import LengBD.domain.Instrumento;
-import LengBD.domain.Usuario;
 import LengBD.service.AsignacionInstrumentoService;
-import LengBD.service.AudicionesService;
 import LengBD.service.EstadoService;
 import LengBD.service.InstrumentoService;
 import LengBD.service.IntegrantesService;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,9 +42,14 @@ public class AsignacionInstrumentoController {
     public String listado(Model model) {
         List<AsignacionListadoDTO> lista = asignacionInstrumentoService.readAllAsignacionInstrumento();
         model.addAttribute("asignaciones", lista);
+        model.addAttribute("nuevaAsignacion", new AsignacionListadoDTO());
+        cargarCombos(model);
         return "asignacionInstrumento/listado";
     }
 
+    // NOTA: estos dos métodos quedan sin usar ahora que el patrón es modal
+    // (todo vive en /listado). Se pueden borrar si querés, no rompen nada por
+    // quedarse.
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());
@@ -87,7 +86,7 @@ public class AsignacionInstrumentoController {
             ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "redirect:/banda/secciones/listadoDirector";
+        return "redirect:/asignacionInstrumento/listado";
     }
 
     @PostMapping("/eliminar")
@@ -98,7 +97,7 @@ public class AsignacionInstrumentoController {
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/banda/secciones/listadoDirector";
+        return "redirect:/asignacionInstrumento/listado";
     }
 
     private void cargarCombos(Model model) {

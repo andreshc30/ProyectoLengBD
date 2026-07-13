@@ -60,20 +60,20 @@ public class InstrumentoRepository {
 
     public void insertarInstrumento(Instrumento instrumento) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_SECCION", instrumento.getIdSeccion());
-        params.put("P_ID_ESTADO", instrumento.getIdEstado());
-        params.put("P_NOMBRE", instrumento.getNombre());
+        params.put("P_INSTRUMENTO_ID_SECCION", instrumento.getIdSeccion());
+        params.put("P_INSTRUMENTO_ID_ESTADO", instrumento.getIdEstado());
+        params.put("P_INSTRUMENTO_NOMBRE", instrumento.getNombre());
         instrumentoInsertCall.execute(params);
     }
 
     public void actualizarInstrumento(Instrumento instrumento) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_INSTRUMENTO", instrumento.getIdInstrumento());
-        params.put("P_ID_SECCION", instrumento.getIdSeccion());
-        params.put("P_ID_ESTADO", instrumento.getIdEstado());
-        params.put("P_NOMBRE", instrumento.getNombre());
+        params.put("P_INSTRUMENTO_ID_INSTRUMENTO", instrumento.getIdInstrumento());
+        params.put("P_INSTRUMENTO_ID_SECCION", instrumento.getIdSeccion());
+        params.put("P_INSTRUMENTO_ID_ESTADO", instrumento.getIdEstado());
+        params.put("P_INSTRUMENTO_NOMBRE", instrumento.getNombre());
         instrumentoUpdateCall.execute(params);
-    }
+}
 
     public List<InstrumentoListadoDTO> readAllInstrumento() {
         Map<String, Object> result = instrumentoReadAllCall.execute();
@@ -82,7 +82,7 @@ public class InstrumentoRepository {
 
     public void deleteInstrumento(Instrumento instrumento) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_INSTRUMENTO", instrumento.getIdInstrumento());
+        params.put("P_INSTRUMENTO_ID_INSTRUMENTO", instrumento.getIdInstrumento());
         instrumentoDeleteCall.execute(params);
     }
 

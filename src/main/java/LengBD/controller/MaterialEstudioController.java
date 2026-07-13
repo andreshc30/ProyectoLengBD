@@ -35,6 +35,8 @@ public class MaterialEstudioController {
     public String listado(Model model) {
         List<MaterialEstudioListadoDTO> lista = materialEstudioService.readAllMaterialEstudio();
         model.addAttribute("materialesEstudio", lista);
+        model.addAttribute("nuevoMaterialEstudio", new MaterialEstudioListadoDTO());
+        cargarCombos(model);
         return "materialEstudio/listado";
     }
 

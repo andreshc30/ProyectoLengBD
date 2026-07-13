@@ -35,6 +35,8 @@ public class SeccionController {
     public String listado(Model model) {
         List<SeccionListadoDTO> lista = seccionService.readAllSeccion();
         model.addAttribute("secciones", lista);
+        model.addAttribute("nuevaSeccion", new SeccionListadoDTO());
+        cargarCombos(model);
         return "seccion/listado";
     }
 

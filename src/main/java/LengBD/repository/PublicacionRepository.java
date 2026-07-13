@@ -49,7 +49,7 @@ public class PublicacionRepository {
 
         publicacionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_PUBLICACION_DELETE_SP");
+                .withProcedureName("FIDE_PUBLICACION_DELETE_LOGICO_SP");
 
         publicacionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -65,7 +65,6 @@ public class PublicacionRepository {
         params.put("P_DETALLE", publicacion.getDetalle());
         params.put("P_ID_RED_SOCIAL", publicacion.getIdRedSocial());
         params.put("P_ID_ESTADO", publicacion.getIdEstado());
-        publicacionUpdateCall.execute(params);
         publicacionInsertCall.execute(params);
     }
 

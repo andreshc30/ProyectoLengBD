@@ -51,7 +51,7 @@ public class AsignacionInstrumentoRepository {
         asignacionInstrumentoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
         .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
         .withProcedureName("FIDE_LISTAR_ASIGNACION_INSTRUMENTO_SP")
-        .returningResultSet("P_REGISTRO",
+        .returningResultSet("P_CURSOR",
                 BeanPropertyRowMapper.newInstance(AsignacionListadoDTO.class));
 }
     
@@ -84,7 +84,7 @@ public void actualizarAsignacionInstrumento(AsignacionInstrumento asignacion) {
 
     public List<AsignacionListadoDTO> readAllAsignacionInstrumento() {
         Map<String, Object> result = asignacionInstrumentoReadAllCall.execute();
-        return (List<AsignacionListadoDTO>) result.get("P_REGISTRO");
+        return (List<AsignacionListadoDTO>) result.get("P_CURSOR");
     }
 
     public void deleteAsignacionInstrumento(AsignacionInstrumento asignacionInstrumento) {

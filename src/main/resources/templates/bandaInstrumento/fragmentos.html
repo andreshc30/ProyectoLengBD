@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionBandaInstrumento">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Inventario de instrumentos</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoBandaInstrumento">
+                <i class="ti ti-plus"></i> Nuevo registro
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Banda</th>
+                    <th>Instrumento</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bi : ${bandaInstrumentos}">
+                    <td th:text="${bi.nombreBanda}"></td>
+                    <td th:text="${bi.nombreInstrumento}"></td>
+                    <td th:text="${bi.estado}"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${bi.idBanda} + '-' + ${bi.idInstrumento}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${bi.idBanda} + '-' + ${bi.idInstrumento}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(bandaInstrumentos)}">
+                    <td colspan="4" class="text-center text-muted">No hay instrumentos registrados en el inventario.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal: nuevo registro -->
+        <div class="modal fade" id="modalNuevoBandaInstrumento" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/bandaInstrumento/guardar}" th:object="${nuevoBandaInstrumento}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo registro de inventario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="editando" value="false">
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" th:field="*{idBanda}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Instrumento</label>
+                                <select class="form-select" th:field="*{idInstrumento}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="i : ${instrumentos}" th:value="${i.idInstrumento}" th:text="${i.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar (uno por fila) -->
+        <div class="modal fade" th:each="bi : ${bandaInstrumentos}" th:id="'modalEditar-' + ${bi.idBanda} + '-' + ${bi.idInstrumento}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/bandaInstrumento/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar registro de inventario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="editando" value="true">
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" name="idBanda">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}" th:selected="${b.idBanda == bi.idBanda}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Instrumento</label>
+                                <select class="form-select" name="idInstrumento">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="i : ${instrumentos}" th:value="${i.idInstrumento}" th:text="${i.nombre}" th:selected="${i.idInstrumento == bi.idInstrumento}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == bi.idEstado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (uno por fila) -->
+        <div class="modal fade" th:each="bi : ${bandaInstrumentos}" th:id="'modalEliminar-' + ${bi.idBanda} + '-' + ${bi.idInstrumento}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar registro de inventario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar el instrumento <strong th:text="${bi.nombreInstrumento}"></strong> del inventario de esta banda? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/bandaInstrumento/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="idBanda" th:value="${bi.idBanda}">
+                            <input type="hidden" name="idInstrumento" th:value="${bi.idInstrumento}">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

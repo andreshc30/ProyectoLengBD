@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{general/fragmentos :: head}"></head>
-<body>
-    <header th:replace="~{general/fragmentos :: header}"></header>
-    <main class="container my-4">
-        <h2>Ensayos</h2>
-
-        <div class="border rounded p-3">
-            <div th:replace="~{ensayos/fragmentos :: tablaEnsayos}"></div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+    <body>
+        <div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
+        <div id="wrapper" class="d-flex">
+            <div th:replace="~{general/fragmentos :: sidebar('ensayos')}"></div>
+            <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
+                <div id="content">
+                    <div class="container-fluid">
+                        <h2 class="mb-4">Gestión de ensayos</h2>
+                        <div th:replace="~{ensayos/fragmentos :: gestionEnsayos}"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
-    <footer th:replace="~{general/fragmentos :: footer}"/>
-</body>
+        <div th:replace="~{gestion_bandas/listado :: boton}"></div>
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
 </html>

@@ -35,6 +35,8 @@ public class JustificacionController {
     public String listado(Model model) {
         List<JustificacionListadoDTO> lista = justificacionService.readAllJustificacion();
         model.addAttribute("justificaciones", lista);
+        model.addAttribute("nuevaJustificacion", new JustificacionListadoDTO());
+        cargarCombos(model);
         return "justificacion/listado";
     }
 

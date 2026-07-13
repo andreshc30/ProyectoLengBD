@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionMaterialEstudio">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Material de estudio</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoMaterialEstudio">
+                <i class="ti ti-plus"></i> Nuevo material
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Ruta</th>
+                    <th>Sección</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="m : ${materialesEstudio}">
+                    <td th:text="${m.nombre}"></td>
+                    <td th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${m.rutaMaterialEstudio}"></td>
+                    <td th:text="${m.nombreSeccion}"></td>
+                    <td th:text="${m.estado}"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${m.idMaterial}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${m.idMaterial}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(materialesEstudio)}">
+                    <td colspan="7" class="text-center text-muted">No hay material de estudio registrado.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal: nuevo material -->
+        <div class="modal fade" id="modalNuevoMaterialEstudio" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/materialEstudio/guardar}" th:object="${nuevoMaterialEstudio}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo material de estudio</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" class="form-control" th:field="*{fecha}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ruta del material</label>
+                                <input type="text" class="form-control" th:field="*{rutaMaterialEstudio}" placeholder="https://...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Sección</label>
+                                <select class="form-select" th:field="*{idSeccion}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="s : ${secciones}" th:value="${s.idSeccion}" th:text="${s.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar material (uno por fila) -->
+        <div class="modal fade" th:each="m : ${materialesEstudio}" th:id="'modalEditar-' + ${m.idMaterial}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/materialEstudio/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar material de estudio</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="idMaterial" th:value="${m.idMaterial}">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control" th:value="${m.nombre}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" name="fecha" class="form-control" th:value="${m.fecha}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ruta del material</label>
+                                <input type="text" name="rutaMaterialEstudio" class="form-control" th:value="${m.rutaMaterialEstudio}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Sección</label>
+                                <select class="form-select" name="idSeccion">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="s : ${secciones}" th:value="${s.idSeccion}" th:text="${s.nombre}" th:selected="${s.idSeccion == m.idSeccion}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == m.idEstado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (uno por fila) -->
+        <div class="modal fade" th:each="m : ${materialesEstudio}" th:id="'modalEliminar-' + ${m.idMaterial}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar material de estudio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar <strong th:text="${m.nombre}"></strong>? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/materialEstudio/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="idMaterial" th:value="${m.idMaterial}">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

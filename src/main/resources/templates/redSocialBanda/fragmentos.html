@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionRedSocialBanda">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Redes sociales</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaRedSocialBanda">
+                <i class="ti ti-plus"></i> Nueva red social
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Plataforma</th>
+                    <th>Link</th>
+                    <th>Banda</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${redesSociales}">
+                    <td th:text="${r.plataforma}"></td>
+                    <td th:text="${r.linkBanda}"></td>
+                    <td th:text="${r.nombreBanda}"></td>
+                    <td th:text="${r.estado}"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${r.idRedSocial}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${r.idRedSocial}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(redesSociales)}">
+                    <td colspan="6" class="text-center text-muted">No hay redes sociales registradas.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal: nueva red social -->
+        <div class="modal fade" id="modalNuevaRedSocialBanda" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/redSocialBanda/guardar}" th:object="${nuevaRedSocialBanda}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nueva red social</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Plataforma</label>
+                                <input type="text" class="form-control" th:field="*{plataforma}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Link</label>
+                                <input type="text" class="form-control" th:field="*{linkBanda}" placeholder="https://...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" th:field="*{idBanda}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar red social (uno por fila) -->
+        <div class="modal fade" th:each="r : ${redesSociales}" th:id="'modalEditar-' + ${r.idRedSocial}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/redSocialBanda/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar red social</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="idRedSocial" th:value="${r.idRedSocial}">
+                            <div class="mb-3">
+                                <label class="form-label">Plataforma</label>
+                                <input type="text" name="plataforma" class="form-control" th:value="${r.plataforma}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Link</label>
+                                <input type="text" name="linkBanda" class="form-control" th:value="${r.linkBanda}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" name="idBanda">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}" th:selected="${b.idBanda == r.idBanda}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == r.idEstado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (uno por fila) -->
+        <div class="modal fade" th:each="r : ${redesSociales}" th:id="'modalEliminar-' + ${r.idRedSocial}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar red social</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar <strong th:text="${r.plataforma}"></strong>? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/redSocialBanda/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="idRedSocial" th:value="${r.idRedSocial}">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -49,7 +49,7 @@ public class MaterialEstudioRepository {
 
         materialEstudioDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_MATERIAL_ESTUDIO_DELETE_SP");
+                .withProcedureName("FIDE_MATERIAL_ESTUDIO_DELETE_LOGICO_SP");
 
         materialEstudioReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")

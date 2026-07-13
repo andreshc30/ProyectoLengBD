@@ -35,6 +35,8 @@ public class RedSocialBandaController {
     public String listado(Model model) {
         List<RedSocialBandaListadoDTO> lista = redSocialBandaService.readAllRedSocialBanda();
         model.addAttribute("redesSociales", lista);
+        model.addAttribute("nuevaRedSocialBanda", new RedSocialBandaListadoDTO());
+        cargarCombos(model);
         return "redSocialBanda/listado";
     }
 

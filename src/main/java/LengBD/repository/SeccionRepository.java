@@ -49,7 +49,7 @@ public class SeccionRepository {
 
         seccionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_SECCION_DELETE_SP");
+                .withProcedureName("FIDE_SECCION_DELETE_LOGICO_SP");
 
         seccionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -64,7 +64,6 @@ public class SeccionRepository {
         params.put("P_DESCRIPCION", seccion.getDescripcion());
         params.put("P_ID_ESTADO", seccion.getIdEstado());
         params.put("P_ID_BANDA", seccion.getIdBanda());
-        seccionUpdateCall.execute(params);
         seccionInsertCall.execute(params);
     }
 

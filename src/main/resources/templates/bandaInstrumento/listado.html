@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+    <body>
+        <div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
+        <div id="wrapper" class="d-flex">
+            <div th:replace="~{general/fragmentos :: sidebar('banda')}"></div>
+            <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
+                <div id="content">
+                    <div class="container-fluid">
+                        <h2 class="mb-4">Gestión de inventario de instrumentos</h2>
+                        <div th:replace="~{bandaInstrumento/fragmentos :: gestionBandaInstrumento}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{gestion_bandas/listado :: boton}"></div>
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
+</html>

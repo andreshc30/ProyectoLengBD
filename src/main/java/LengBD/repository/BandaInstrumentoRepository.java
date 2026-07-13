@@ -49,7 +49,7 @@ public class BandaInstrumentoRepository {
 
         bandaInstrumentoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_BANDA_INSTRUMENTO_DELETE_SP");
+                .withProcedureName("FIDE_BANDA_INSTRUMENTO_DELETE_LOGICO_SP");
 
         bandaInstrumentoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -63,7 +63,6 @@ public class BandaInstrumentoRepository {
         params.put("P_ID_BANDA", bandaInstrumento.getIdBanda());
         params.put("P_ID_INSTRUMENTO", bandaInstrumento.getIdInstrumento());
         params.put("P_ID_ESTADO", bandaInstrumento.getIdEstado());
-        bandaInstrumentoUpdateCall.execute(params);
         bandaInstrumentoInsertCall.execute(params);
     }
 

@@ -39,6 +39,8 @@ public class ObraController {
     public String listado(Model model) {
         List<ObraListadoDTO> lista = obraService.readAllObra();
         model.addAttribute("obras", lista);
+        model.addAttribute("nuevaObra", new ObraListadoDTO());
+        cargarCombos(model);
         return "obra/listado";
     }
 

@@ -39,6 +39,8 @@ public class PresentacionController {
     public String listado(Model model) {
         List<PresentacionListadoDTO> lista = presentacionService.readAllPresentacion();
         model.addAttribute("presentaciones", lista);
+        model.addAttribute("nuevaPresentacion", new PresentacionListadoDTO());
+        cargarCombos(model);
         return "presentacion/listado";
     }
 

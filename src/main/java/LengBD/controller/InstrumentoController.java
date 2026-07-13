@@ -35,6 +35,8 @@ public class InstrumentoController {
     public String listado(Model model) {
         List<InstrumentoListadoDTO> lista = instrumentoService.readAllInstrumento();
         model.addAttribute("instrumentos", lista);
+        model.addAttribute("nuevoInstrumento", new InstrumentoListadoDTO());
+        cargarCombos(model);
         return "instrumento/listado";
     }
 

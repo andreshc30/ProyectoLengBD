@@ -1,34 +1,202 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
+    <div th:fragment="gestionEnsayos">
 
-    <div th:fragment="tablaEnsayos">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5>Ensayos</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoEnsayo">
+                <i class="ti ti-plus"></i> Nuevo ensayo
+            </button>
         </div>
-        <table class="table table-striped table-hover">
+
+        <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
                     <th>Descripción</th>
+                    <th>Dirección</th>
+                    <th>Banda</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="e : ${ensayos}">
-                    <td th:text="${e.idEnsayo}"></td>
                     <td th:text="${e.nombre}"></td>
                     <td th:text="${#temporals.format(e.fechaInicio, 'dd/MM/yyyy HH:mm')}"></td>
                     <td th:text="${#temporals.format(e.fechaFin, 'dd/MM/yyyy HH:mm')}"></td>
                     <td th:text="${e.descripcion}"></td>
-                    <td th:text="${e.idEstado}"></td>
+                    <td th:text="${e.direccion}"></td>
+                    <td th:text="${e.nombreBanda}"></td>
+                    <td th:text="${e.estado}"></td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary js-editar"
+                                data-bs-toggle="modal" data-bs-target="#modalEditarEnsayo"
+                                th:attr="data-id-ensayo=${e.idEnsayo},
+                                         data-nombre=${e.nombre},
+                                         data-fecha-inicio=${e.fechaInicio},
+                                         data-fecha-fin=${e.fechaFin},
+                                         data-descripcion=${e.descripcion},
+                                         data-id-direccion=${e.idDireccion},
+                                         data-id-banda=${e.idBanda},
+                                         data-id-estado=${e.idEstado}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger js-eliminar"
+                                data-bs-toggle="modal" data-bs-target="#modalEliminarEnsayo"
+                                th:attr="data-id-ensayo=${e.idEnsayo}, data-nombre-mostrar=${e.nombre}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(ensayos)}">
+                    <td colspan="9" class="text-center text-muted">No hay ensayos registrados.</td>
                 </tr>
             </tbody>
         </table>
-    </div>
 
+        <!-- Modal: nuevo ensayo -->
+        <div class="modal fade" id="modalNuevoEnsayo" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/ensayos/guardar}" th:object="${nuevoEnsayo}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo ensayo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha inicio</label>
+                                <input type="datetime-local" class="form-control" th:field="*{fechaInicio}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha fin</label>
+                                <input type="datetime-local" class="form-control" th:field="*{fechaFin}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control" rows="3" th:field="*{descripcion}"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dirección</label>
+                                <select class="form-select" th:field="*{idDireccion}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="d : ${direcciones}" th:value="${d.idDireccion}" th:text="${d.otrosDetalles}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" th:field="*{idBanda}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar ensayo (UNICO, compartido por todas las filas -- se llena con JS) -->
+        <div class="modal fade" id="modalEditarEnsayo" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/ensayos/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar ensayo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="idEnsayo">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha inicio</label>
+                                <input type="datetime-local" name="fechaInicio" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha fin</label>
+                                <input type="datetime-local" name="fechaFin" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea name="descripcion" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dirección</label>
+                                <select class="form-select" name="idDireccion">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="d : ${direcciones}" th:value="${d.idDireccion}" th:text="${d.otrosDetalles}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Banda</label>
+                                <select class="form-select" name="idBanda">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (UNICO, compartido -- se llena con JS) -->
+        <div class="modal fade" id="modalEliminarEnsayo" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar ensayo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar el ensayo <strong class="js-nombre-registro"></strong>? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/ensayos/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="idEnsayo">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>

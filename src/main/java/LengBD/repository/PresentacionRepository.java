@@ -49,7 +49,7 @@ public class PresentacionRepository {
 
         presentacionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_PRESENTACION_DELETE_SP");
+                .withProcedureName("FIDE_PRESENTACION_DELETE_LOGICO_SP");
 
         presentacionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -66,7 +66,6 @@ public class PresentacionRepository {
         params.put("P_FECHA", presentacion.getFecha());
         params.put("P_ID_LUGAR", presentacion.getIdLugar());
         params.put("P_ID_ESTADO", presentacion.getIdEstado());
-        presentacionUpdateCall.execute(params);
         presentacionInsertCall.execute(params);
     }
 

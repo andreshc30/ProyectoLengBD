@@ -39,6 +39,8 @@ public class AsistenciaEnsayoController {
     public String listado(Model model) {
         List<AsistenciaEnsayoListadoDTO> lista = asistenciaEnsayoService.readAllAsistenciaEnsayo();
         model.addAttribute("asistenciasEnsayo", lista);
+        model.addAttribute("nuevaAsistenciaEnsayo", new AsistenciaEnsayoListadoDTO());
+        cargarCombos(model);
         return "asistenciaEnsayo/listado";
     }
 

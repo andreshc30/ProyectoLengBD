@@ -34,7 +34,6 @@ public class BandaInstrumentoController {
     @Autowired
     private BandaService bandaService;
 
-    // TODO: no tengo InstrumentoService confirmado. Verificar nombre real del método readAllX.
     @Autowired
     private InstrumentoService instrumentoService;
 
@@ -45,6 +44,8 @@ public class BandaInstrumentoController {
     public String listado(Model model) {
         List<BandaInstrumentoListadoDTO> lista = bandaInstrumentoService.readAllBandaInstrumento();
         model.addAttribute("bandaInstrumentos", lista);
+        model.addAttribute("nuevoBandaInstrumento", new BandaInstrumentoListadoDTO());
+        cargarCombos(model);
         return "bandaInstrumento/listado";
     }
 
@@ -100,7 +101,6 @@ public class BandaInstrumentoController {
 
     private void cargarCombos(Model model) {
         model.addAttribute("bandas", bandaService.readAllBanda());
-        // TODO: confirmar método real de InstrumentoService
         model.addAttribute("instrumentos", instrumentoService.readAllInstrumento());
         model.addAttribute("estados", estadoService.readAllEstado());
     }

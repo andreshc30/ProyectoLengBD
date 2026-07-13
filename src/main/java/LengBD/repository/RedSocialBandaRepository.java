@@ -49,7 +49,7 @@ public class RedSocialBandaRepository {
 
         redSocialBandaDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_RED_SOCIAL_BANDA_DELETE_SP");
+                .withProcedureName("FIDE_RED_SOCIAL_BANDA_DELETE_LOGICO_SP");
 
         redSocialBandaReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -64,7 +64,6 @@ public class RedSocialBandaRepository {
         params.put("P_LINK_BANDA", redSocialBanda.getLinkBanda());
         params.put("P_ID_BANDA", redSocialBanda.getIdBanda());
         params.put("P_ID_ESTADO", redSocialBanda.getIdEstado());
-        redSocialBandaUpdateCall.execute(params);
         redSocialBandaInsertCall.execute(params);
     }
 

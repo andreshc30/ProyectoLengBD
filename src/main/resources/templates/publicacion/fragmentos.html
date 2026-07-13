@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionPublicaciones">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Publicaciones</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaPublicacion">
+                <i class="ti ti-plus"></i> Nueva publicación
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Título</th>
+                    <th>Detalle</th>
+                    <th>Red social</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${publicaciones}">
+                    <td th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${p.titulo}"></td>
+                    <td th:text="${p.detalle}"></td>
+                    <td th:text="${p.nombreRedSocial}"></td>
+                    <td th:text="${p.estado}"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${p.idPublicacion}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${p.idPublicacion}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(publicaciones)}">
+                    <td colspan="7" class="text-center text-muted">No hay publicaciones registradas.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal: nueva publicación -->
+        <div class="modal fade" id="modalNuevaPublicacion" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/publicacion/guardar}" th:object="${nuevaPublicacion}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nueva publicación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" class="form-control" th:field="*{fecha}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" th:field="*{titulo}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Detalle</label>
+                                <textarea class="form-control" rows="3" th:field="*{detalle}"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Red social</label>
+                                <select class="form-select" th:field="*{idRedSocial}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="r : ${redesSociales}" th:value="${r.idRedSocial}" th:text="${r.plataforma}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar publicación (uno por fila) -->
+        <div class="modal fade" th:each="p : ${publicaciones}" th:id="'modalEditar-' + ${p.idPublicacion}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/publicacion/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar publicación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="idPublicacion" th:value="${p.idPublicacion}">
+                            <div class="mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" name="fecha" class="form-control" th:value="${p.fecha}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input type="text" name="titulo" class="form-control" th:value="${p.titulo}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Detalle</label>
+                                <textarea name="detalle" class="form-control" rows="3" th:text="${p.detalle}"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Red social</label>
+                                <select class="form-select" name="idRedSocial">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="r : ${redesSociales}" th:value="${r.idRedSocial}" th:text="${r.plataforma}" th:selected="${r.idRedSocial == p.idRedSocial}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="">-- Seleccione --</option>
+                                    <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == p.idEstado}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (uno por fila) -->
+        <div class="modal fade" th:each="p : ${publicaciones}" th:id="'modalEliminar-' + ${p.idPublicacion}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar publicación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar <strong th:text="${p.titulo}"></strong>? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/publicacion/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="idPublicacion" th:value="${p.idPublicacion}">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

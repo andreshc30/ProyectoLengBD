@@ -35,6 +35,8 @@ public class PublicacionController {
     public String listado(Model model) {
         List<PublicacionListadoDTO> lista = publicacionService.readAllPublicacion();
         model.addAttribute("publicaciones", lista);
+        model.addAttribute("nuevaPublicacion", new PublicacionListadoDTO());
+        cargarCombos(model);
         return "publicacion/listado";
     }
 

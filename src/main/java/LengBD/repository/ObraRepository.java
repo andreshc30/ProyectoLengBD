@@ -49,7 +49,7 @@ public class ObraRepository {
 
         obraDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_OBRA_DELETE_SP");
+                .withProcedureName("FIDE_OBRA_DELETE_LOGICO_SP");
 
         obraReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -66,7 +66,6 @@ public class ObraRepository {
         params.put("P_ID_TIPO", obra.getIdTipo());
         params.put("P_ID_ESTADO", obra.getIdEstado());
         params.put("P_ID_BANDA", obra.getIdBanda());
-        obraUpdateCall.execute(params);
         obraInsertCall.execute(params);
     }
 

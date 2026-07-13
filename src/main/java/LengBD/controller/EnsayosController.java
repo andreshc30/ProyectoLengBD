@@ -39,6 +39,8 @@ public class EnsayosController {
     public String listado(Model model) {
         List<EnsayosListadoDTO> lista = ensayosService.readAllEnsayos();
         model.addAttribute("ensayos", lista);
+        model.addAttribute("nuevoEnsayo", new EnsayosListadoDTO());
+        cargarCombos(model);
         return "ensayos/listado";
     }
 

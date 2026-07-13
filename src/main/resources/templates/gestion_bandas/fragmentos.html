@@ -94,9 +94,10 @@
                                                         <div class="sidebar-heading text-white-50 px-3 mt-3 mb-2" style="font-size: 0.75rem; text-transform: uppercase;">
                                                             Módulos Administrativos
                                                         </div>
-
-                                                        <a class="nav-link py-2" th:href="@{/secciones/listadoDirector}"><i class="fas fa-fw fa-microphone"></i> <span>Audiciones</span></a>
-
+                                                        
+                                                        <li class="nav-item">
+                                                            <a class="nav-link py-2" th:href="@{/secciones/listadoDirector}"><i class="fas fa-fw fa-microphone"></i> <span>Director</span></a>
+                                                        </li>
 
                                                         <li class="nav-item">
                                                             <a class="nav-link py-2" th:href="@{/audiciones/listado}"><i class="fas fa-fw fa-microphone"></i> <span>Audiciones</span></a>
@@ -189,23 +190,6 @@
                                                                         <div class="sidebar-heading text-white-50 px-3 mt-3 mb-2" style="font-size: 0.75rem; text-transform: uppercase;">
                                                                             Módulos Administrativos
                                                                         </div>
-                                                                        
-                                                                        
-                                                                        
-                                                                        <!-- DIRECTOR -->
-                                                                        <li class="nav-item" th:classappend="${grupoActivo == 'usuarios'} ? 'active' : ''">
-                                                                            <a class="nav-link" th:classappend="${grupoActivo == 'usuarios'} ? '' : 'collapsed'"
-                                                                               href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsuarios"
-                                                                               th:attr="aria-expanded=${grupoActivo == 'usuarios'}" aria-controls="collapseUsuarios">
-                                                                                <i class="fas fa-fw fa-users"></i> <span>Director</span>
-                                                                            </a>
-                                                                            <div id="collapseUsuarios" class="collapse" th:classappend="${grupoActivo == 'usuarios'} ? 'show' : ''" data-bs-parent="#accordionSidebar">
-                                                                                <div class="collapse-inner">
-                                                                                    <a class="collapse-item" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>  
 
                                                                         <!-- Usuarios y accesos -->
                                                                         <li class="nav-item" th:classappend="${grupoActivo == 'usuarios'} ? 'active' : ''">
@@ -222,7 +206,8 @@
                                                                                     <a class="collapse-item" th:href="@{/solicitudIngreso/listado}">Solicitudes de ingreso</a>
                                                                                 </div>
                                                                             </div>
-                                                                        </li>  
+                                                                        </li>
+
                                                                         <!-- Banda y secciones -->
                                                                         <li class="nav-item" th:classappend="${grupoActivo == 'banda'} ? 'active' : ''">
                                                                             <a class="nav-link" th:classappend="${grupoActivo == 'banda'} ? '' : 'collapsed'"

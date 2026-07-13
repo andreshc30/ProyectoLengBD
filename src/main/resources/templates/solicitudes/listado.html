@@ -61,14 +61,10 @@
                                         <td th:text="${solicitud.fechaSolicitud}"></td>
                                         <td th:text="${solicitud.mensaje}"></td>
                                         <td class="text-center">
-                                            <a th:href="@{/solicitudes/editar/{id}(id=${solicitud.idSolicitud})}" class="btn btn-warning btn-sm" title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <form th:action="@{/solicitudes/eliminar}" method="post" class="d-inline">
-                                                <input type="hidden" name="idSolicitud" th:value="${solicitud.idSolicitud}">
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Eliminar" onclick="return confirm('¿Estás seguro de rechazar/eliminar esta solicitud?');">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                                            <a th:href="@{/solicitudIngreso/editar/{id}(id=${sol.idSolicitud})}" class="btn btn-info">Editar</a>
+                                            <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;">
+                                                <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>

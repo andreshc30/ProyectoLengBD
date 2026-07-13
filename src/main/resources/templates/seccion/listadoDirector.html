@@ -247,12 +247,14 @@
                                                     </a>
                                                 </div>
                                                 <div class="card-body">
+
+                                                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                                                    <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
+
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover">
+                                                        <table class="table table-bordered table-hover" id="tablaAsignaciones">
                                                             <thead class="table-light">
                                                                 <tr>
-                                                                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                                                                    <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
                                                                     <th>ID</th>
                                                                     <th>Integrante</th>
                                                                     <th>Instrumento</th>
@@ -262,7 +264,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr th:each="asig : ${asignaciones}">
+                                                                <tr th:each="asig : ${asignaciones}" class="fila-asignacion">
                                                                     <td th:text="${asig.idAsignacion}">1</td>
                                                                     <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
                                                                     <td th:text="${asig.nombreInstrumento}">Trompeta</td>
@@ -280,19 +282,72 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+
+                                                    <!-- Controles de paginación -->
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                        <span id="infoPagina" class="text-muted small"></span>
+                                                        <div>
+                                                            <button id="btnAnterior" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
+                                                            <span id="numPagina" class="mx-2"></span>
+                                                            <button id="btnSiguiente" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
+                                            
+
 
                                             <div class="card shadow mb-4 border-left-primary">
-                                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso</h6>
-                                                    <a th:href="@{/solicitudes/listado}" class="btn btn-sm btn-primary">
-                                                        <i class="fas fa-inbox me-1"></i> Ver solicitudes
-                                                    </a>
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso (Aspirantes)</h6>
                                                 </div>
                                                 <div class="card-body">
-                                                    <p class="mb-0 text-muted">Revisá y gestioná las solicitudes de aspirantes que quieren unirse a la banda.</p>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover" id="tablaSolicitudes">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>Candidato</th>
+                                                                    <th>Correo</th>
+                                                                    <th>Teléfono</th>
+                                                                    <th>Mensaje</th>
+                                                                    <th class="text-center">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
+                                                                    <td th:text="${sol.idSolicitud}">1</td>
+                                                                    <td th:text="${sol.nombre + ' ' + sol.apellidoPaterno + ' ' + (sol.apellidoMaterno != null ? sol.apellidoMaterno : '')}">Juan Pérez</td>
+                                                                    <td th:text="${sol.correo}">correo@x.com</td>
+                                                                    <td th:text="${sol.telefono}">8888-8888</td>
+                                                                    <td th:text="${sol.mensaje}">Mensaje...</td>
+                                                                    <td class="text-center">
+                                                                        <a th:href="@{/solicitudIngreso/editar/{id}(id=${sol.idSolicitud})}"
+                                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                                        <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
+                                                                              onsubmit="return confirm('¿Eliminar esta solicitud?');">
+                                                                            <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
+                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr th:if="${#lists.isEmpty(solicitudes)}">
+                                                                    <td colspan="6" class="text-center text-muted py-3">No hay solicitudes pendientes</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Paginación solicitudes -->
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                        <span id="infoPagina" class="text-muted small"></span>
+                                                        <div>
+                                                            <button id="btnAnterior" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
+                                                            <span id="numPagina" class="mx-2"></span>
+                                                            <button id="btnSiguiente" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -354,15 +409,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                                </section>
+                
+ 
+            </div>
+        </section>
 
-                                <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
 
-                                </body>
-                                </html>
 
-                                <!--<!DOCTYPE html>
+        
+    </body>
+</html>
+
+<!--<!DOCTYPE html>
                                 <html xmlns="http://www.w3.org/1999/xhtml"
                                       xmlns:th="http://www.thymeleaf.org"
                                       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">

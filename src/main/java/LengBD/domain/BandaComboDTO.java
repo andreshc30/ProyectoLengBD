@@ -8,4 +8,5 @@ public class BandaComboDTO {
     private String nombre;
     private String logoUrl;
     private Integer idEstado;
+    private String estado;
 }

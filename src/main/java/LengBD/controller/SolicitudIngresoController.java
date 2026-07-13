@@ -39,21 +39,21 @@ public class SolicitudIngresoController {
     public String listado(Model model) {
         List<SolicitudIngresoListadoDTO> lista = solicitudIngresoService.readAllSolicitudIngreso();
         model.addAttribute("solicitudes", lista);
-        return "solicitudIngreso/listado";
+        return "solicitudes/listado";      // ← su propia vista (del director), NO la cartelera
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("solicitudIngreso", new SolicitudIngresoListadoDTO());
         cargarCombos(model);
-        return "solicitudIngreso/formulario";
+        return "solicitudes/formulario";
     }
 
     @GetMapping("/editar/{idSolicitud}")
     public String editar(@PathVariable("idSolicitud") Integer id, Model model) {
         model.addAttribute("solicitudIngreso", solicitudIngresoService.buscarPorId(id));
         cargarCombos(model);
-        return "solicitudIngreso/formulario";
+        return "solicitudes/formulario";
     }
 
     @PostMapping("/guardar")
@@ -82,7 +82,7 @@ public class SolicitudIngresoController {
             ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "redirect:/solicitudIngreso/listado";
+        return "redirect:/audiciones/listado";
     }
 
     @PostMapping("/eliminar")

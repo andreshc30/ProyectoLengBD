@@ -2,10 +2,14 @@ package LengBD.controller;
 
 import LengBD.domain.Suscripcion;
 import LengBD.domain.SuscripcionListadoDTO;
+import LengBD.service.BandaService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
 import LengBD.service.SuscripcionService;
 import LengBD.service.PlanesService;
-import LengBD.service.BandaService;
-import LengBD.service.EstadoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,39 +17,37 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/suscripcion")
-public class SuscripcionController {
-
-
-
-
-    @Autowired
-    private SuscripcionService suscripcionService;
-
-    @Autowired
-    private PlanesService planesService;
-
-    @Autowired
-    private BandaService bandaService;
+public class SuscripcionCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private SuscripcionService suscripcionService;
+    
+    @Autowired
+    private BandaService bandaService;
+    
+    @Autowired
+    private PlanesService planesService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<SuscripcionListadoDTO> lista = suscripcionService.readAllSuscripcion();
         model.addAttribute("suscripciones", lista);
+        model.addAttribute("nuevaSuscripcion", new SuscripcionListadoDTO());
+        cargarCombos(model);
         return "suscripcion/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("suscripcion", new SuscripcionListadoDTO());
@@ -60,16 +62,6 @@ public class SuscripcionController {
         return "suscripcion/formulario";
     }
 
-    
-    @GetMapping("/formulario")
-    public String formulario(@RequestParam(name = "plan", required = false) String plan, Model model) {
-        String planSeleccionado = (plan != null) ? plan : "Ninguno seleccionado";
-
-        model.addAttribute("planSeleccionado", planSeleccionado);
-        model.addAttribute("suscripcion", new Suscripcion());
-        return "suscripcion/formulario";
-    }
-    
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute SuscripcionListadoDTO dto, RedirectAttributes ra) {
         try {
@@ -83,14 +75,13 @@ public class SuscripcionController {
             suscripcion.setIdBanda(dto.getIdBanda());
             suscripcion.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdSuscripcion() != null) {
+            if (dto.getIdSuscripcion()!= null) {
                 suscripcionService.actualizarSuscripcion(suscripcion);
             } else {
                 suscripcionService.insertarSuscripcion(suscripcion);
             }
-            ra.addFlashAttribute("todoOk", "Suscripción guardada correctamente");
+            ra.addFlashAttribute("todoOk", "Suscripcion guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/suscripcion/listado";
@@ -100,7 +91,7 @@ public class SuscripcionController {
     public String eliminar(@RequestParam("idSuscripcion") Integer idSuscripcion, RedirectAttributes ra) {
         try {
             suscripcionService.eliminarSuscripcion(idSuscripcion);
-            ra.addFlashAttribute("todoOk", "Suscripción eliminada correctamente");
+            ra.addFlashAttribute("todoOk", "Suscripcion eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

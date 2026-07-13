@@ -26,9 +26,10 @@ public class BandaSuscripcionListadoDTO implements Serializable {
     
     private Integer idSuscripcion;
     
-    private String suscripcionNombre;
-    private String estadoNombre;
-    private Integer estado; 
+    private String nombreSuscripcion;
+    private String nombreBanda;
+    private String estado;
+    private Integer idEstado; 
     
 
 }

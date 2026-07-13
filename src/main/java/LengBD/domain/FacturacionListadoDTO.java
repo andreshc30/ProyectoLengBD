@@ -30,7 +30,7 @@ public class FacturacionListadoDTO implements Serializable {
 
     private String detalle;
     private String nombreMetodoPago;
-    private String nombreCuota;
+    private Double montoPagado;
     private String nombreSuscripcion;
     private String estado;
 

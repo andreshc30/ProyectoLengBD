@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionFacturacion">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Facturacion</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaFacturacion">
+                    <i class="ti ti-plus"></i> Nueva Facturacion
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Fecha Emision</th>
+                        <th>Detalle</th>
+                        <th>Subtotal</th>
+                        <th>Impuestos</th>
+                        <th>Total</th>
+                        <th>Metodo Pago</th>
+                        <th>Monto Pagado</th>
+                        <th>Suscripcion</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="f : ${facturaciones}">
+                        <td th:text="${#temporals.format(f.fechaEmision, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${f.detalle}"></td>
+                        <td th:text="${f.subtotal}"></td>
+                        <td th:text="${f.impuestos}"></td>
+                        <td th:text="${f.total}"></td>
+                        <td th:text="${f.nombreMetodoPago}"></td>
+                        <td th:text="${f.montoPagado}"></td>
+                        <td th:text="${f.nombreSuscripcion}"></td>
+                        <td th:text="${f.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${f.idFactura}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${f.idFactura}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(facturaciones)}">
+                        <td colspan="10" class="text-center text-muted">No hay facturas registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevaFacturacion" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/facturacion/guardar}" th:object="${nuevaFacturacion}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nueva Facturacion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Emision</label>
+                                    <input type="date" class="form-control" th:field="*{fechaEmision}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Detalle</label>
+                                    <input type="text" class="form-control" th:field="*{detalle}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Subtotal</label>
+                                    <input type="number" step='0.01' class="form-control" th:field="*{subtotal}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Impuestos</label>
+                                    <input type="number" step='0.01' class="form-control" th:field="*{impuestos}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Total</label>
+                                    <input type="number" step='0.01' class="form-control" th:field="*{total}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Método de Pago</label>
+                                    <select class="form-select" th:field="*{idMetodoPago}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="m : ${metodosPagos}" th:value="${m.idMetodoPago}" th:text="${m.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Monto Pagado</label>
+                                    <input type="number" step='0.01' class="form-control" th:field="*{montoPagado}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripcion</label>
+                                    <select class="form-select" th:field="*{idSuscripcion}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar movimiento (uno por fila) -->
+            <div class="modal fade" th:each="f : ${facturaciones}" th:id="'modalEditar-' + ${f.idFactura}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/facturacion/guardar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Facturacion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idFactura" th:value="${f.idFactura}">
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Emision</label>
+                                    <input type="date" name="fechaEmision" class="form-control" th:value="${f.fechaEmision}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Detalle</label>
+                                    <input type="text" name="detalle" class="form-control" th:value="${f.detalle}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Subtotal</label>
+                                    <input type="number" step='0.01' name="subtotal" class="form-control" th:value="${f.subtotal}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Impuestos</label>
+                                    <input type="number" step='0.01' name="impuestos" class="form-control" th:value="${f.impuestos}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Total</label>
+                                    <input type="number" step='0.01' name="total" class="form-control" th:value="${f.total}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Metodo Pago</label>
+                                    <select class="form-select" name="idMetodoPago">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="m : ${metodosPagos}" th:value="${m.idMetodoPago}" th:text="${m.nombre}" th:selected="${m.idMetodoPago == f.idMetodoPago}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Monto Pagado</label>
+                                    <input type="number" step='0.01' name="montoPagado" class="form-control" th:value="${f.montoPagado}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripcion</label>
+                                    <select class="form-select" name="idSuscripcion">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre}" th:selected="${s.idSuscripcion == f.idSuscripcion}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == f.idEstado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="f : ${facturaciones}" th:id="'modalEliminar-' + ${f.idFactura}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Facturacion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar la facturacion? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/facturacion/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idFactura" th:value="${f.idFactura}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

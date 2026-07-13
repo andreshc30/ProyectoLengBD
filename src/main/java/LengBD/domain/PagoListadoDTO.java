@@ -33,13 +33,12 @@ public class PagoListadoDTO implements Serializable {
     
     private String nombreMetodoPago;
     private String nombreSuscripcion;
-    private String nombreCuota;
-    private String nombreFactura;
+    private Double montoPagado;
+    private Double total;
     private String estado;
     
     private Integer idMetodoPago;
     private Integer idFacturacion;
-    
     private Integer idSuscripcion;
     
     private Integer idCuota;

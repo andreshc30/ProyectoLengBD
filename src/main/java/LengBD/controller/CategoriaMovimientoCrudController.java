@@ -3,6 +3,9 @@ package LengBD.controller;
 import LengBD.domain.CategoriaMovimiento;
 import LengBD.domain.CategoriaMovimientoListadoDTO;
 import LengBD.service.CategoriaMovimientoService;
+import LengBD.service.DireccionService;
+import LengBD.service.CorreoService;
+import LengBD.service.TelefonoService;
 import LengBD.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+
 @Controller
 @RequestMapping("/categoriaMovimiento")
-public class CategoriaMovimientoController {
+public class CategoriaMovimientoCrudController {
 
     @Autowired
     private CategoriaMovimientoService categoriaMovimientoService;
@@ -30,7 +34,9 @@ public class CategoriaMovimientoController {
     @GetMapping("/listado")
     public String listado(Model model) {
         List<CategoriaMovimientoListadoDTO> lista = categoriaMovimientoService.readAllCategoriaMovimiento();
-        model.addAttribute("categoriasMovimiento", lista);
+        model.addAttribute("categoriasMovimientos", lista);
+        model.addAttribute("nuevaCategoriaMovimiento", new CategoriaMovimientoListadoDTO());
+        cargarCombos(model);
         return "categoriaMovimiento/listado";
     }
 
@@ -62,7 +68,7 @@ public class CategoriaMovimientoController {
             } else {
                 categoriaMovimientoService.insertarCategoriaMovimiento(categoriaMovimiento);
             }
-            ra.addFlashAttribute("todoOk", "Categoría de movimiento guardada correctamente");
+            ra.addFlashAttribute("todoOk", "Categoria Movimiento guardada correctamente");
         } catch (Exception ex) {
             ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
@@ -74,7 +80,7 @@ public class CategoriaMovimientoController {
     public String eliminar(@RequestParam("idCategoriaMovimiento") Integer idCategoriaMovimiento, RedirectAttributes ra) {
         try {
             categoriaMovimientoService.eliminarCategoriaMovimiento(idCategoriaMovimiento);
-            ra.addFlashAttribute("todoOk", "Categoría de movimiento eliminada correctamente");
+            ra.addFlashAttribute("todoOk", "Categoria Movimiento eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

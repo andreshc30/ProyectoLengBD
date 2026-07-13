@@ -2,11 +2,11 @@ package LengBD.controller;
 
 import LengBD.domain.Facturacion;
 import LengBD.domain.FacturacionListadoDTO;
-import LengBD.service.FacturacionService;
-import LengBD.service.MetodoPagoService;
 import LengBD.service.CuotaService;
-import LengBD.service.SuscripcionService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.FacturacionService;
+import LengBD.service.SuscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,30 +22,30 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/facturacion")
-public class FacturacionController {
-
-    @Autowired
-    private FacturacionService facturacionService;
-
-    @Autowired
-    private MetodoPagoService metodoPagoService;
-
-    @Autowired
-    private CuotaService cuotaService;
-
-    @Autowired
-    private SuscripcionService suscripcionService;
+public class FacturacionCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private FacturacionService facturacionService;
+    
+    @Autowired
+    private MetodoPagoService metodoPagoService;
+    
+    
+    @Autowired
+    private SuscripcionService suscripcionService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<FacturacionListadoDTO> lista = facturacionService.readAllFacturacion();
         model.addAttribute("facturaciones", lista);
+        model.addAttribute("nuevaFacturacion", new FacturacionListadoDTO());
+        cargarCombos(model);
         return "facturacion/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("facturacion", new FacturacionListadoDTO());
@@ -75,14 +75,13 @@ public class FacturacionController {
             facturacion.setIdSuscripcion(dto.getIdSuscripcion());
             facturacion.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdFactura() != null) {
+            if (dto.getIdFactura()!= null) {
                 facturacionService.actualizarFacturacion(facturacion);
             } else {
                 facturacionService.insertarFacturacion(facturacion);
             }
-            ra.addFlashAttribute("todoOk", "Facturación guardada correctamente");
+            ra.addFlashAttribute("todoOk", "Factura guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/facturacion/listado";
@@ -92,7 +91,7 @@ public class FacturacionController {
     public String eliminar(@RequestParam("idFactura") Integer idFactura, RedirectAttributes ra) {
         try {
             facturacionService.eliminarFacturacion(idFactura);
-            ra.addFlashAttribute("todoOk", "Facturación eliminada correctamente");
+            ra.addFlashAttribute("todoOk", "Factura eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
@@ -100,8 +99,7 @@ public class FacturacionController {
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("metodosPago", metodoPagoService.readAllMetodoPago());
-        model.addAttribute("cuotas", cuotaService.readAllCuota());
+        model.addAttribute("metodosPagos", metodoPagoService.readAllMetodoPago());
         model.addAttribute("suscripciones", suscripcionService.readAllSuscripcion());
         model.addAttribute("estados", estadoService.readAllEstado());
     }

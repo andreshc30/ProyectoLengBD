@@ -31,23 +31,23 @@ public class Pago implements Serializable {
     @Column(name="ID_PAGO")
     private Integer idPago;
     
-    @Column(name="MONTO")
-    private Double monto;
-    
-    @Column(name="FECHA_PAGO")
-    private LocalDate fechaPago;
+    @Column(name="ID_FACTURACION")
+    private Integer idFacturacion;
     
     @Column(name="ID_METODO_PAGO")
     private Integer idMetodoPago;
-    
-    @Column(name="ID_FACTURACION")
-    private Integer idFacturacion;
     
     @Column(name="ID_SUSCRIPCION")
     private Integer idSuscripcion;
     
     @Column(name="ID_CUOTA")
     private Integer idCuota;
+    
+    @Column(name="FECHA_PAGO")
+    private LocalDate fechaPago;
+    
+    @Column(name="MONTO")
+    private Double monto;
     
     @Column(name="ID_ESTADO")
     private Integer idEstado;

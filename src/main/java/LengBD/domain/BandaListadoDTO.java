@@ -32,7 +32,7 @@ public class BandaListadoDTO implements Serializable {
     
     
     private Integer idTelefono; 
-    private String telefono;  // CORREGIDO: era Integer, FIDE_TELEFONO_TB.TELEFONO es VARCHAR2
+    private String telefono;  
     
     
     private Integer idEstado; 

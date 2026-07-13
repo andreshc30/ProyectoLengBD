@@ -4,6 +4,10 @@ import LengBD.domain.MetodoPago;
 import LengBD.domain.MetodoPagoListadoDTO;
 import LengBD.service.MetodoPagoService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/metodoPago")
-public class MetodoPagoController {
-
-    @Autowired
-    private MetodoPagoService metodoPagoService;
+public class MetodoPagoCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private MetodoPagoService metodoPagoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<MetodoPagoListadoDTO> lista = metodoPagoService.readAllMetodoPago();
-        model.addAttribute("metodosPago", lista);
+        model.addAttribute("metodosPagos", lista);
+        model.addAttribute("nuevoMetodoPago", new MetodoPagoListadoDTO());
+        cargarCombos(model);
         return "metodoPago/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("metodoPago", new MetodoPagoListadoDTO());
@@ -56,14 +62,13 @@ public class MetodoPagoController {
             metodoPago.setNombre(dto.getNombre());
             metodoPago.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdMetodoPago() != null) {
+            if (dto.getIdMetodoPago()!= null) {
                 metodoPagoService.actualizarMetodoPago(metodoPago);
             } else {
                 metodoPagoService.insertarMetodoPago(metodoPago);
             }
-            ra.addFlashAttribute("todoOk", "Método de pago guardado correctamente");
+            ra.addFlashAttribute("todoOk", "MetodoPago guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/metodoPago/listado";
@@ -73,7 +78,7 @@ public class MetodoPagoController {
     public String eliminar(@RequestParam("idMetodoPago") Integer idMetodoPago, RedirectAttributes ra) {
         try {
             metodoPagoService.eliminarMetodoPago(idMetodoPago);
-            ra.addFlashAttribute("todoOk", "Método de pago eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "MetodoPago eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

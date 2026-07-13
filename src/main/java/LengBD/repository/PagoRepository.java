@@ -49,25 +49,24 @@ public class PagoRepository {
 
         pagoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_PAGO_DELETE_SP");
+                .withProcedureName("FIDE_PAGO_DELETE_LOGICO_SP");
 
         pagoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_PAGO_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(PagoListadoDTO.class));;
+                BeanPropertyRowMapper.newInstance(PagoListadoDTO.class));
     }
 
     public void insertarPago(Pago pago) {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_FACTURACION", pago.getIdFacturacion());
         params.put("P_ID_METODO_PAGO", pago.getIdMetodoPago());
-        params.put("P_ID_ESTADO", pago.getIdEstado());
         params.put("P_ID_SUSCRIPCION", pago.getIdSuscripcion());
         params.put("P_ID_CUOTA", pago.getIdCuota());
         params.put("P_FECHA_PAGO", pago.getFechaPago());
         params.put("P_MONTO", pago.getMonto());
-        pagoUpdateCall.execute(params);
+        params.put("P_ID_ESTADO", pago.getIdEstado());
         pagoInsertCall.execute(params);
     }
 
@@ -76,11 +75,11 @@ public class PagoRepository {
         params.put("P_ID_PAGO", pago.getIdPago());
         params.put("P_ID_FACTURACION", pago.getIdFacturacion());
         params.put("P_ID_METODO_PAGO", pago.getIdMetodoPago());
-        params.put("P_ID_ESTADO", pago.getIdEstado());
         params.put("P_ID_SUSCRIPCION", pago.getIdSuscripcion());
         params.put("P_ID_CUOTA", pago.getIdCuota());
         params.put("P_FECHA_PAGO", pago.getFechaPago());
         params.put("P_MONTO", pago.getMonto());
+        params.put("P_ID_ESTADO", pago.getIdEstado());
         pagoUpdateCall.execute(params);
     }
 

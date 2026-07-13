@@ -49,7 +49,7 @@ public class PlanesRepository {
 
         planesDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_PLANES_DELETE_SP");
+                .withProcedureName("FIDE_PLANES_DELETE_LOGICO_SP");
 
         planesReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -65,7 +65,6 @@ public class PlanesRepository {
         params.put("P_DESCRIPCION", planes.getDescripcion());
         params.put("P_PERIODICIDAD", planes.getPeriodicidad());
         params.put("P_ID_ESTADO", planes.getIdEstado());
-        planesUpdateCall.execute(params);
         planesInsertCall.execute(params);
     }
 

@@ -66,9 +66,9 @@ public class FacturacionRepository {
         params.put("P_IMPUESTOS", facturacion.getImpuestos());
         params.put("P_TOTAL", facturacion.getTotal());
         params.put("P_ID_METODO_PAGO", facturacion.getIdMetodoPago());
-        params.put("P_ID_ESTADO", facturacion.getIdEstado());
         params.put("P_ID_CUOTA", facturacion.getIdCuota());
         params.put("P_ID_SUSCRIPCION", facturacion.getIdSuscripcion());
+        params.put("P_ID_ESTADO", facturacion.getIdEstado());
         facturacionInsertCall.execute(params);
     }
 
@@ -81,9 +81,9 @@ public class FacturacionRepository {
         params.put("P_IMPUESTOS", facturacion.getImpuestos());
         params.put("P_TOTAL", facturacion.getTotal());
         params.put("P_ID_METODO_PAGO", facturacion.getIdMetodoPago());
-        params.put("P_ID_ESTADO", facturacion.getIdEstado());
         params.put("P_ID_CUOTA", facturacion.getIdCuota());
         params.put("P_ID_SUSCRIPCION", facturacion.getIdSuscripcion());
+        params.put("P_ID_ESTADO", facturacion.getIdEstado());
         facturacionUpdateCall.execute(params);
     }
 

@@ -49,7 +49,7 @@ public class SuscripcionRepository {
 
         suscripcionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_SUSCRIPCION_DELETE_SP");
+                .withProcedureName("FIDE_SUSCRIPCION_DELETE_LOGICO_SP");
 
         suscripcionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -63,11 +63,10 @@ public class SuscripcionRepository {
         params.put("P_NOMBRE", suscripcion.getNombre());
         params.put("P_FECHA_INICIO", suscripcion.getFechaInicio());
         params.put("P_FECHA_FINAL", suscripcion.getFechaFinal());
-        params.put("P_ID_ESTADO", suscripcion.getIdEstado());
         params.put("P_AUTO_RENOVAR", suscripcion.getAutoRenovar());
         params.put("P_ID_TIPO_PLAN", suscripcion.getIdTipoPlan());
         params.put("P_ID_BANDA", suscripcion.getIdBanda());
-        suscripcionUpdateCall.execute(params);
+        params.put("P_ID_ESTADO", suscripcion.getIdEstado());
         suscripcionInsertCall.execute(params);
     }
 
@@ -77,10 +76,10 @@ public class SuscripcionRepository {
         params.put("P_NOMBRE", suscripcion.getNombre());
         params.put("P_FECHA_INICIO", suscripcion.getFechaInicio());
         params.put("P_FECHA_FINAL", suscripcion.getFechaFinal());
-        params.put("P_ID_ESTADO", suscripcion.getIdEstado());
         params.put("P_AUTO_RENOVAR", suscripcion.getAutoRenovar());
         params.put("P_ID_TIPO_PLAN", suscripcion.getIdTipoPlan());
         params.put("P_ID_BANDA", suscripcion.getIdBanda());
+        params.put("P_ID_ESTADO", suscripcion.getIdEstado());
         suscripcionUpdateCall.execute(params);
     }
 

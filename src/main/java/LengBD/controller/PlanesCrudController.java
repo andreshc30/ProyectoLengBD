@@ -4,6 +4,10 @@ import LengBD.domain.Planes;
 import LengBD.domain.PlanesListadoDTO;
 import LengBD.service.PlanesService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.PlanesService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,58 +22,59 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/planes")
-public class PlanesController {
-
-    @Autowired
-    private PlanesService planesService;
+@RequestMapping("/plan")
+public class PlanesCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private PlanesService planesService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<PlanesListadoDTO> lista = planesService.readAllPlanes();
         model.addAttribute("planes", lista);
-        return "planes/listado";
+        model.addAttribute("nuevoPlan", new PlanesListadoDTO());
+        cargarCombos(model);
+        return "plan/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
-        model.addAttribute("planes", new PlanesListadoDTO());
+        model.addAttribute("plan", new PlanesListadoDTO());
         cargarCombos(model);
-        return "planes/formulario";
+        return "plan/formulario";
     }
 
     @GetMapping("/editar/{idTipoPlan}")
     public String editar(@PathVariable("idTipoPlan") Integer id, Model model) {
-        model.addAttribute("planes", planesService.buscarPorId(id));
+        model.addAttribute("plan", planesService.buscarPorId(id));
         cargarCombos(model);
-        return "planes/formulario";
+        return "plan/formulario";
     }
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute PlanesListadoDTO dto, RedirectAttributes ra) {
         try {
-            Planes planes = new Planes();
-            planes.setIdTipoPlan(dto.getIdTipoPlan());
-            planes.setNombre(dto.getNombre());
-            planes.setPrecio(dto.getPrecio());
-            planes.setDescripcion(dto.getDescripcion());
-            planes.setPeriodicidad(dto.getPeriodicidad());
-            planes.setIdEstado(dto.getIdEstado());
+            Planes plan = new Planes();
+            plan.setIdTipoPlan(dto.getIdTipoPlan());
+            plan.setNombre(dto.getNombre());
+            plan.setPrecio(dto.getPrecio());
+            plan.setDescripcion(dto.getDescripcion());
+            plan.setPeriodicidad(dto.getPeriodicidad());
+            plan.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdTipoPlan() != null) {
-                planesService.actualizarPlanes(planes);
+            if (dto.getIdTipoPlan()!= null) {
+                planesService.actualizarPlanes(plan);
             } else {
-                planesService.insertarPlanes(planes);
+                planesService.insertarPlanes(plan);
             }
             ra.addFlashAttribute("todoOk", "Plan guardado correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "redirect:/planes/listado";
+        return "redirect:/plan/listado";
     }
 
     @PostMapping("/eliminar")
@@ -80,7 +85,7 @@ public class PlanesController {
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/planes/listado";
+        return "redirect:/plan/listado";
     }
 
     private void cargarCombos(Model model) {

@@ -33,11 +33,11 @@ public class PagoSuscripcion implements Serializable {
     @Column(name="DESCRIPCION", length=300)
     private String descripcion;
     
-    @Column(name="MONTO", precision=12, scale=2)
-    private BigDecimal monto;
-    
     @Column(name="FECHA_PAGO")
     private LocalDate fechaPago;
+    
+    @Column(name="MONTO", precision=12, scale=2)
+    private BigDecimal monto;
     
     @Column(name="ID_METODO_PAGO")
     private Integer idMetodoPago; 

@@ -2,11 +2,11 @@ package LengBD.controller;
 
 import LengBD.domain.PagoSuscripcion;
 import LengBD.domain.PagoSuscripcionListadoDTO;
-import LengBD.service.PagoSuscripcionService;
+import LengBD.service.EstadoService;
 import LengBD.service.MetodoPagoService;
+import LengBD.service.PagoSuscripcionService;
 import LengBD.service.PlanesService;
 import LengBD.service.SuscripcionService;
-import LengBD.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,30 +22,32 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/pagoSuscripcion")
-public class PagoSuscripcionController {
-
-    @Autowired
-    private PagoSuscripcionService pagoSuscripcionService;
-
-    @Autowired
-    private MetodoPagoService metodoPagoService;
-
-    @Autowired
-    private PlanesService planesService;
-
-    @Autowired
-    private SuscripcionService suscripcionService;
+public class PagoSuscripcionCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private PagoSuscripcionService pagoSuscripcionService;
+    
+    @Autowired
+    private MetodoPagoService metodoPagoService;
+    
+    @Autowired
+    private PlanesService planesService;
+    
+    @Autowired
+    private SuscripcionService suscripcionService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<PagoSuscripcionListadoDTO> lista = pagoSuscripcionService.readAllPagoSuscripcion();
-        model.addAttribute("pagosSuscripcion", lista);
+        model.addAttribute("pagosSuscripciones", lista);
+        model.addAttribute("nuevoPagoSuscripcion", new PagoSuscripcionListadoDTO());
+        cargarCombos(model);
         return "pagoSuscripcion/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("pagoSuscripcion", new PagoSuscripcionListadoDTO());
@@ -67,7 +69,6 @@ public class PagoSuscripcionController {
             pagoSuscripcion.setIdPagoSuscripcion(dto.getIdPagoSuscripcion());
             pagoSuscripcion.setNombre(dto.getNombre());
             pagoSuscripcion.setDescripcion(dto.getDescripcion());
-            pagoSuscripcion.setMonto(dto.getMonto());
             pagoSuscripcion.setFechaPago(dto.getFechaPago());
             pagoSuscripcion.setIdMetodoPago(dto.getIdMetodoPago());
             pagoSuscripcion.setIdTipoPlan(dto.getIdTipoPlan());
@@ -79,9 +80,8 @@ public class PagoSuscripcionController {
             } else {
                 pagoSuscripcionService.insertarPagoSuscripcion(pagoSuscripcion);
             }
-            ra.addFlashAttribute("todoOk", "Pago de suscripción guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Pago Suscripcion guardado correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/pagoSuscripcion/listado";
@@ -91,7 +91,7 @@ public class PagoSuscripcionController {
     public String eliminar(@RequestParam("idPagoSuscripcion") Integer idPagoSuscripcion, RedirectAttributes ra) {
         try {
             pagoSuscripcionService.eliminarPagoSuscripcion(idPagoSuscripcion);
-            ra.addFlashAttribute("todoOk", "Pago de suscripción eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Pago Suscripcion eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
@@ -99,7 +99,7 @@ public class PagoSuscripcionController {
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("metodosPago", metodoPagoService.readAllMetodoPago());
+        model.addAttribute("metodosPagos", metodoPagoService.readAllMetodoPago());
         model.addAttribute("planes", planesService.readAllPlanes());
         model.addAttribute("suscripciones", suscripcionService.readAllSuscripcion());
         model.addAttribute("estados", estadoService.readAllEstado());

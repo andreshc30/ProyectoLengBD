@@ -63,12 +63,11 @@ public class PagoSuscripcionRepository {
         params.put("P_NOMBRE", pagoSuscripcion.getNombre());
         params.put("P_DESCRIPCION", pagoSuscripcion.getDescripcion());
         params.put("P_FECHA_PAGO", pagoSuscripcion.getFechaPago());
-        params.put("P_ID_ESTADO", pagoSuscripcion.getIdEstado());
+        params.put("P_MONTO", pagoSuscripcion.getMonto());
         params.put("P_ID_METODO_PAGO", pagoSuscripcion.getIdMetodoPago());
         params.put("P_ID_TIPO_PLAN", pagoSuscripcion.getIdPagoSuscripcion());
         params.put("P_ID_SUSCRIPCION", pagoSuscripcion.getIdMetodoPago());
-        params.put("P_MONTO", pagoSuscripcion.getMonto());
-        pagoSuscripcionUpdateCall.execute(params);
+        params.put("P_ID_ESTADO", pagoSuscripcion.getIdEstado());
         pagoSuscripcionInsertCall.execute(params);
     }
 
@@ -78,11 +77,11 @@ public class PagoSuscripcionRepository {
         params.put("P_NOMBRE", pagoSuscripcion.getNombre());
         params.put("P_DESCRIPCION", pagoSuscripcion.getDescripcion());
         params.put("P_FECHA_PAGO", pagoSuscripcion.getFechaPago());
-        params.put("P_ID_ESTADO", pagoSuscripcion.getIdEstado());
+        params.put("P_MONTO", pagoSuscripcion.getMonto());
         params.put("P_ID_METODO_PAGO", pagoSuscripcion.getIdMetodoPago());
         params.put("P_ID_TIPO_PLAN", pagoSuscripcion.getIdPagoSuscripcion());
         params.put("P_ID_SUSCRIPCION", pagoSuscripcion.getIdMetodoPago());
-        params.put("P_MONTO", pagoSuscripcion.getMonto());
+        params.put("P_ID_ESTADO", pagoSuscripcion.getIdEstado());
         pagoSuscripcionUpdateCall.execute(params);
     }
 

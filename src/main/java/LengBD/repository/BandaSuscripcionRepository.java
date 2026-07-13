@@ -49,7 +49,7 @@ public class BandaSuscripcionRepository {
 
         bandaSuscripcionDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_BANDA_SUSCRIPCION_DELETE_SP");
+                .withProcedureName("FIDE_BANDA_SUSCRIPCION_DELETE_LOGICO_SP");
 
         bandaSuscripcionReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -63,7 +63,6 @@ public class BandaSuscripcionRepository {
         params.put("P_ID_BANDA", bandaSuscripcion.getIdBanda());
         params.put("P_ID_SUSCRIPCION", bandaSuscripcion.getIdSuscripcion());
         params.put("P_ID_ESTADO", bandaSuscripcion.getIdEstado());
-        bandaSuscripcionUpdateCall.execute(params);
         bandaSuscripcionInsertCall.execute(params);
     }
 

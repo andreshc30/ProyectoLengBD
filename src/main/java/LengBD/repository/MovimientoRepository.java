@@ -49,13 +49,13 @@ public class MovimientoRepository {
 
         movimientoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_MOVIMIENTO_DELETE_SP");
+                .withProcedureName("FIDE_MOVIMIENTO_DELETE_LOGICO_SP");
 
         movimientoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_MOVIMIENTO_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(MovimientoListadoDTO.class));;
+                        BeanPropertyRowMapper.newInstance(MovimientoListadoDTO.class));;
     }
 
     public void insertarMovimiento(Movimiento movimiento) {
@@ -64,10 +64,9 @@ public class MovimientoRepository {
         params.put("P_FECHA", movimiento.getFecha());
         params.put("P_DETALLE", movimiento.getDetalle());
         params.put("P_ID_CATEGORIA_MOVIMIENTO", movimiento.getIdCategoriaMovimiento());
-        params.put("P_ID_ESTADO", movimiento.getIdEstado());
         params.put("P_ID_METODO_PAGO", movimiento.getIdMetodoPago());
         params.put("P_ID_BANDA", movimiento.getIdBanda());
-        movimientoUpdateCall.execute(params);
+        params.put("P_ID_ESTADO", movimiento.getIdEstado());
         movimientoInsertCall.execute(params);
     }
 
@@ -78,9 +77,9 @@ public class MovimientoRepository {
         params.put("P_FECHA", movimiento.getFecha());
         params.put("P_DETALLE", movimiento.getDetalle());
         params.put("P_ID_CATEGORIA_MOVIMIENTO", movimiento.getIdCategoriaMovimiento());
-        params.put("P_ID_ESTADO", movimiento.getIdEstado());
         params.put("P_ID_METODO_PAGO", movimiento.getIdMetodoPago());
         params.put("P_ID_BANDA", movimiento.getIdBanda());
+        params.put("P_ID_ESTADO", movimiento.getIdEstado());
         movimientoUpdateCall.execute(params);
     }
 

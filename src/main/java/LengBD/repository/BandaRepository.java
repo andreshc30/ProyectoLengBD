@@ -37,7 +37,6 @@ public class BandaRepository {
         bandaDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_BANDA_DELETE_LOGICO_SP");
-        // CORREGIDO: el parámetro real del SP se llama P_CURSOR, no P_REGISTRO
         bandaReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_BANDA_SP")

@@ -49,7 +49,7 @@ public class CuotaRepository {
 
         cuotaDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_CUOTA_DELETE_SP");
+                .withProcedureName("FIDE_CUOTA_DELETE_LOGICO_SP");
 
         cuotaReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -64,7 +64,6 @@ public class CuotaRepository {
         params.put("P_FECHA", cuota.getFecha());
         params.put("P_MONTO_PAGADO", cuota.getMontoPagado());
         params.put("P_ID_ESTADO", cuota.getIdEstado());
-        cuotaUpdateCall.execute(params);
         cuotaInsertCall.execute(params);
     }
 

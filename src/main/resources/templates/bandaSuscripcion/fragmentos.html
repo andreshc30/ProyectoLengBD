@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionBandaSuscripcion">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Banda - Suscripcion</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaBandaSuscripcion">
+                    <i class="ti ti-plus"></i> Nueva Banda-Suscripcion
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Banda</th>
+                        <th>Suscripcion</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bandasSuscripciones}">
+                        <td th:text="${b.nombreBanda}"></td>
+                        <td th:text="${b.nombreSuscripcion}"></td>
+                        <td th:text="${b.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${b.idBanda} + '-' + ${b.idSuscripcion}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${b.idBanda} + '-' + ${b.idSuscripcion}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(bandasSuscripciones)}">
+                        <td colspan="4" class="text-center text-muted">No hay suscripciones de bandas registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevaBandaSuscripcion" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/bandaSuscripcion/nuevo}" th:object="${nuevaBandaSuscripcion}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nueva Banda-Suscripcion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Banda</label>
+                                    <select class="form-select" th:field="*{idBanda}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="ba : ${bandas}" th:value="${ba.idBanda}" th:text="${ba.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripcion</label>
+                                    <select class="form-select" th:field="*{idSuscripcion}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar movimiento (uno por fila) -->
+            <div class="modal fade" th:each="b : ${bandasSuscripciones}" th:id="'modalEditar-' + ${b.idBanda} + '-' + ${b.idSuscripcion}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/bandaSuscripcion/editar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Banda-Suscripcion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idBanda" th:value="${b.idBanda}">
+                                <input type="hidden" name="idSuscripcion" th:value="${b.idSuscripcion}">
+                                <div class="mb-3">
+                                    <label class="form-label">Banda</label>
+                                    <select class="form-select" name="idBanda">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="ba : ${bandas}" th:value="${ba.idBanda}" th:text="${ba.nombre} " th:selected="${b.idBanda == ba.idBanda}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripcion</label>
+                                    <select class="form-select" name="idSuscripcion">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre} " th:selected="${b.idSuscripcion == s.idSuscripcion}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == b.idEstado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="b : ${bandasSuscripciones}" th:id="'modalEliminar-' + ${b.idBanda} + '-' + ${b.idSuscripcion}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Banda-Suscripcion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar la suscripción de la banda? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/bandaSuscripcion/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idBanda" th:value="${b.idBanda}">
+                                <input type="hidden" name="idSuscripcion" th:value="${b.idSuscripcion}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

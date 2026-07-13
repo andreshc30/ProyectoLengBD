@@ -2,12 +2,10 @@ package LengBD.controller;
 
 import LengBD.domain.Pago;
 import LengBD.domain.PagoListadoDTO;
-import LengBD.service.PagoService;
-import LengBD.service.MetodoPagoService;
-import LengBD.service.FacturacionService;
-import LengBD.service.SuscripcionService;
-import LengBD.service.CuotaService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.PagoService;
+import LengBD.service.SuscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,22 +21,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/pago")
-public class PagoController {
+public class PagoCrudController {
 
     @Autowired
     private PagoService pagoService;
-
+    
     @Autowired
     private MetodoPagoService metodoPagoService;
 
     @Autowired
-    private FacturacionService facturacionService;
-
-    @Autowired
     private SuscripcionService suscripcionService;
-
-    @Autowired
-    private CuotaService cuotaService;
 
     @Autowired
     private EstadoService estadoService;
@@ -47,21 +39,23 @@ public class PagoController {
     public String listado(Model model) {
         List<PagoListadoDTO> lista = pagoService.readAllPago();
         model.addAttribute("pagos", lista);
-        return "pagos/prueba";
+        model.addAttribute("nuevoPago", new PagoListadoDTO());
+        cargarCombos(model);
+        return "pago/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("pago", new PagoListadoDTO());
         cargarCombos(model);
-        return "pagos/formularioPagos";
+        return "pago/formulario";
     }
 
     @GetMapping("/editar/{idPago}")
     public String editar(@PathVariable("idPago") Integer id, Model model) {
         model.addAttribute("pago", pagoService.buscarPorId(id));
         cargarCombos(model);
-        return "pagos/formularioPagos";
+        return "pago/formulario";
     }
 
     @PostMapping("/guardar")
@@ -69,12 +63,12 @@ public class PagoController {
         try {
             Pago pago = new Pago();
             pago.setIdPago(dto.getIdPago());
-            pago.setMonto(dto.getMonto());
-            pago.setFechaPago(dto.getFechaPago());
             pago.setIdMetodoPago(dto.getIdMetodoPago());
             pago.setIdFacturacion(dto.getIdFacturacion());
             pago.setIdSuscripcion(dto.getIdSuscripcion());
             pago.setIdCuota(dto.getIdCuota());
+            pago.setFechaPago(dto.getFechaPago());
+            pago.setMonto(dto.getMonto());
             pago.setIdEstado(dto.getIdEstado());
 
             if (dto.getIdPago() != null) {
@@ -82,30 +76,27 @@ public class PagoController {
             } else {
                 pagoService.insertarPago(pago);
             }
-            ra.addFlashAttribute("todoOk", "Pago guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Pago guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "pagos/formulario";
+        return "redirect:/pago/listado";
     }
 
     @PostMapping("/eliminar")
     public String eliminar(@RequestParam("idPago") Integer idPago, RedirectAttributes ra) {
         try {
             pagoService.eliminarPago(idPago);
-            ra.addFlashAttribute("todoOk", "Pago eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Pago eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/pagos/listado";
+        return "redirect:/pago/listado";
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("metodosPago", metodoPagoService.readAllMetodoPago());
-        model.addAttribute("facturaciones", facturacionService.readAllFacturacion());
+        model.addAttribute("metodosPagos", metodoPagoService.readAllMetodoPago());
         model.addAttribute("suscripciones", suscripcionService.readAllSuscripcion());
-        model.addAttribute("cuotas", cuotaService.readAllCuota());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
 }

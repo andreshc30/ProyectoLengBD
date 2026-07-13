@@ -25,7 +25,7 @@ public class SuscripcionListadoDTO implements Serializable {
     
     private String nombre;
     private String nombreTipoPlan;
-    private String nombrebanda;
+    private String nombreBanda;
     private String estado;
     
     private LocalDate fechaInicio;

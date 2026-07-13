@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionSuscripcion">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Suscripcion</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaSuscripcion">
+                    <i class="ti ti-plus"></i> Nueva Suscripcion
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Final</th>
+                        <th>Auto Renovar</th>
+                        <th>Tipo Plan</th>
+                        <th>Banda</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${suscripciones}">
+                        <td th:text="${s.nombre}"></td>
+                        <td th:text="${#temporals.format(s.fechaInicio, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(s.fechaFinal, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${s.autoRenovar}"></td>
+                        <td th:text="${s.nombreTipoPlan}"></td>
+                        <td th:text="${s.nombreBanda}"></td>
+                        <td th:text="${s.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${s.idSuscripcion}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${s.idSuscripcion}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(suscripciones)}">
+                        <td colspan="8" class="text-center text-muted">No hay suscripciones registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevaSuscripcion" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/suscripcion/guardar}" th:object="${nuevaSuscripcion}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nueva Suscripcion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" th:field="*{nombre}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Inicio</label>
+                                    <input type="date" class="form-control" th:field="*{fechaInicio}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Final</label>
+                                    <input type="date" class="form-control" th:field="*{fechaFinal}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Auto Renovar</label>
+                                    <input type="number" class="form-control" th:field="*{autoRenovar}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo Plan</label>
+                                    <select class="form-select" th:field="*{idTipoPlan}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="p : ${planes}" th:value="${p.idTipoPlan}" th:text="${p.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Bandas</label>
+                                    <select class="form-select" th:field="*{idBanda}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar movimiento (uno por fila) -->
+            <div class="modal fade" th:each="s : ${suscripciones}" th:id="'modalEditar-' + ${s.idSuscripcion}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/suscripcion/guardar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Suscripcion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idSuscripcion" th:value="${s.idSuscripcion}">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" th:value="${s.nombre}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Inicio</label>
+                                    <input type="date" name="fechaInicio" class="form-control" th:value="${s.fechaInicio}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Final</label>
+                                    <input type="date" name="fechaFinal" class="form-control" th:value="${s.fechaFinal}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Auto Renovar</label>
+                                    <input type="number" name="autoRenovar" class="form-control" th:value="${s.autoRenovar}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo Plan</label>
+                                    <select class="form-select" name="idTipoPlan">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="p : ${planes}" th:value="${p.idTipoPlan}" th:text="${p.nombre}" th:selected="${p.idTipoPlan == s.idTipoPlan}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Banda</label>
+                                    <select class="form-select" name="idBanda">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}" th:selected="${b.idBanda == s.idBanda}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == s.idEstado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="s : ${suscripciones}" th:id="'modalEliminar-' + ${s.idSuscripcion}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Suscripcion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar la suscripcion? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/suscripcion/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idSuscripcion" th:value="${s.idSuscripcion}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

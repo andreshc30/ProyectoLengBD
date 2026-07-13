@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionPagos">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Pagos</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoPago">
+                    <i class="ti ti-plus"></i> Nuevo pago
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Metodo de Pago</th>
+                        <th>Total</th>
+                        <th>Suscripcion</th>
+                        <th>Monto Pagado</th>
+                        <th>Fecha del Pago</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${pagos}">
+                        <td th:text="${p.nombreMetodoPago}"></td>
+                        <td th:text="${p.total}"></td>
+                        <td th:text="${p.nombreSuscripcion}"></td>
+                        <td th:text="${p.montoPagado}"></td>
+                        <td th:text="${#temporals.format(p.fechaPago, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${p.monto}"></td>
+                        <td th:text="${p.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${p.idPago}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${p.idPago}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(pagos)}">
+                        <td colspan="9" class="text-center text-muted">No hay pagos registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevoPago" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/pago/guardar}" th:object="${nuevoPago}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nuevo Pago</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Método de Pago</label>
+                                    <select class="form-select" th:field="*{idMetodoPago}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="m : ${metodosPagos}" th:value="${m.idMetodoPago}" th:text="${m.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Total</label>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{idFacturacion}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripción</label>
+                                    <select class="form-select" th:field="*{idSuscripcion}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Monto Pagado</label>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{montoPagado}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Pago</label>
+                                    <input type="date" class="form-control" th:field="*{fechaPago}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Monto</label>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{monto}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar pago (uno por fila) -->
+            <div class="modal fade" th:each="p : ${pagos}" th:id="'modalEditar-' + ${p.idPago}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/pago/guardar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Pago</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idPago" th:value="${p.idPago}">
+                                <div class="mb-3">
+                                    <label class="form-label">Método de Pago</label>
+                                    <select class="form-select" name="idMetodoPago">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="m : ${metodosPagos}" th:value="${m.idMetodoPago}" th:text="${m.nombre}" th:selected="${m.idMetodoPago == p.idMetodoPago}"></option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Total</label>
+                                    <input type="number" step="0.01" name="total" class="form-control" th:value="${p.idFacturacion}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Suscripción</label>
+                                    <select class="form-select" name="idSuscripcion">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${suscripciones}" th:value="${s.idSuscripcion}" th:text="${s.nombre}" th:selected="${s.idSuscripcion == p.idSuscripcion}"></option>
+                                    </select>
+                                </div>                                       
+                                <div class="mb-3">
+                                    <label class="form-label">Monto Pagado</label>
+                                    <input type="number" step="0.01" name="montoPagado" class="form-control" th:value="${p.montoPagado}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Pago</label>
+                                    <input type="date" name="fechaPago" class="form-control" th:value="${p.fechaPago}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Monto</label>
+                                    <input type="number" name="monto" class="form-control" th:value="${p.monto}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == p.idEstado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="p : ${pagos}" th:id="'modalEliminar-' + ${p.idPago}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Pago</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar el pago? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/pago/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idPago" th:value="${p.idPago}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

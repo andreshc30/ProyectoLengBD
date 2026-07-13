@@ -3,8 +3,11 @@ package LengBD.controller;
 import LengBD.domain.Cuota;
 import LengBD.domain.CuotaListadoDTO;
 import LengBD.service.CuotaService;
-import LengBD.service.IntegrantesService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.CuotaService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,24 +23,26 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cuota")
-public class CuotaController {
-
-    @Autowired
-    private CuotaService cuotaService;
-
-    @Autowired
-    private IntegrantesService integrantesService;
+public class CuotaCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private CuotaService cuotaService;
+    
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<CuotaListadoDTO> lista = cuotaService.readAllCuota();
         model.addAttribute("cuotas", lista);
+        model.addAttribute("nuevaCuota", new CuotaListadoDTO());
+        cargarCombos(model);
         return "cuota/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("cuota", new CuotaListadoDTO());
@@ -62,14 +67,13 @@ public class CuotaController {
             cuota.setMontoPagado(dto.getMontoPagado());
             cuota.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdCuota() != null) {
+            if (dto.getIdCuota()!= null) {
                 cuotaService.actualizarCuota(cuota);
             } else {
                 cuotaService.insertarCuota(cuota);
             }
             ra.addFlashAttribute("todoOk", "Cuota guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/cuota/listado";
@@ -87,7 +91,7 @@ public class CuotaController {
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("usuarios", integrantesService.listarIntegrantes());
+        model.addAttribute("usuarios", usuarioService.readAllUsuario());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
 }

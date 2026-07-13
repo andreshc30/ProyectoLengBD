@@ -2,11 +2,13 @@ package LengBD.controller;
 
 import LengBD.domain.Movimiento;
 import LengBD.domain.MovimientoListadoDTO;
-import LengBD.service.MovimientoService;
-import LengBD.service.CategoriaMovimientoService;
-import LengBD.service.MetodoPagoService;
 import LengBD.service.BandaService;
+import LengBD.service.CategoriaMovimientoService;
 import LengBD.service.EstadoService;
+import LengBD.service.MetodoPagoService;
+import LengBD.service.MovimientoService;
+import LengBD.service.MovimientoService;
+import LengBD.service.SuscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,16 +24,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/movimiento")
-public class MovimientoController {
+public class MovimientoCrudController {
 
     @Autowired
     private MovimientoService movimientoService;
-
-    @Autowired
-    private CategoriaMovimientoService categoriaMovimientoService;
-
+    
     @Autowired
     private MetodoPagoService metodoPagoService;
+    
+    @Autowired
+    private CategoriaMovimientoService categoriaMovimientoService;
 
     @Autowired
     private BandaService bandaService;
@@ -43,9 +45,11 @@ public class MovimientoController {
     public String listado(Model model) {
         List<MovimientoListadoDTO> lista = movimientoService.readAllMovimiento();
         model.addAttribute("movimientos", lista);
+        model.addAttribute("nuevoMovimiento", new MovimientoListadoDTO());
+        cargarCombos(model);
         return "movimiento/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("movimiento", new MovimientoListadoDTO());
@@ -80,7 +84,6 @@ public class MovimientoController {
             }
             ra.addFlashAttribute("todoOk", "Movimiento guardado correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/movimiento/listado";
@@ -90,7 +93,7 @@ public class MovimientoController {
     public String eliminar(@RequestParam("idMovimiento") Integer idMovimiento, RedirectAttributes ra) {
         try {
             movimientoService.eliminarMovimiento(idMovimiento);
-            ra.addFlashAttribute("todoOk", "Movimiento eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Movimiento eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
@@ -98,8 +101,8 @@ public class MovimientoController {
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("categoriasMovimiento", categoriaMovimientoService.readAllCategoriaMovimiento());
-        model.addAttribute("metodosPago", metodoPagoService.readAllMetodoPago());
+        model.addAttribute("categoriasMovimientos", categoriaMovimientoService.readAllCategoriaMovimiento());
+        model.addAttribute("metodosPagos", metodoPagoService.readAllMetodoPago());
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
     }

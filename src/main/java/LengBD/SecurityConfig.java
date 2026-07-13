@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package LengBD;
-
 /**
  *
  * @author peper
@@ -15,11 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -32,13 +29,10 @@ public class SecurityConfig {
                     "/logo/**",
                     "/fonts/**",
                     "/",
-                    "/solicitudes/**",
-                    "/solicitudes/guardar",
                     "/audiciones/listado",
                     "/error", 
-                    // -------------------------
-                    "/audiciones/solicitudes/formulario", 
-                    "/audiciones/solicitudes/guardar",
+                    "/solicitudIngreso/nuevo",
+                    "/solicitudIngreso/guardar",
                     "/eventos/listado",
                     "/general/listado",
                     "/gestion_bandas/listado",
@@ -65,7 +59,6 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(false)
                 );
-
         return http.build();
     }
 }

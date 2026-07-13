@@ -79,7 +79,7 @@ public class EventoController {
             evento.setNombre(dto.getNombre());
             evento.setDetalle(dto.getDetalle());
             evento.setFecha(dto.getFecha());
-            evento.setDireccion(dto.getDireccion());
+            evento.setDireccion(dto.getIdDireccion());
             evento.setIdBanda(dto.getIdBanda());
             evento.setIdEstado(dto.getIdEstado());
 
@@ -104,7 +104,7 @@ public class EventoController {
             evento.setNombre(dto.getNombre());
             evento.setDetalle(dto.getDetalle());
             evento.setFecha(dto.getFecha());
-            evento.setDireccion(dto.getDireccion());
+            evento.setDireccion(dto.getIdDireccion());
             evento.setIdBanda(dto.getIdBanda());
             evento.setIdEstado(dto.getIdEstado());
 

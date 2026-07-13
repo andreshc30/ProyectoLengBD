@@ -9,12 +9,12 @@
     <body>
         <div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
         <div id="wrapper" class="d-flex">
-            <div th:replace="~{general/fragmentos :: sidebar('banda')}"></div>
+            <div th:replace="~{general/fragmentos :: sidebar('usuarios')}"></div>
             <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
                 <div id="content">
                     <div class="container-fluid">
-                        <h2 class="mb-4">Gestión de bandas</h2>
-                        <div th:replace="~{bandas/fragmentos :: gestionBandas}"></div>
+                        <h2 class="mb-4">Gestión de usuarios</h2>
+                        <div th:replace="~{usuario/fragmentos :: gestionUsuarios}"></div>
                     </div>
                 </div>
             </div>

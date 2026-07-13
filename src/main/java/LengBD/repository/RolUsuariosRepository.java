@@ -49,7 +49,7 @@ public class RolUsuariosRepository {
 
         rolUsuarioDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_ROL_USUARIOS_DELETE_SP");
+                .withProcedureName("FIDE_ROL_USUARIOS_DELETE_LOGICO_SP");
 
         rolUsuarioReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -63,7 +63,6 @@ public class RolUsuariosRepository {
         params.put("P_CEDULA", rolUsuario.getCedula());
         params.put("P_ID_ROL", rolUsuario.getIdRol());
         params.put("P_ID_ESTADO", rolUsuario.getIdEstado());
-        rolUsuarioUpdateCall.execute(params);
         rolUsuarioInsertCall.execute(params);
     }
 

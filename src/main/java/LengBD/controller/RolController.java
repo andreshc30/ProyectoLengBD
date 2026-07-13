@@ -31,6 +31,8 @@ public class RolController {
     public String listado(Model model) {
         List<RolListadoDTO> lista = rolService.readAllRol();
         model.addAttribute("roles", lista);
+        model.addAttribute("nuevoRol", new RolListadoDTO());
+        cargarCombos(model);
         return "rol/listado";
     }
 

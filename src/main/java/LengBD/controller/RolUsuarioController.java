@@ -19,17 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-/*
- * NOTA IMPORTANTE: FIDE_ROL_USUARIOS_TB usa clave compuesta (idRol + cedula),
- * sin autoincremento. Por eso este controller NO sigue el patrón estándar de
- * "if (dto.getId() != null) actualizar else insertar", ya que ambos campos
- * casi siempre van a venir con valor (se eligen de un combo, no se autogeneran).
- *
- * Para distinguir alta de edición se agrega un campo oculto "editando" que
- * DEBE existir en el formulario HTML:
- *   - En la vista de "nuevo" (formulario vacío): no incluir el campo, o ponerlo en "false".
- *   - En la vista de "editar": <input type="hidden" name="editando" value="true"/>
- */
 @Controller
 @RequestMapping("/rolUsuario")
 public class RolUsuarioController {
@@ -40,6 +29,8 @@ public class RolUsuarioController {
     @Autowired
     private RolService rolService;
 
+    // TODO: usando IntegrantesService (ya confirmado en AsignacionInstrumentoController)
+    // para el combo de cedula/usuarios. Confirmar si es el service correcto para este contexto.
     @Autowired
     private IntegrantesService integrantesService;
 
@@ -50,6 +41,8 @@ public class RolUsuarioController {
     public String listado(Model model) {
         List<RolUsuarioListadoDTO> lista = rolUsuariosService.readAllRolUsuario();
         model.addAttribute("rolesUsuarios", lista);
+        model.addAttribute("nuevoRolUsuario", new RolUsuarioListadoDTO());
+        cargarCombos(model);
         return "rolUsuario/listado";
     }
 

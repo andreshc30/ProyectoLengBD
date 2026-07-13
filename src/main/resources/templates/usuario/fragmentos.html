@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionUsuarios">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Usuarios</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">
+                <i class="ti ti-plus"></i> Nuevo usuario
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Fecha ingreso</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Sección</th>
+                    <th>Banda</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.cedula}"></td>
+                    <td th:text="${u.nombre}"></td>
+                    <td th:text="${u.primerApellido} + ' ' + ${u.segundoApellido}"></td>
+                    <td th:text="${#temporals.format(u.fechaIngreso, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${u.telefono}"></td>
+                    <td th:text="${u.correo}"></td>
+                    <td th:text="${u.nombreSeccion}"></td>
+                    <td th:text="${u.nombreBanda}"></td>
+                    <td th:text="${u.estado}"></td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary js-editar"
+                                data-bs-toggle="modal" data-bs-target="#modalEditarUsuario"
+                                th:attr="data-cedula=${u.cedula},
+                                         data-nombre=${u.nombre},
+                                         data-primer-apellido=${u.primerApellido},
+                                         data-segundo-apellido=${u.segundoApellido},
+                                         data-fecha-ingreso=${u.fechaIngreso},
+                                         data-logo-url=${u.logoUrl},
+                                         data-id-telefono=${u.idTelefono},
+                                         data-id-correo=${u.idCorreo},
+                                         data-id-seccion=${u.idSeccion},
+                                         data-id-direccion=${u.idDireccion},
+                                         data-id-banda=${u.idBanda},
+                                         data-id-estado=${u.idEstado}">
+                            <i class="ti ti-edit"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger js-eliminar"
+                                data-bs-toggle="modal" data-bs-target="#modalEliminarUsuario"
+                                th:attr="data-cedula=${u.cedula}, data-nombre-mostrar=${u.nombre} + ' ' + ${u.primerApellido}">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="10" class="text-center text-muted">No hay usuarios registrados.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal: nuevo usuario -->
+        <div class="modal fade" id="modalNuevoUsuario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form th:action="@{/usuario/guardar}" th:object="${nuevoUsuario}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Cédula</label>
+                                    <input type="number" class="form-control" th:field="*{cedula}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" th:field="*{nombre}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Primer apellido</label>
+                                    <input type="text" class="form-control" th:field="*{primerApellido}">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Segundo apellido</label>
+                                    <input type="text" class="form-control" th:field="*{segundoApellido}">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Fecha de ingreso</label>
+                                    <input type="date" class="form-control" th:field="*{fechaIngreso}">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Logo (URL)</label>
+                                    <input type="text" class="form-control" th:field="*{logoUrl}">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Teléfono</label>
+                                    <select class="form-select" th:field="*{idTelefono}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="t : ${telefonos}" th:value="${t.idTelefono}" th:text="${t.telefono}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Correo</label>
+                                    <select class="form-select" th:field="*{idCorreo}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="c : ${correos}" th:value="${c.idCorreo}" th:text="${c.correo}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Sección</label>
+                                    <select class="form-select" th:field="*{idSeccion}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${secciones}" th:value="${s.idSeccion}" th:text="${s.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Dirección</label>
+                                    <select class="form-select" th:field="*{idDireccion}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="d : ${direcciones}" th:value="${d.idDireccion}" th:text="${d.otrosDetalles}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Banda</label>
+                                    <select class="form-select" th:field="*{idBanda}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: editar (UNICO, compartido -- se llena con JS) -->
+        <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form th:action="@{/usuario/guardar}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Cédula</label>
+                                    <input type="number" name="cedula" class="form-control" readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Primer apellido</label>
+                                    <input type="text" name="primerApellido" class="form-control">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Segundo apellido</label>
+                                    <input type="text" name="segundoApellido" class="form-control">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Fecha de ingreso</label>
+                                    <input type="date" name="fechaIngreso" class="form-control">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Logo (URL)</label>
+                                    <input type="text" name="logoUrl" class="form-control">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Teléfono</label>
+                                    <select class="form-select" name="idTelefono">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="t : ${telefonos}" th:value="${t.idTelefono}" th:text="${t.telefono}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Correo</label>
+                                    <select class="form-select" name="idCorreo">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="c : ${correos}" th:value="${c.idCorreo}" th:text="${c.correo}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Sección</label>
+                                    <select class="form-select" name="idSeccion">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="s : ${secciones}" th:value="${s.idSeccion}" th:text="${s.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Dirección</label>
+                                    <select class="form-select" name="idDireccion">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="d : ${direcciones}" th:value="${d.idDireccion}" th:text="${d.otrosDetalles}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Banda</label>
+                                    <select class="form-select" name="idBanda">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="b : ${bandas}" th:value="${b.idBanda}" th:text="${b.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: confirmar eliminación (UNICO, compartido -- se llena con JS) -->
+        <div class="modal fade" id="modalEliminarUsuario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que querés eliminar a <strong class="js-nombre-registro"></strong>? Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form th:action="@{/usuario/eliminar}" method="post" class="d-inline">
+                            <input type="hidden" name="cedula">
+                            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

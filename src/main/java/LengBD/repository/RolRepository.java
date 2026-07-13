@@ -49,7 +49,7 @@ public class RolRepository {
 
         rolDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_ROL_DELETE_SP");
+                .withProcedureName("FIDE_ROL_DELETE_LOGICO_SP");
 
         rolReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -62,7 +62,6 @@ public class RolRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_NOMBRE", rol.getNombre());
         params.put("P_ID_ESTADO", rol.getIdEstado());
-        rolUpdateCall.execute(params);
         rolInsertCall.execute(params);
     }
 

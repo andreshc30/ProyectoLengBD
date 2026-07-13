@@ -51,6 +51,8 @@ public class UsuarioController {
     public String listado(Model model) {
         List<UsuarioListadoDTO> lista = usuarioService.readAllUsuario();
         model.addAttribute("usuarios", lista);
+        model.addAttribute("nuevoUsuario", new UsuarioListadoDTO());
+        cargarCombos(model);
         return "usuario/listado";
     }
 
@@ -84,12 +86,6 @@ public class UsuarioController {
             usuario.setIdDireccion(dto.getIdDireccion());
             usuario.setIdBanda(dto.getIdBanda());
             usuario.setIdEstado(dto.getIdEstado());
-
-            // NOTA: al usar "cedula" como PK sin autoincremento (similar a RolUsuario),
-            // dto.getCedula() casi siempre va a venir con valor. Si tu flujo de "nuevo"
-            // usuario ingresa la cédula a mano, este check funciona porque buscarPorId
-            // determina si ya existe; si no, puede que necesites el mismo patrón de
-            // campo oculto "editando" que usamos en RolUsuarioController.
             if (usuarioService.buscarPorId(dto.getCedula()) != null) {
                 usuarioService.actualizarUsuario(usuario);
             } else {

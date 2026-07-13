@@ -1,11 +1,7 @@
 package LengBD.controller;
 
-import LengBD.domain.Banda;
-import LengBD.domain.Correo;
-import LengBD.domain.Estado;
-import LengBD.domain.Seccion;
 import LengBD.domain.SolicitudIngreso;
-import LengBD.domain.Telefono;
+import LengBD.domain.SolicitudIngresoListadoDTO;
 import LengBD.service.SolicitudIngresoService;
 import LengBD.service.SeccionService;
 import LengBD.service.BandaService;
@@ -13,75 +9,105 @@ import LengBD.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/solicitudes")
+@RequestMapping("/solicitudIngreso")
 public class SolicitudIngresoController {
 
     @Autowired
-    private SolicitudIngresoService solicitudService;
+    private SolicitudIngresoService solicitudIngresoService;
+
     @Autowired
     private SeccionService seccionService;
+
     @Autowired
     private BandaService bandaService;
+
     @Autowired
     private EstadoService estadoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        model.addAttribute("solicitudes", solicitudService.readAllSolicitudIngreso());
-        // listarSecciones NO está en solicitudService -> usar seccionService
-        model.addAttribute("secciones", seccionService.readAllSeccion());
-        return "solicitudes/listado";
+        List<SolicitudIngresoListadoDTO> lista = solicitudIngresoService.readAllSolicitudIngreso();
+        model.addAttribute("solicitudes", lista);
+        return "solicitudIngreso/listado";
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevo(Model model) {
+        model.addAttribute("solicitudIngreso", new SolicitudIngresoListadoDTO());
+        cargarCombos(model);
+        return "solicitudIngreso/formulario";
+    }
+
+    @GetMapping("/editar/{idSolicitud}")
+    public String editar(@PathVariable("idSolicitud") Integer id, Model model) {
+        model.addAttribute("solicitudIngreso", solicitudIngresoService.buscarPorId(id));
+        cargarCombos(model);
+        return "solicitudIngreso/formulario";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute SolicitudIngreso solicitud, RedirectAttributes ra) {
+    public String guardar(@ModelAttribute SolicitudIngresoListadoDTO dto, RedirectAttributes ra) {
         try {
-            if (solicitud.getIdSolicitud() != null) {
-                solicitudService.actualizarSolicitudIngreso(solicitud);
+            SolicitudIngreso solicitudIngreso = new SolicitudIngreso();
+            solicitudIngreso.setIdSolicitud(dto.getIdSolicitud());
+            solicitudIngreso.setNombre(dto.getNombre());
+            solicitudIngreso.setPrimerApellido(dto.getPrimerApellido());
+            solicitudIngreso.setSegundoApellido(dto.getSegundoApellido());
+            solicitudIngreso.setMensaje(dto.getMensaje());
+            solicitudIngreso.setCorreo(dto.getCorreo());
+            solicitudIngreso.setTelefono(dto.getTelefono());
+            solicitudIngreso.setFechaSolicitud(dto.getFechaSolicitud());
+            solicitudIngreso.setIdSeccion(dto.getIdSeccion());
+            solicitudIngreso.setIdBanda(dto.getIdBanda());
+            solicitudIngreso.setIdEstado(dto.getIdEstado());
+
+            if (dto.getIdSolicitud() != null) {
+                solicitudIngresoService.actualizarSolicitudIngreso(solicitudIngreso);
             } else {
-                solicitudService.insertarSolicitudIngreso(solicitud);
+                solicitudIngresoService.insertarSolicitudIngreso(solicitudIngreso);
             }
-            ra.addFlashAttribute("todoOk", "¡Tu solicitud se envió correctamente!");
+            ra.addFlashAttribute("todoOk", "Solicitud de ingreso guardada correctamente");
         } catch (Exception ex) {
             ex.printStackTrace();
-            ra.addFlashAttribute("error", "Error al enviar: " + ex.getMessage());
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "redirect:/audiciones/listado";
+        return "redirect:/solicitudIngreso/listado";
     }
 
     @PostMapping("/eliminar")
     public String eliminar(@RequestParam("idSolicitud") Integer idSolicitud, RedirectAttributes ra) {
         try {
-            solicitudService.eliminarSolicitudIngreso(idSolicitud);
-            ra.addFlashAttribute("todoOk", "Solicitud eliminada");
+            solicitudIngresoService.eliminarSolicitudIngreso(idSolicitud);
+            ra.addFlashAttribute("todoOk", "Solicitud de ingreso eliminada correctamente");
         } catch (Exception e) {
-            e.printStackTrace();
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/solicitudes/listado";
+        return "redirect:/solicitudIngreso/listado";
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("secciones", seccionService.readAllSeccion());
-        model.addAttribute("bandas", bandaService.readAllBanda());
-        model.addAttribute("estados", estadoService.readAllEstado());
+        try {
+            model.addAttribute("secciones", seccionService.readAllSeccion());
+            model.addAttribute("bandas", bandaService.readAllBanda());
+            model.addAttribute("estados", estadoService.readAllEstado());
+        } catch (Exception e) {
+            System.err.println("Error cargando combos: " + e.getMessage());
+            model.addAttribute("errorCarga", "No se pudieron cargar los datos de las listas.");
+        }
     }
+    
 
-    @GetMapping("/nuevo")
-    public String nuevo(Model model) {
-        model.addAttribute("solicitud", new SolicitudIngreso());
-        cargarCombos(model);
-        return "solicitudes/formulario";
-    }
-
-    @GetMapping("/editar/{idSolicitud}")
-    public String editar(@PathVariable("idSolicitud") Integer id, Model model) {
-        model.addAttribute("solicitud", solicitudService.buscarPorId(id));
-        cargarCombos(model);
-        return "solicitudes/formulario";
-    }
 }
+
+

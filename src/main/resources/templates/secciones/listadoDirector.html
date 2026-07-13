@@ -32,7 +32,7 @@
 
         <section th:fragment="Page-Wrapper">
             <div id="wrapper">
-                
+
                 <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
                         <div class="sidebar">
@@ -41,510 +41,516 @@
                         <div class="sidebar-brand-text mx-3">BLCM</div>
                     </a>
                     <hr class="sidebar-divider my-0">
-                    <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/inicio/listado}">
-                            <i class="fas fa-fw"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <hr class="sidebar-divider">
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
+                        <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/inicio/listado}">
+                                <i class="fas fa-fw"></i>
+                                <span>Dashboard</span>
+                            </a>
                         </li>
+                        <hr class="sidebar-divider">
+                            <li class="nav-item active">
+                                <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Líderes de Sección</a>
-                    </li>
-                    
-                    <li class="nav-item"><a class="nav-link" href="#">Cajas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Liras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Principales</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Bombos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tenores</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Güiros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Folclore</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Color Guard</a></li>
-                </ul>
+                            </li>
+                            <hr class="sidebar-divider">
+                                <li class="nav-item active">
+                                    <a class="nav-link" th:href="@{/banda/secciones/adminListado}">Admin</a>
+                                </li>
 
-                <div id="content-wrapper" class="d-flex flex-column w-100">
-                    <div id="content">
-                        
-                        <div class="container-fluid mt-4">
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
-                            </div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Líderes de Sección</a>
+                                </li>
 
-                            <div class="card shadow mb-4 border-left-primary">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="#" method="post" class="mb-4">
-                                        <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <label for="cedula" class="form-label font-weight-bold">Cédula:</label>
-                                                <input type="number" class="form-control" id="cedula" name="cedula" placeholder="Ej. 112340567" required>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="nombre" class="form-label font-weight-bold">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="primerApellido" class="form-label font-weight-bold">1° Apellido:</label>
-                                                <input type="text" class="form-control" id="primerApellido" name="primerApellido" required>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="segundoApellido" class="form-label font-weight-bold">2° Apellido:</label>
-                                                <input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="seccion" class="form-label font-weight-bold">Sección Musical:</label>
-                                                <select class="form-select form-control" id="seccion" name="idSeccion">
-                                                    <option value="">-- Seleccione una sección --</option>
-                                                    <option value="1">Bombos</option>
-                                                    <option value="2">Liras</option>
-                                                    <option value="3">Trompetas</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="estado" class="form-label font-weight-bold">Estado:</label>
-                                                <select class="form-select form-control" id="estado" name="idEstado">
-                                                    <option value="1">Activo</option>
-                                                    <option value="2">Inactivo</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3 d-flex align-items-end mb-3">
-                                                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save me-1"></i> Guardar</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <li class="nav-item"><a class="nav-link" href="#">Cajas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Liras</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Principales</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Bombos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Tenores</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Güiros</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Folclore</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Color Guard</a></li>
+                                </ul>
 
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th>Cédula</th>
-                                                    <th>Nombre Completo</th>
-                                                    <th>Sección</th>
-                                                    <th>Fecha Ingreso</th>
-                                                    <th class="text-center">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="align-middle">114560789</td>
-                                                    <td class="font-weight-bold align-middle">Carlos Andrés Méndez Salas</td>
-                                                    <td class="align-middle">Trompetas</td>
-                                                    <td class="align-middle">15/02/2026</td>
-                                                    <td class="text-center">
-                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                        <form action="#" method="post" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="align-middle">208760543</td>
-                                                    <td class="font-weight-bold align-middle">Ana Lucía Rojas Mora</td>
-                                                    <td class="align-middle">Liras</td>
-                                                    <td class="align-middle">10/06/2025</td>
-                                                    <td class="text-center">
-                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                        <form action="#" method="post" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                                <div id="content-wrapper" class="d-flex flex-column w-100">
+                                    <div id="content">
 
-                            <div class="card shadow mb-4 border-left-info">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="#" method="post" class="mb-4">
-                                        <div class="row">
-                                            <div class="col-md-5 mb-3">
-                                                <label for="nombreSeccion" class="form-label font-weight-bold">Nombre de la Sección:</label>
-                                                <input type="text" class="form-control" id="nombreSeccion" name="nombre" placeholder="Ej. Percusión Latina" required>
+                                        <div class="container-fluid mt-4">
+                                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label class="form-label font-weight-bold text-muted">Banda Actual:</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-light"><i class="fas fa-music text-muted"></i></span>
-                                                    <input type="text" class="form-control bg-light text-muted" value="Banda Lírica Cantonal de Moravia" readonly>
+
+                                            <div class="card shadow mb-4 border-left-primary">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
                                                 </div>
-                                                <input type="hidden" name="idBanda" value="1">
-                                            </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="estadoSeccion" class="form-label font-weight-bold">Estado:</label>
-                                                <select class="form-select form-control" id="estadoSeccion" name="idEstado">
-                                                    <option value="1">Activo</option>
-                                                    <option value="2">Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-9 mb-3">
-                                                <label for="descripcion" class="form-label font-weight-bold">Descripción:</label>
-                                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripción...">
-                                            </div>
-                                            <div class="col-md-3 d-flex align-items-end mb-3">
-                                                <button type="submit" class="btn btn-info text-white w-100"><i class="fas fa-save me-1"></i> Guardar</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                                <div class="card-body">
+                                                    <form action="#" method="post" class="mb-4">
+                                                        <div class="row">
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="cedula" class="form-label font-weight-bold">Cédula:</label>
+                                                                <input type="number" class="form-control" id="cedula" name="cedula" placeholder="Ej. 112340567" required>
+                                                            </div>
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="nombre" class="form-label font-weight-bold">Nombre:</label>
+                                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                                            </div>
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="primerApellido" class="form-label font-weight-bold">1° Apellido:</label>
+                                                                <input type="text" class="form-control" id="primerApellido" name="primerApellido" required>
+                                                            </div>
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="segundoApellido" class="form-label font-weight-bold">2° Apellido:</label>
+                                                                <input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="seccion" class="form-label font-weight-bold">Sección Musical:</label>
+                                                                <select class="form-select form-control" id="seccion" name="idSeccion">
+                                                                    <option value="">-- Seleccione una sección --</option>
+                                                                    <option value="1">Bombos</option>
+                                                                    <option value="2">Liras</option>
+                                                                    <option value="3">Trompetas</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="estado" class="form-label font-weight-bold">Estado:</label>
+                                                                <select class="form-select form-control" id="estado" name="idEstado">
+                                                                    <option value="1">Activo</option>
+                                                                    <option value="2">Inactivo</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3 d-flex align-items-end mb-3">
+                                                                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save me-1"></i> Guardar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
 
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th style="width: 5%;">ID</th>
-                                                    <th style="width: 20%;">Nombre</th>
-                                                    <th style="width: 40%;">Descripción</th>
-                                                    <th style="width: 15%;">Banda</th>
-                                                    <th class="text-center" style="width: 20%;">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="align-middle">1</td>
-                                                    <td class="font-weight-bold align-middle">Trompetas</td>
-                                                    <td class="align-middle">Vientos metal principales.</td>
-                                                    <td class="align-middle"><span class="badge bg-secondary">BLCM</span></td>
-                                                    <td class="text-center">
-                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                        <form action="#" method="post" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card shadow mb-4 border-left-success">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
-                                    <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
-                                        <i class="fas fa-plus me-1"></i> Nueva Asignación
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                                                    <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
-                                                    <th>ID</th>
-                                                    <th>Integrante</th>
-                                                    <th>Instrumento</th>
-                                                    <th>Fecha Inicio</th>
-                                                    <th>Motivo</th>
-                                                    <th class="text-center">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="asig : ${asignaciones}">
-                                                    <td th:text="${asig.idAsignacion}">1</td>
-                                                    <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
-                                                    <td th:text="${asig.nombreInstrumento}">Trompeta</td>
-                                                    <td th:text="${asig.fechaInicio}">2026-07-11</td>
-                                                    <td th:text="${asig.motivo}">Préstamo temporal</td>
-                                                    <td class="text-center">
-                                                        <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
-                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
-                                                        <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;">
-                                                            <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
-                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            
-
-                            <div class="card shadow mb-4 border-left-primary">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso</h6>
-                                    <a th:href="@{/solicitudes/listado}" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-inbox me-1"></i> Ver solicitudes
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    <p class="mb-0 text-muted">Revisá y gestioná las solicitudes de aspirantes que quieren unirse a la banda.</p>
-                                </div>
-                            </div>
-
-                            <div class="card shadow mb-4 border-left-warning">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="#" method="post">
-                                        <div class="row">
-                                            <div class="col-md-5 mb-3">
-                                                <label for="seccionLider" class="form-label font-weight-bold">Sección:</label>
-                                                <select class="form-select form-control" id="seccionLider" name="idSeccion" required>
-                                                    <option value="">-- Buscar sección --</option>
-                                                    <option value="1">Trompetas</option>
-                                                    <option value="2">Liras</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-5 mb-3">
-                                                <label for="nuevoLider" class="form-label font-weight-bold">Nuevo Líder:</label>
-                                                <select class="form-select form-control" id="nuevoLider" name="cedula" required>
-                                                    <option value="">-- Buscar integrante --</option>
-                                                    <option value="208760543">Ana Lucía Rojas Mora (208760543)</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 d-flex align-items-end mb-3">
-                                                <button type="submit" class="btn btn-warning w-100 font-weight-bold text-dark"><i class="fas fa-medal me-1"></i> Asignar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <hr class="mt-2 mb-4">
-
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-sm table-hover" width="100%" cellspacing="0">
-                                            <thead class="bg-light">
-                                                <tr>
-                                                    <th style="width: 30%;">Sección</th>
-                                                    <th style="width: 50%;">Líder Actual</th>
-                                                    <th class="text-center" style="width: 20%;">Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="font-weight-bold align-middle">Liras</td>
-                                                    <td class="align-middle"><i class="fas fa-user-circle text-gray-500 me-1"></i> Ana Lucía Rojas Mora</td>
-                                                    <td class="text-center">
-                                                        <form action="#" method="post" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-times me-1"></i> Revocar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
-        
-    </body>
-</html>
-
-<!--<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
-    <head>
-        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-    </head>
-
-    <body>
-        <header>
-            <div class="Center">
-                <div class="site-logo">
-                    <h1><a th:href="@{/}">BandCore</a></h1>
-                </div>
-                <nav class="Navigation">
-                    <ul>
-                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
-                        <li class="active"><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/suscripcion/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
-                    </ul>
-                </nav>
-                <div id="mobile_sec">
-                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </header>
-
-        <section th:fragment="Page-Wrapper">
-            <div id="wrapper">
-                
-                <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
-                        <div class="sidebar">
-                            <i class="fas fa-laugh-wink"></i>
-                        </div>
-                        <div class="sidebar-brand-text mx-3">BLCM</div>
-                    </a>
-                    <hr class="sidebar-divider my-0">
-                    <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/inicio/listado}">
-                            <i class="fas fa-fw"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <hr class="sidebar-divider">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Lideres de Seccion</a>
-                    </li>
-                    
-                    <li class="nav-item" th:each="seccion : ${listaSecciones}">
-                        <a class="nav-link" th:href="@{/banda/secciones/{id}(id=${seccion.id_seccion})}" th:text="${seccion.nombre_seccion}">Nombre Sección</a>
-                    </li>
-                </ul>
-
-                <div id="content-wrapper" class="d-flex flex-column w-100">
-                    <div id="content">
-                        
-                        <div class="container-fluid mt-4">
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
-                            </div>
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
-                                </div>
-                                <div class="card-body">
-                                    
-                                    <form th:action="@{/integrantes/guardar}" method="post" class="mb-4">
-                                        <div class="row">
-                                            <div class="col-md-5 mb-3">
-                                                <label for="nombre" class="form-label font-weight-bold">Nombre Completo:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                                            </div>
-                                            <div class="col-md-5 mb-3">
-                                                <label for="seccion" class="form-label font-weight-bold">Sección:</label>
-                                                <select class="form-select form-control" id="seccion" name="idSeccion">
-                                                    <option value="">-- Seleccione --</option>
-                                                    <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 d-flex align-items-end mb-3">
-                                                <button type="submit" class="btn btn-primary w-100">Guardar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Sección</th>
-                                                    <th>Rol</th>
-                                                    <th class="text-center">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="integrante : ${listaIntegrantes}">
-                                                    <td th:text="${integrante.nombre}">Juan Pérez</td>
-                                                    <td th:text="${integrante.seccion.nombre_seccion}">Trompetas</td>
-                                                    <td>
-                                                        <span th:class="${integrante.rol.nombre_rol == 'Líder'} ? 'badge bg-warning text-dark' : 'badge bg-secondary text-white'" 
-                                                              th:text="${integrante.rol.nombre_rol}">Músico</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a th:href="@{/integrantes/editar/{id}(id=${integrante.id_usuario})}" class="btn btn-sm btn-info text-white me-2">Editar</a>
-                                                        <form th:action="@{/integrantes/eliminar/{id}(id=${integrante.id_usuario})}" method="post" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card shadow h-100">
-                                        <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-success">Asignar Instrumento a Integrante</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <form th:action="@{/instrumentos/asignar}" method="post">
-                                                <div class="mb-3">
-                                                    <label for="integrante-inst" class="form-label font-weight-bold">Integrante:</label>
-                                                    <select class="form-select form-control" id="integrante-inst" name="idIntegrante" required>
-                                                        <option value="">-- Seleccione integrante sin instrumento --</option>
-                                                        <option th:each="int : ${integrantesSinInstrumento}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
-                                                    </select>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Cédula</th>
+                                                                    <th>Nombre Completo</th>
+                                                                    <th>Sección</th>
+                                                                    <th>Fecha Ingreso</th>
+                                                                    <th class="text-center">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="align-middle">114560789</td>
+                                                                    <td class="font-weight-bold align-middle">Carlos Andrés Méndez Salas</td>
+                                                                    <td class="align-middle">Trompetas</td>
+                                                                    <td class="align-middle">15/02/2026</td>
+                                                                    <td class="text-center">
+                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                                        <form action="#" method="post" style="display:inline;">
+                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="align-middle">208760543</td>
+                                                                    <td class="font-weight-bold align-middle">Ana Lucía Rojas Mora</td>
+                                                                    <td class="align-middle">Liras</td>
+                                                                    <td class="align-middle">10/06/2025</td>
+                                                                    <td class="text-center">
+                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                                        <form action="#" method="post" style="display:inline;">
+                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-4">
-                                                    <label for="instrumento" class="form-label font-weight-bold">Instrumento Disponible:</label>
-                                                    <select class="form-select form-control" id="instrumento" name="idInstrumento" required>
-                                                        <option value="">-- Seleccione del inventario --</option>
-                                                        <option th:each="inst : ${instrumentosDisponibles}" th:value="${inst.id_instrumento}" th:text="${inst.marca + ' (' + inst.estado + ')'}"></option>
-                                                    </select>
+                                            </div>
+
+                                            <div class="card shadow mb-4 border-left-info">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
                                                 </div>
-                                                <button type="submit" class="btn btn-success w-100">Vincular Instrumento</button>
-                                            </form>
+                                                <div class="card-body">
+                                                    <form action="#" method="post" class="mb-4">
+                                                        <div class="row">
+                                                            <div class="col-md-5 mb-3">
+                                                                <label for="nombreSeccion" class="form-label font-weight-bold">Nombre de la Sección:</label>
+                                                                <input type="text" class="form-control" id="nombreSeccion" name="nombre" placeholder="Ej. Percusión Latina" required>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label class="form-label font-weight-bold text-muted">Banda Actual:</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text bg-light"><i class="fas fa-music text-muted"></i></span>
+                                                                    <input type="text" class="form-control bg-light text-muted" value="Banda Lírica Cantonal de Moravia" readonly>
+                                                                </div>
+                                                                <input type="hidden" name="idBanda" value="1">
+                                                            </div>
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="estadoSeccion" class="form-label font-weight-bold">Estado:</label>
+                                                                <select class="form-select form-control" id="estadoSeccion" name="idEstado">
+                                                                    <option value="1">Activo</option>
+                                                                    <option value="2">Inactivo</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-9 mb-3">
+                                                                <label for="descripcion" class="form-label font-weight-bold">Descripción:</label>
+                                                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripción...">
+                                                            </div>
+                                                            <div class="col-md-3 d-flex align-items-end mb-3">
+                                                                <button type="submit" class="btn btn-info text-white w-100"><i class="fas fa-save me-1"></i> Guardar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th style="width: 5%;">ID</th>
+                                                                    <th style="width: 20%;">Nombre</th>
+                                                                    <th style="width: 40%;">Descripción</th>
+                                                                    <th style="width: 15%;">Banda</th>
+                                                                    <th class="text-center" style="width: 20%;">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="align-middle">1</td>
+                                                                    <td class="font-weight-bold align-middle">Trompetas</td>
+                                                                    <td class="align-middle">Vientos metal principales.</td>
+                                                                    <td class="align-middle"><span class="badge bg-secondary">BLCM</span></td>
+                                                                    <td class="text-center">
+                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                                        <form action="#" method="post" style="display:inline;">
+                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card shadow mb-4 border-left-success">
+                                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                                    <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
+                                                    <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
+                                                        <i class="fas fa-plus me-1"></i> Nueva Asignación
+                                                    </a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                                                                    <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
+                                                                    <th>ID</th>
+                                                                    <th>Integrante</th>
+                                                                    <th>Instrumento</th>
+                                                                    <th>Fecha Inicio</th>
+                                                                    <th>Motivo</th>
+                                                                    <th class="text-center">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="asig : ${asignaciones}">
+                                                                    <td th:text="${asig.idAsignacion}">1</td>
+                                                                    <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
+                                                                    <td th:text="${asig.nombreInstrumento}">Trompeta</td>
+                                                                    <td th:text="${asig.fechaInicio}">2026-07-11</td>
+                                                                    <td th:text="${asig.motivo}">Préstamo temporal</td>
+                                                                    <td class="text-center">
+                                                                        <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
+                                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                                        <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;">
+                                                                            <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
+                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="card shadow mb-4 border-left-primary">
+                                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso</h6>
+                                                    <a th:href="@{/solicitudes/listado}" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-inbox me-1"></i> Ver solicitudes
+                                                    </a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="mb-0 text-muted">Revisá y gestioná las solicitudes de aspirantes que quieren unirse a la banda.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card shadow mb-4 border-left-warning">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form action="#" method="post">
+                                                        <div class="row">
+                                                            <div class="col-md-5 mb-3">
+                                                                <label for="seccionLider" class="form-label font-weight-bold">Sección:</label>
+                                                                <select class="form-select form-control" id="seccionLider" name="idSeccion" required>
+                                                                    <option value="">-- Buscar sección --</option>
+                                                                    <option value="1">Trompetas</option>
+                                                                    <option value="2">Liras</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-5 mb-3">
+                                                                <label for="nuevoLider" class="form-label font-weight-bold">Nuevo Líder:</label>
+                                                                <select class="form-select form-control" id="nuevoLider" name="cedula" required>
+                                                                    <option value="">-- Buscar integrante --</option>
+                                                                    <option value="208760543">Ana Lucía Rojas Mora (208760543)</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2 d-flex align-items-end mb-3">
+                                                                <button type="submit" class="btn btn-warning w-100 font-weight-bold text-dark"><i class="fas fa-medal me-1"></i> Asignar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <hr class="mt-2 mb-4">
+
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-sm table-hover" width="100%" cellspacing="0">
+                                                                <thead class="bg-light">
+                                                                    <tr>
+                                                                        <th style="width: 30%;">Sección</th>
+                                                                        <th style="width: 50%;">Líder Actual</th>
+                                                                        <th class="text-center" style="width: 20%;">Acción</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="font-weight-bold align-middle">Liras</td>
+                                                                        <td class="align-middle"><i class="fas fa-user-circle text-gray-500 me-1"></i> Ana Lucía Rojas Mora</td>
+                                                                        <td class="text-center">
+                                                                            <form action="#" method="post" style="display:inline;">
+                                                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-times me-1"></i> Revocar</button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card shadow h-100">
-                                        <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <form th:action="@{/secciones/asignar-lider}" method="post">
-                                                <div class="mb-3">
-                                                    <label for="seccion-lider" class="form-label font-weight-bold">Sección a modificar:</label>
-                                                    <select class="form-select form-control" id="seccion-lider" name="idSeccion" required>
-                                                        <option value="">-- Seleccione la sección --</option>
-                                                        <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="nuevo-lider" class="form-label font-weight-bold">Seleccionar Nuevo Líder:</label>
-                                                    <select class="form-select form-control" id="nuevo-lider" name="idIntegrante" required>
-                                                        <option value="">-- Seleccione al integrante --</option>
-                                                        <option th:each="int : ${listaIntegrantes}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
-                                                    </select>
-                                                </div>
-                                                <button type="submit" class="btn btn-warning w-100 text-dark font-weight-bold">Guardar Asignación</button>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div> </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                                </section>
 
-        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
-        
-    </body>
-</html> -->
+                                <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+
+                                </body>
+                                </html>
+
+                                <!--<!DOCTYPE html>
+                                <html xmlns="http://www.w3.org/1999/xhtml"
+                                      xmlns:th="http://www.thymeleaf.org"
+                                      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+                                
+                                    <head>
+                                        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+                                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+                                    </head>
+                                
+                                    <body>
+                                        <header>
+                                            <div class="Center">
+                                                <div class="site-logo">
+                                                    <h1><a th:href="@{/}">BandCore</a></h1>
+                                                </div>
+                                                <nav class="Navigation">
+                                                    <ul>
+                                                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
+                                                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
+                                                        <li class="active"><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
+                                                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
+                                                        <li><a th:href="@{/suscripcion/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
+                                                    </ul>
+                                                </nav>
+                                                <div id="mobile_sec">
+                                                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </header>
+                                
+                                        <section th:fragment="Page-Wrapper">
+                                            <div id="wrapper">
+                                                
+                                                <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                                                    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
+                                                        <div class="sidebar">
+                                                            <i class="fas fa-laugh-wink"></i>
+                                                        </div>
+                                                        <div class="sidebar-brand-text mx-3">BLCM</div>
+                                                    </a>
+                                                    <hr class="sidebar-divider my-0">
+                                                    <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
+                                                    
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" th:href="@{/inicio/listado}">
+                                                            <i class="fas fa-fw"></i>
+                                                            <span>Dashboard</span>
+                                                        </a>
+                                                    </li>
+                                                    <hr class="sidebar-divider">
+                                                    <li class="nav-item active">
+                                                        <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Lideres de Seccion</a>
+                                                    </li>
+                                                    
+                                                    <li class="nav-item" th:each="seccion : ${listaSecciones}">
+                                                        <a class="nav-link" th:href="@{/banda/secciones/{id}(id=${seccion.id_seccion})}" th:text="${seccion.nombre_seccion}">Nombre Sección</a>
+                                                    </li>
+                                                </ul>
+                                
+                                                <div id="content-wrapper" class="d-flex flex-column w-100">
+                                                    <div id="content">
+                                                        
+                                                        <div class="container-fluid mt-4">
+                                                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
+                                                            </div>
+                                
+                                                            <div class="card shadow mb-4">
+                                                                <div class="card-header py-3">
+                                                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    
+                                                                    <form th:action="@{/integrantes/guardar}" method="post" class="mb-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-5 mb-3">
+                                                                                <label for="nombre" class="form-label font-weight-bold">Nombre Completo:</label>
+                                                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                                                            </div>
+                                                                            <div class="col-md-5 mb-3">
+                                                                                <label for="seccion" class="form-label font-weight-bold">Sección:</label>
+                                                                                <select class="form-select form-control" id="seccion" name="idSeccion">
+                                                                                    <option value="">-- Seleccione --</option>
+                                                                                    <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-2 d-flex align-items-end mb-3">
+                                                                                <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                                                                            <thead class="thead-light">
+                                                                                <tr>
+                                                                                    <th>Nombre</th>
+                                                                                    <th>Sección</th>
+                                                                                    <th>Rol</th>
+                                                                                    <th class="text-center">Acciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr th:each="integrante : ${listaIntegrantes}">
+                                                                                    <td th:text="${integrante.nombre}">Juan Pérez</td>
+                                                                                    <td th:text="${integrante.seccion.nombre_seccion}">Trompetas</td>
+                                                                                    <td>
+                                                                                        <span th:class="${integrante.rol.nombre_rol == 'Líder'} ? 'badge bg-warning text-dark' : 'badge bg-secondary text-white'" 
+                                                                                              th:text="${integrante.rol.nombre_rol}">Músico</span>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        <a th:href="@{/integrantes/editar/{id}(id=${integrante.id_usuario})}" class="btn btn-sm btn-info text-white me-2">Editar</a>
+                                                                                        <form th:action="@{/integrantes/eliminar/{id}(id=${integrante.id_usuario})}" method="post" style="display:inline;">
+                                                                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                                                                        </form>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                
+                                                            <div class="row">
+                                                                <div class="col-lg-6 mb-4">
+                                                                    <div class="card shadow h-100">
+                                                                        <div class="card-header py-3">
+                                                                            <h6 class="m-0 font-weight-bold text-success">Asignar Instrumento a Integrante</h6>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                            <form th:action="@{/instrumentos/asignar}" method="post">
+                                                                                <div class="mb-3">
+                                                                                    <label for="integrante-inst" class="form-label font-weight-bold">Integrante:</label>
+                                                                                    <select class="form-select form-control" id="integrante-inst" name="idIntegrante" required>
+                                                                                        <option value="">-- Seleccione integrante sin instrumento --</option>
+                                                                                        <option th:each="int : ${integrantesSinInstrumento}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="mb-4">
+                                                                                    <label for="instrumento" class="form-label font-weight-bold">Instrumento Disponible:</label>
+                                                                                    <select class="form-select form-control" id="instrumento" name="idInstrumento" required>
+                                                                                        <option value="">-- Seleccione del inventario --</option>
+                                                                                        <option th:each="inst : ${instrumentosDisponibles}" th:value="${inst.id_instrumento}" th:text="${inst.marca + ' (' + inst.estado + ')'}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <button type="submit" class="btn btn-success w-100">Vincular Instrumento</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                
+                                                                <div class="col-lg-6 mb-4">
+                                                                    <div class="card shadow h-100">
+                                                                        <div class="card-header py-3">
+                                                                            <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                            <form th:action="@{/secciones/asignar-lider}" method="post">
+                                                                                <div class="mb-3">
+                                                                                    <label for="seccion-lider" class="form-label font-weight-bold">Sección a modificar:</label>
+                                                                                    <select class="form-select form-control" id="seccion-lider" name="idSeccion" required>
+                                                                                        <option value="">-- Seleccione la sección --</option>
+                                                                                        <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="mb-4">
+                                                                                    <label for="nuevo-lider" class="form-label font-weight-bold">Seleccionar Nuevo Líder:</label>
+                                                                                    <select class="form-select form-control" id="nuevo-lider" name="idIntegrante" required>
+                                                                                        <option value="">-- Seleccione al integrante --</option>
+                                                                                        <option th:each="int : ${listaIntegrantes}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <button type="submit" class="btn btn-warning w-100 text-dark font-weight-bold">Guardar Asignación</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                
+                                        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+                                        
+                                    </body>
+                                </html> -->

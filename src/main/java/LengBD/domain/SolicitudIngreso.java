@@ -36,23 +36,23 @@ public class SolicitudIngreso implements Serializable {
     @Column(name="SEGUNDO_APELLIDO", length=100)
     private String segundoApellido;
     
-    @Column(name="MENSAJE", length=100)
+    @Column(name="MENSAJE", length=1000)
     private String mensaje;
+    
+    @Column(name="CORREO", length=150)
+    private String correo;
+    
+    @Column(name="TELEFONO", length=9)
+    private String telefono;
     
     @Column(name="FECHA_SOLICITUD")
     private LocalDate fechaSolicitud;
-    
-    @Column(name="ID_CORREO")
-    private Integer idCorreo; 
     
     @Column(name="ID_SECCION")
     private Integer idSeccion; 
     
     @Column(name="ID_BANDA")
     private Integer idBanda; 
-    
-    @Column(name="ID_TELEFONO")
-    private Integer idTelefono; 
     
     @Column(name="ID_ESTADO")
     private Integer idEstado; 

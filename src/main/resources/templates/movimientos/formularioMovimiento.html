@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+    </head>
+    <body>
+        <div id="wrapper" class="d-flex" style="min-height: 100vh;">
+            
+            <th:block th:replace="~{general/fragmentos :: admin-sidebar}"></th:block>
+
+            <div id="content-wrapper" class="flex-grow-1 bg-light w-100 p-4">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <!-- Título dinámico: cambia según si hay ID o no -->
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-edit me-2"></i>
+                        <span th:text="${entidad.idEntidad == null ? 'Nuevo Registro' : 'Editar Registro'}"></span>
+                    </h1>
+                    <a th:href="@{/entidad/listado}" class="btn btn-secondary shadow-sm">
+                        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al listado
+                    </a>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Detalles de [Entidad]</h6>
+                            </div>
+                            <div class="card-body">
+                                
+                                <!-- FORMULARIO -->
+                                <form th:action="@{/entidad/guardar}" th:object="${entidad}" method="post">
+                                    
+                                    <!-- Campo Oculto para el ID (Crucial para actualizar) -->
+                                    <input type="hidden" th:field="*{idEntidad}" />
+
+                                    <div class="row mb-3">
+                                        <!-- Ejemplo de Input Texto -->
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <label class="form-label fw-bold">Nombre / Descripción <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" th:field="*{nombre}" required placeholder="Ej: Guitarra" />
+                                        </div>
+
+                                        <!-- Ejemplo de Select Dinámico (Combobox) -->
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Estado</label>
+                                            <select class="form-select" th:field="*{idEstado}">
+                                                <option value="">-- Seleccione una opción --</option>
+                                                <option th:each="est : ${estados}" 
+                                                        th:value="${est.idEstado}" 
+                                                        th:text="${est.nombreEstado}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ejemplo de TextArea -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">Observaciones</label>
+                                        <textarea class="form-control" rows="3" th:field="*{observaciones}" placeholder="Información adicional..."></textarea>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Botones de acción -->
+                                    <div class="d-flex justify-content-end">
+                                        <a th:href="@{/entidad/listado}" class="btn btn-outline-secondary me-2">Cancelar</a>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-1"></i> Guardar Registro
+                                        </button>
+                                    </div>
+                                    
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
+</html>

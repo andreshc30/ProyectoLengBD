@@ -1227,3 +1227,195 @@ footer {
     border-top: 1px solid #eee;
     padding-top: 10px;
 }
+/*stilo de eventos*/
+.evento-hero{
+    background: linear-gradient(
+        135deg,
+        rgba(43,47,56,0.96) 0%,
+        rgba(63,70,84,0.92) 100%
+    );
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.14);
+    color: white;
+}
+
+.evento-titulo{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 2.4rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+.evento-subtitulo{
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.88);
+}
+
+.evento-card{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 22px;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    padding: 1.7rem;
+    transition: transform .25s ease, box-shadow .25s ease;
+    height: 100%;
+}
+
+.evento-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 20px 38px rgba(0,0,0,0.14);
+}
+
+.evento-card h4{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1.2rem;
+    color: #1f2126;
+    margin-bottom: 0.9rem;
+}
+
+.evento-card p{
+    color: rgba(0,0,0,0.72);
+    line-height: 1.75;
+    margin-bottom: 0;
+}
+
+.evento-tag{
+    margin-top: 1rem;
+    display: inline-block;
+    background: rgba(43,47,56,0.08);
+    color: #2b2f38;
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.evento-table-wrap{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.evento-table{
+    margin: 0;
+}
+
+.evento-table thead th{
+    background-color: #2b2f38;
+    color: white;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding: 1rem;
+}
+
+.evento-table tbody td{
+    background-color: transparent;
+    border-color: rgba(0,0,0,0.08);
+    padding: 1rem;
+    color: rgba(0,0,0,0.76);
+    vertical-align: middle;
+}
+
+.evento-table tbody tr:hover{
+    background-color: rgba(143,168,201,0.08);
+}
+
+.evento-resumen{
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 2rem;
+}
+
+.evento-resumen h3{
+    font-family: 'NunitoBold', Arial, sans-serif;
+    color: #1f2126;
+}
+
+.evento-resumen p{
+    color: rgba(0,0,0,0.74);
+    line-height: 1.8;
+}
+
+.evento-btn{
+    background-color: #2b2f38;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 0.7rem 1.4rem;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1rem;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.evento-btn:hover{
+    background-color: #8fa8c9;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 25px rgba(0,0,0,0.16);
+}
+
+.evento-card-btn{
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: inherit;
+    width: 100%;
+    display: block;
+}
+
+.evento-card-btn:focus{
+    outline: none;
+}
+
+.evento-card-info{
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    padding: 2rem;
+}
+
+.evento-card-btn .evento-card{
+    width: 100%;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.evento-card-btn:hover .evento-card{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.evento-card-btn:focus .evento-card{
+    box-shadow: 0 0 0 3px rgba(143,168,201,0.35), 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.evento-card-info h4{
+    margin: 0;
+    font-family: 'NunitoBold', Arial, sans-serif;
+    font-size: 1.15rem;
+    color: #1f2126;
+}
+
+.evento-card-info .evento-btn{
+    margin-top: 0.8rem;
+}

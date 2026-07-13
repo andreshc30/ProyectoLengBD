@@ -19,4 +19,6 @@ public class AudicionesController {
         model.addAttribute("bandas", bandaService.readAllBanda());
         return "audiciones/listado";
     }
+  
+
 }

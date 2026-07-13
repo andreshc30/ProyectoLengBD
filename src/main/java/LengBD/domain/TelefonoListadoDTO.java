@@ -20,15 +20,49 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.Data;
 
-@Data
+
 public class TelefonoListadoDTO implements Serializable {
     private static final long serialVersionUID = 1l;
     
     private Integer idTelefono;
     
-    private Integer telefono;
+    private String telefono;
     private String estado;
     
     private Integer idEstado; 
+
+    public Integer getIdTelefono() {
+        return idTelefono;
+    }
+
+    public void setIdTelefono(Integer idTelefono) {
+        this.idTelefono = idTelefono;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Integer getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Integer idEstado) {
+        this.idEstado = idEstado;
+    }
+ 
+    
     
 }

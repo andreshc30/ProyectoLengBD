@@ -35,6 +35,6 @@ public class Tipo implements Serializable {
     private String descripcion;
     
     @Column(name="ID_ESTADO")
-    private Estado idEstado; 
+    private Integer idEstado; 
     
 }

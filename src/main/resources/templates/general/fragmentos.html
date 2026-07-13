@@ -38,6 +38,61 @@
                                                 </a>
                                             </div>
                                         </footer>
+                                        <ul th:fragment="admin-sidebar" class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="min-height: 100vh;">
+                                            <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
+                                                <div class="sidebar-brand-icon">
+                                                    <i class="fas fa-laugh-wink"></i>
+                                                </div>
+                                                <div class="sidebar-brand-text mx-3">BLCM</div>
+                                            </a>
 
-                                    </body>
-                                    </html>
+                                            <hr class="sidebar-divider my-0">
+
+                                                <li class="nav-item text-center mt-3 mb-2">
+                                                    <a href="#" class="btn btn-dark btn-sm w-75" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
+                                                </li>
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link" th:href="@{/inicio/listado}">
+                                                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                                                        <span>Dashboard</span>
+                                                    </a>
+                                                </li>
+
+                                                <hr class="sidebar-divider">
+
+                                                    <div class="sidebar-heading text-white-50 px-3 mt-3 mb-2" style="font-size: 0.75rem; text-transform: uppercase;">
+                                                        Módulos Administrativos
+                                                    </div>
+
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/audiciones/listado}"><i class="fas fa-fw fa-microphone"></i> <span>Audiciones</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/pagos/listado}"><i class="fas fa-fw fa-coins"></i> <span>Pagos</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/suscripcion/listado}"><i class="fas fa-fw fa-credit-card"></i> <span>Suscripciones</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/movimientos/listado}"><i class="fas fa-fw fa-exchange-alt"></i> <span>Movimientos</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/banda/listado}"><i class="fas fa-fw fa-music"></i> <span>Bandas</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/telefonos/listado}"><i class="fas fa-fw fa-mobile-alt"></i> <span>Teléfonos</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/estados/listado}"><i class="fas fa-fw fa-flag"></i> <span>Estados</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link py-2" th:href="@{/secciones/listado}"><i class="fas fa-fw fa-layer-group"></i> <span>Secciones</span></a>
+                                                    </li>
+
+                                                    <div class="text-center d-none d-md-inline mt-4">
+                                                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                                                    </div>
+                                                    </ul>
+                                                    </body>
+                                                    </html>

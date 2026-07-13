@@ -4,6 +4,10 @@ import LengBD.domain.Telefono;
 import LengBD.domain.TelefonoListadoDTO;
 import LengBD.service.TelefonoService;
 import LengBD.service.EstadoService;
+import LengBD.service.TelefonoService;
+import LengBD.service.TelefonoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/telefono")
-public class TelefonoController {
-
-    @Autowired
-    private TelefonoService telefonoService;
+public class TelefonoCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private TelefonoService telefonoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<TelefonoListadoDTO> lista = telefonoService.readAllTelefono();
         model.addAttribute("telefonos", lista);
+        model.addAttribute("nuevoTelefono", new TelefonoListadoDTO());
+        cargarCombos(model);
         return "telefono/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("telefono", new TelefonoListadoDTO());
@@ -56,14 +62,13 @@ public class TelefonoController {
             telefono.setTelefono(dto.getTelefono());
             telefono.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdTelefono() != null) {
+            if (dto.getIdTelefono()!= null) {
                 telefonoService.actualizarTelefono(telefono);
             } else {
                 telefonoService.insertarTelefono(telefono);
             }
-            ra.addFlashAttribute("todoOk", "Teléfono guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Telefono guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/telefono/listado";
@@ -73,7 +78,7 @@ public class TelefonoController {
     public String eliminar(@RequestParam("idTelefono") Integer idTelefono, RedirectAttributes ra) {
         try {
             telefonoService.eliminarTelefono(idTelefono);
-            ra.addFlashAttribute("todoOk", "Teléfono eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Telefono eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

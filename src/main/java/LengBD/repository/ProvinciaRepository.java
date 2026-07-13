@@ -60,17 +60,16 @@ public class ProvinciaRepository {
 
     public void insertarProvincia(Provincia provincia) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_NOMBRE", provincia.getNombre());
-        params.put("P_ID_ESTADO", provincia.getIdEstado());
-        provinciaUpdateCall.execute(params);
+        params.put("P_PROVINCIA_NOMBRE", provincia.getNombre());
+        params.put("P_PROVINCIA_ID_ESTADO", provincia.getIdEstado());
         provinciaInsertCall.execute(params);
     }
 
     public void actualizarProvincia(Provincia provincia) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_PROVINCIA", provincia.getIdProvincia());
-        params.put("P_NOMBRE", provincia.getNombre());
-        params.put("P_ID_ESTADO", provincia.getIdEstado());
+        params.put("P_PROVINCIA_ID_PROVINCIA", provincia.getIdProvincia());
+        params.put("P_PROVINCIA_NOMBRE", provincia.getNombre());
+        params.put("P_PROVINCIA_ID_ESTADO", provincia.getIdEstado());
         provinciaUpdateCall.execute(params);
     }
 
@@ -82,7 +81,7 @@ public class ProvinciaRepository {
 
     public void deleteProvincia(Provincia provincia) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_PROVINCIA", provincia.getIdProvincia());
+        params.put("P_PROVINCIA_ID_PROVINCIA", provincia.getIdProvincia());
         provinciaDeleteCall.execute(params);
     }
 

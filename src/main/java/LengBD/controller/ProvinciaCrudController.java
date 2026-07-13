@@ -4,6 +4,10 @@ import LengBD.domain.Provincia;
 import LengBD.domain.ProvinciaListadoDTO;
 import LengBD.service.ProvinciaService;
 import LengBD.service.EstadoService;
+import LengBD.service.ProvinciaService;
+import LengBD.service.ProvinciaService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/provincia")
-public class ProvinciaController {
-
-    @Autowired
-    private ProvinciaService provinciaService;
+public class ProvinciaCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private ProvinciaService provinciaService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<ProvinciaListadoDTO> lista = provinciaService.readAllProvincia();
         model.addAttribute("provincias", lista);
+        model.addAttribute("nuevoProvincia", new ProvinciaListadoDTO());
+        cargarCombos(model);
         return "provincia/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("provincia", new ProvinciaListadoDTO());
@@ -56,14 +62,13 @@ public class ProvinciaController {
             provincia.setNombre(dto.getNombre());
             provincia.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdProvincia() != null) {
+            if (dto.getIdProvincia()!= null) {
                 provinciaService.actualizarProvincia(provincia);
             } else {
                 provinciaService.insertarProvincia(provincia);
             }
             ra.addFlashAttribute("todoOk", "Provincia guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/provincia/listado";

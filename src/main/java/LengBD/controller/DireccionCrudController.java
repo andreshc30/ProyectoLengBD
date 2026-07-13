@@ -3,10 +3,11 @@ package LengBD.controller;
 import LengBD.domain.Direccion;
 import LengBD.domain.DireccionListadoDTO;
 import LengBD.service.DireccionService;
-import LengBD.service.ProvinciaService;
-import LengBD.service.CantonService;
-import LengBD.service.DistritoService;
 import LengBD.service.EstadoService;
+import LengBD.service.DireccionService;
+import LengBD.service.DireccionService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,30 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/direccion")
-public class DireccionController {
-
-    @Autowired
-    private DireccionService direccionService;
-
-    @Autowired
-    private ProvinciaService provinciaService;
-
-    @Autowired
-    private CantonService cantonService;
-
-    @Autowired
-    private DistritoService distritoService;
+public class DireccionCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private DireccionService direccionService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<DireccionListadoDTO> lista = direccionService.readAllDireccion();
         model.addAttribute("direcciones", lista);
+        model.addAttribute("nuevoDireccion", new DireccionListadoDTO());
+        cargarCombos(model);
         return "direccion/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("direccion", new DireccionListadoDTO());
@@ -71,14 +65,13 @@ public class DireccionController {
             direccion.setOtrosDetalles(dto.getOtrosDetalles());
             direccion.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdDireccion() != null) {
+            if (dto.getIdDireccion()!= null) {
                 direccionService.actualizarDireccion(direccion);
             } else {
                 direccionService.insertarDireccion(direccion);
             }
-            ra.addFlashAttribute("todoOk", "Dirección guardada correctamente");
+            ra.addFlashAttribute("todoOk", "Direccion guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/direccion/listado";
@@ -88,7 +81,7 @@ public class DireccionController {
     public String eliminar(@RequestParam("idDireccion") Integer idDireccion, RedirectAttributes ra) {
         try {
             direccionService.eliminarDireccion(idDireccion);
-            ra.addFlashAttribute("todoOk", "Dirección eliminada correctamente");
+            ra.addFlashAttribute("todoOk", "Direccion eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
@@ -96,9 +89,6 @@ public class DireccionController {
     }
 
     private void cargarCombos(Model model) {
-        model.addAttribute("provincias", provinciaService.readAllProvincia());
-        model.addAttribute("cantones", cantonService.readAllCanton());
-        model.addAttribute("distritos", distritoService.readAllDistrito());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
 }

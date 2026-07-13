@@ -4,6 +4,10 @@ import LengBD.domain.Tipo;
 import LengBD.domain.TipoListadoDTO;
 import LengBD.service.TipoService;
 import LengBD.service.EstadoService;
+import LengBD.service.TipoService;
+import LengBD.service.TipoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/tipo")
-public class TipoController {
-
-    @Autowired
-    private TipoService tipoService;
+public class TipoCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private TipoService tipoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<TipoListadoDTO> lista = tipoService.readAllTipo();
         model.addAttribute("tipos", lista);
+        model.addAttribute("nuevoTipo", new TipoListadoDTO());
+        cargarCombos(model);
         return "tipo/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("tipo", new TipoListadoDTO());
@@ -57,14 +63,13 @@ public class TipoController {
             tipo.setDescripcion(dto.getDescripcion());
             tipo.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdTipo() != null) {
+            if (dto.getIdTipo()!= null) {
                 tipoService.actualizarTipo(tipo);
             } else {
                 tipoService.insertarTipo(tipo);
             }
-            ra.addFlashAttribute("todoOk", "Tipo guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Tipo guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/tipo/listado";
@@ -74,7 +79,7 @@ public class TipoController {
     public String eliminar(@RequestParam("idTipo") Integer idTipo, RedirectAttributes ra) {
         try {
             tipoService.eliminarTipo(idTipo);
-            ra.addFlashAttribute("todoOk", "Tipo eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Tipo eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

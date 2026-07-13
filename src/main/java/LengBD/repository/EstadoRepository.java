@@ -60,14 +60,14 @@ public class EstadoRepository {
 
     public void insertarEstado(Estado estado) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ESTADO", estado.getEstado());
+        params.put("P_ESTADO_ESTADO", estado.getEstado());
         estadoInsertCall.execute(params);
     }
 
     public void actualizarEstado(Estado estado) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_ESTADO", estado.getIdEstado());
-        params.put("P_ESTADO", estado.getEstado());
+        params.put("P_ESTADO_ID_ESTADO", estado.getIdEstado());
+        params.put("P_ESTADO_ESTADO", estado.getEstado());
         estadoUpdateCall.execute(params);
     }
 
@@ -78,7 +78,7 @@ public class EstadoRepository {
 
     public void deleteEstado(Estado estado) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_ESTADO", estado.getIdEstado());
+        params.put("P_ESTADO_ID_ESTADO", estado.getIdEstado());
         estadoDeleteCall.execute(params);
     }
 

@@ -4,6 +4,10 @@ import LengBD.domain.Correo;
 import LengBD.domain.CorreoListadoDTO;
 import LengBD.service.CorreoService;
 import LengBD.service.EstadoService;
+import LengBD.service.CorreoService;
+import LengBD.service.CorreoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/correo")
-public class CorreoController {
-
-    @Autowired
-    private CorreoService correoService;
+public class CorreoCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private CorreoService correoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<CorreoListadoDTO> lista = correoService.readAllCorreo();
         model.addAttribute("correos", lista);
+        model.addAttribute("nuevoCorreo", new CorreoListadoDTO());
+        cargarCombos(model);
         return "correo/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("correo", new CorreoListadoDTO());
@@ -56,14 +62,13 @@ public class CorreoController {
             correo.setCorreo(dto.getCorreo());
             correo.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdCorreo() != null) {
+            if (dto.getIdCorreo()!= null) {
                 correoService.actualizarCorreo(correo);
             } else {
                 correoService.insertarCorreo(correo);
             }
-            ra.addFlashAttribute("todoOk", "Correo guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Correo guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/correo/listado";
@@ -73,7 +78,7 @@ public class CorreoController {
     public String eliminar(@RequestParam("idCorreo") Integer idCorreo, RedirectAttributes ra) {
         try {
             correoService.eliminarCorreo(idCorreo);
-            ra.addFlashAttribute("todoOk", "Correo eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Correo eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

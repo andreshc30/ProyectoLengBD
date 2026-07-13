@@ -60,17 +60,16 @@ public class CantonRepository {
 
     public void insertarCanton(Canton canton) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_NOMBRE", canton.getNombre());
-        params.put("P_ID_ESTADO", canton.getIdEstado());
-        cantonUpdateCall.execute(params);
+        params.put("P_CANTON_NOMBRE", canton.getNombre());
+        params.put("P_CANTON_ID_ESTADO", canton.getIdEstado());
         cantonInsertCall.execute(params);
     }
 
     public void actualizarCanton(Canton canton) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_CANTON", canton.getIdCanton());
-        params.put("P_NOMBRE", canton.getNombre());
-        params.put("P_ID_ESTADO", canton.getIdEstado());
+        params.put("P_CANTON_ID_CANTON", canton.getIdCanton());
+        params.put("P_CANTON_NOMBRE", canton.getNombre());
+        params.put("P_CANTON_ID_ESTADO", canton.getIdEstado());
         cantonUpdateCall.execute(params);
     }
 
@@ -82,7 +81,7 @@ public class CantonRepository {
 
     public void deleteCanton(Canton canton) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_CANTON", canton.getIdCanton());
+        params.put("P_CANTON_ID_CANTON", canton.getIdCanton());
         cantonDeleteCall.execute(params);
     }
 

@@ -4,6 +4,10 @@ import LengBD.domain.Distrito;
 import LengBD.domain.DistritoListadoDTO;
 import LengBD.service.DistritoService;
 import LengBD.service.EstadoService;
+import LengBD.service.DistritoService;
+import LengBD.service.DistritoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/distrito")
-public class DistritoController {
-
-    @Autowired
-    private DistritoService distritoService;
+public class DistritoCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private DistritoService distritoService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<DistritoListadoDTO> lista = distritoService.readAllDistrito();
         model.addAttribute("distritos", lista);
+        model.addAttribute("nuevoDistrito", new DistritoListadoDTO());
+        cargarCombos(model);
         return "distrito/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("distrito", new DistritoListadoDTO());
@@ -56,14 +62,13 @@ public class DistritoController {
             distrito.setNombre(dto.getNombre());
             distrito.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdDistrito() != null) {
+            if (dto.getIdDistrito()!= null) {
                 distritoService.actualizarDistrito(distrito);
             } else {
                 distritoService.insertarDistrito(distrito);
             }
-            ra.addFlashAttribute("todoOk", "Distrito guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Distrito guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/distrito/listado";
@@ -73,7 +78,7 @@ public class DistritoController {
     public String eliminar(@RequestParam("idDistrito") Integer idDistrito, RedirectAttributes ra) {
         try {
             distritoService.eliminarDistrito(idDistrito);
-            ra.addFlashAttribute("todoOk", "Distrito eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Distrito eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

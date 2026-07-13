@@ -3,6 +3,11 @@ package LengBD.controller;
 import LengBD.domain.Estado;
 import LengBD.domain.EstadoListadoDTO;
 import LengBD.service.EstadoService;
+import LengBD.service.EstadoService;
+import LengBD.service.EstadoService;
+import LengBD.service.EstadoService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,27 +23,31 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/estado")
-public class EstadoController {
+public class EstadoCrudController {
 
     @Autowired
     private EstadoService estadoService;
-
+    
     @GetMapping("/listado")
     public String listado(Model model) {
         List<EstadoListadoDTO> lista = estadoService.readAllEstado();
         model.addAttribute("estados", lista);
+        model.addAttribute("nuevoEstado", new EstadoListadoDTO());
+        cargarCombos(model);
         return "estado/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("estado", new EstadoListadoDTO());
+        cargarCombos(model);
         return "estado/formulario";
     }
 
     @GetMapping("/editar/{idEstado}")
     public String editar(@PathVariable("idEstado") Integer id, Model model) {
         model.addAttribute("estado", estadoService.buscarPorId(id));
+        cargarCombos(model);
         return "estado/formulario";
     }
 
@@ -48,15 +57,15 @@ public class EstadoController {
             Estado estado = new Estado();
             estado.setIdEstado(dto.getIdEstado());
             estado.setEstado(dto.getEstado());
+            estado.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdEstado() != null) {
+            if (dto.getIdEstado()!= null) {
                 estadoService.actualizarEstado(estado);
             } else {
                 estadoService.insertarEstado(estado);
             }
-            ra.addFlashAttribute("todoOk", "Estado guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Estado guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/estado/listado";
@@ -66,10 +75,14 @@ public class EstadoController {
     public String eliminar(@RequestParam("idEstado") Integer idEstado, RedirectAttributes ra) {
         try {
             estadoService.eliminarEstado(idEstado);
-            ra.addFlashAttribute("todoOk", "Estado eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Estado eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
         return "redirect:/estado/listado";
+    }
+
+    private void cargarCombos(Model model) {
+        model.addAttribute("estados", estadoService.readAllEstado());
     }
 }

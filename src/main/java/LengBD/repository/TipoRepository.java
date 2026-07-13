@@ -48,7 +48,7 @@ public class TipoRepository {
 
         tipoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_TIPO_DELETE_SP");
+                .withProcedureName("FIDE_TIPO_DELETE_LOGICO_SP");
 
         tipoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -62,7 +62,6 @@ public class TipoRepository {
         params.put("P_NOMBRE", tipo.getNombre());
         params.put("P_DESCRIPCION", tipo.getDescripcion());
         params.put("P_ID_ESTADO", tipo.getIdEstado());
-        tipoUpdateCall.execute(params);
         tipoInsertCall.execute(params);
     }
 

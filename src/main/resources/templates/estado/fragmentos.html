@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionEstado">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Estado</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoEstado">
+                    <i class="ti ti-plus"></i> Nuevo Estado
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="e :${estados}">
+                        <td th:text="${e.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${e.idEstado}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${e.idEstado}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(estados)}">
+                        <td colspan="4" class="text-center text-muted">No hay estados registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevoEstado" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/estado/guardar}" th:object="${nuevoEstado}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nuevo Estado</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <input type="text" class="form-control" th:field="*{estado}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar movimiento (uno por fila) -->
+            <div class="modal fade" th:each="e :${estados}" th:id="'modalEditar-' + ${e.idEstado}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/estado/guardar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Estado</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idEstado" th:value="${e.idEstado}">
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <input type="text" name="estado" class="form-control" th:value="${e.estado}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="e :${estados}" th:id="'modalEliminar-' + ${e.idEstado}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Metodo de Pago</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar el estado? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/estado/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idEstado" th:value="${e.idEstado}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

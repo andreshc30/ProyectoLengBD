@@ -60,16 +60,16 @@ public class CorreoRepository {
 
     public void insertarCorreo(Correo correo) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_CORREO", correo.getCorreo());
-        params.put("P_ID_ESTADO", correo.getIdEstado());
+        params.put("P_CORREO_CORREO", correo.getCorreo());
+        params.put("P_CORREO_ID_ESTADO", correo.getIdEstado());
         correoInsertCall.execute(params);
     }
 
     public void actualizarCorreo(Correo correo) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_CORREO", correo.getIdCorreo());
-        params.put("P_CORREO", correo.getCorreo());
-        params.put("P_ID_ESTADO", correo.getIdEstado());
+        params.put("P_CORREO_ID_CORREO", correo.getIdCorreo());
+        params.put("P_CORREO_CORREO", correo.getCorreo());
+        params.put("P_CORREO_ID_ESTADO", correo.getIdEstado());
         correoUpdateCall.execute(params);
     }
 
@@ -80,7 +80,7 @@ public class CorreoRepository {
 
     public void deleteCorreo(Correo correo) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_CORREO", correo.getIdCorreo());
+        params.put("P_CORREO_ID_CORREO", correo.getIdCorreo());
         correoDeleteCall.execute(params);
     }
 

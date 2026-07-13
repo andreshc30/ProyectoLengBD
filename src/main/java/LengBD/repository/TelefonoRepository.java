@@ -49,7 +49,7 @@ public class TelefonoRepository {
 
         telefonoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_TELEFONO_DELETE_SP");
+                .withProcedureName("FIDE_TELEFONO_DELETE_LOGICO_SP");
 
         telefonoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -62,7 +62,6 @@ public class TelefonoRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_TELEFONO", telefono.getTelefono());
         params.put("P_ID_ESTADO", telefono.getIdEstado());
-        telefonoUpdateCall.execute(params);
         telefonoInsertCall.execute(params);
     }
 

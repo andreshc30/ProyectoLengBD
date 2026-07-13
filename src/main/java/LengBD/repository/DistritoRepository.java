@@ -60,17 +60,16 @@ public class DistritoRepository {
 
     public void insertarDistrito(Distrito distrito) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_NOMBRE", distrito.getNombre());
-        params.put("P_ID_ESTADO", distrito.getIdEstado());
-        distritoUpdateCall.execute(params);
+        params.put("P_DISTRITO_NOMBRE", distrito.getNombre());
+        params.put("P_DISTRITO_ID_ESTADO", distrito.getIdEstado());
         distritoInsertCall.execute(params);
     }
 
     public void actualizarDistrito(Distrito distrito) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_DISTRITO", distrito.getIdDistrito());
-        params.put("P_NOMBRE", distrito.getNombre());
-        params.put("P_ID_ESTADO", distrito.getIdEstado());
+        params.put("P_DISTRITO_ID_DISTRITO", distrito.getIdDistrito());
+        params.put("P_DISTRITO_NOMBRE", distrito.getNombre());
+        params.put("P_DISTRITO_ID_ESTADO", distrito.getIdEstado());
         distritoUpdateCall.execute(params);
     }
 
@@ -82,7 +81,7 @@ public class DistritoRepository {
 
     public void deleteDistrito(Distrito distrito) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_DISTRITO", distrito.getIdDistrito());
+        params.put("P_DISTRITO_ID_DISTRITO", distrito.getIdDistrito());
         distritoDeleteCall.execute(params);
     }
 

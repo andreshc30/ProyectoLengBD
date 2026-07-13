@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="gestionCanton">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Canton</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevoCanton">
+                    <i class="ti ti-plus"></i> Nuevo Canton
+                </button>
+            </div>
+
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${cantones}">
+                        <td th:text="${c.nombre}"></td>
+                        <td th:text="${c.estado}"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalEditar-' + ${c.idCanton}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar-' + ${c.idCanton}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(cantones)}">
+                        <td colspan="4" class="text-center text-muted">No hay cantones registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal: nuevo pago -->
+            <div class="modal fade" id="modalNuevoCanton" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/canton/guardar}" th:object="${nuevoCanton}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nuevo Canton</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" th:field="*{nombre}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{idEstado}">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: editar movimiento (uno por fila) -->
+            <div class="modal fade" th:each="c : ${cantones}" th:id="'modalEditar-' + ${c.idCanton}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/canton/guardar}" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Canton</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="idCanton" th:value="${c.idCanton}">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" th:value="${c.nombre}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" name="idEstado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == c.idEstado}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: confirmar eliminación (uno por fila) -->
+            <div class="modal fade" th:each="c : ${cantones}" th:id="'modalEliminar-' + ${c.idCanton}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Metodo de Pago</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que querés eliminar el canton? Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form th:action="@{/canton/eliminar}" method="post" class="d-inline">
+                                <input type="hidden" name="idCanton" th:value="${c.idCanton}">
+                                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

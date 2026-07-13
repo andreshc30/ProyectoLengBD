@@ -4,6 +4,10 @@ import LengBD.domain.Canton;
 import LengBD.domain.CantonListadoDTO;
 import LengBD.service.CantonService;
 import LengBD.service.EstadoService;
+import LengBD.service.CantonService;
+import LengBD.service.CantonService;
+import LengBD.service.SuscripcionService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +23,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/canton")
-public class CantonController {
-
-    @Autowired
-    private CantonService cantonService;
+public class CantonCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private CantonService cantonService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
         List<CantonListadoDTO> lista = cantonService.readAllCanton();
         model.addAttribute("cantones", lista);
+        model.addAttribute("nuevoCanton", new CantonListadoDTO());
+        cargarCombos(model);
         return "canton/listado";
     }
-
+ 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("canton", new CantonListadoDTO());
@@ -56,14 +62,13 @@ public class CantonController {
             canton.setNombre(dto.getNombre());
             canton.setIdEstado(dto.getIdEstado());
 
-            if (dto.getIdCanton() != null) {
+            if (dto.getIdCanton()!= null) {
                 cantonService.actualizarCanton(canton);
             } else {
                 cantonService.insertarCanton(canton);
             }
-            ra.addFlashAttribute("todoOk", "Cantón guardado correctamente");
+            ra.addFlashAttribute("todoOk", "Canton guardada correctamente");
         } catch (Exception ex) {
-            ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
         return "redirect:/canton/listado";
@@ -73,7 +78,7 @@ public class CantonController {
     public String eliminar(@RequestParam("idCanton") Integer idCanton, RedirectAttributes ra) {
         try {
             cantonService.eliminarCanton(idCanton);
-            ra.addFlashAttribute("todoOk", "Cantón eliminado correctamente");
+            ra.addFlashAttribute("todoOk", "Canton eliminada correctamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }

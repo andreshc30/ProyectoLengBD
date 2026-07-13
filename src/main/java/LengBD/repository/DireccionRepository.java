@@ -60,23 +60,22 @@ public class DireccionRepository {
 
     public void insertarDireccion(Direccion direccion) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_PROVINCIA", direccion.getIdProvincia());
-        params.put("P_ID_CANTON", direccion.getIdCanton());
-        params.put("P_ID_DISTRITO", direccion.getIdDistrito());
-        params.put("P_OTROS_DETALLES", direccion.getOtrosDetalles());
-        params.put("P_ID_ESTADO", direccion.getIdEstado());
-        direccionUpdateCall.execute(params);
+        params.put("P_DIRECCION_ID_PROVINCIA", direccion.getIdProvincia());
+        params.put("P_DIRECCION_ID_CANTON", direccion.getIdCanton());
+        params.put("P_DIRECCION_ID_DISTRITO", direccion.getIdDistrito());
+        params.put("P_DIRECCION_OTROS_DETALLES", direccion.getOtrosDetalles());
+        params.put("P_DIRECCION_ID_ESTADO", direccion.getIdEstado());
         direccionInsertCall.execute(params);
     }
 
     public void actualizarDireccion(Direccion direccion) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_DIRECCION", direccion.getIdDireccion());
-        params.put("P_ID_PROVINCIA", direccion.getIdProvincia());
-        params.put("P_ID_CANTON", direccion.getIdCanton());
-        params.put("P_ID_DISTRITO", direccion.getIdDistrito());
-        params.put("P_OTROS_DETALLES", direccion.getOtrosDetalles());
-        params.put("P_ID_ESTADO", direccion.getIdEstado());
+        params.put("P_DIRECCION_ID_DIRECCION", direccion.getIdDireccion());
+        params.put("P_DIRECCION_ID_PROVINCIA", direccion.getIdProvincia());
+        params.put("P_DIRECCION_ID_CANTON", direccion.getIdCanton());
+        params.put("P_DIRECCION_ID_DISTRITO", direccion.getIdDistrito());
+        params.put("P_DIRECCION_OTROS_DETALLES", direccion.getOtrosDetalles());
+        params.put("P_DIRECCION_ID_ESTADO", direccion.getIdEstado());
         direccionUpdateCall.execute(params);
     }
 
@@ -88,7 +87,7 @@ public class DireccionRepository {
 
     public void deleteDireccion(Direccion direccion) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_DIRECCION", direccion.getIdDireccion());
+        params.put("P_DIRECCION_ID_DIRECCION", direccion.getIdDireccion());
         direccionDeleteCall.execute(params);
     }
 

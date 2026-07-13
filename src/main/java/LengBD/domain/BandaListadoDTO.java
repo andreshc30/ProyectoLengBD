@@ -4,18 +4,9 @@
  */
 package LengBD.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import lombok.Data;
 
 @Data
@@ -41,7 +32,7 @@ public class BandaListadoDTO implements Serializable {
     
     
     private Integer idTelefono; 
-    private Integer telefono; 
+    private String telefono;  // CORREGIDO: era Integer, FIDE_TELEFONO_TB.TELEFONO es VARCHAR2
     
     
     private Integer idEstado; 

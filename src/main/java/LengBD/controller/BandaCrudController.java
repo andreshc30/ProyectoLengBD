@@ -48,6 +48,8 @@ public class BandaCrudController {
     public String listado(Model model) {
         List<BandaListadoDTO> lista = bandaService.readAllBanda();
         model.addAttribute("bandas", lista);
+        model.addAttribute("nuevaBanda", new BandaListadoDTO());
+        cargarCombos(model);
         return "bandas/listado";
     }
 

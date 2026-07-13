@@ -23,9 +23,18 @@ import java.util.List;
  * NOTA: en Evento.java y EventoListadoDTO.java el campo se llama "direccion" (Integer),
  * no "idDireccion" como en el resto del proyecto -- ambos coinciden entre sí así que
  * no rompe nada, pero es una inconsistencia de naming a tener en cuenta.
+ *
+ * NOTA 2: ruta cambiada de "/evento" a "/eventos" (plural) para coincidir con la vista
+ * ya existente de la compañera, que hardcodea esos links y nombres de atributo
+ * ("evento" para el modal, "listaEventos" para la tabla). Los combos (direcciones,
+ * bandas, estados) NO se cargan en listado() porque esa vista usa <input type="number">
+ * simples para esos campos, no <select> -- si más adelante se cambia a selects,
+ * hay que agregar cargarCombos(model) de vuelta ahí.
+ *
+ * TODO: confirmar el nombre real del archivo/carpeta del template (asumido "eventos/listado").
  */
 @Controller
-@RequestMapping("/evento")
+@RequestMapping("/eventos")
 public class EventoController {
 
     @Autowired
@@ -43,22 +52,23 @@ public class EventoController {
     @GetMapping("/listado")
     public String listado(Model model) {
         List<EventoListadoDTO> lista = eventoService.readAllEvento();
-        model.addAttribute("eventos", lista);
-        return "evento/listado";
+        model.addAttribute("listaEventos", lista);
+        model.addAttribute("evento", new EventoListadoDTO());
+        return "eventos/listado";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("evento", new EventoListadoDTO());
         cargarCombos(model);
-        return "evento/formulario";
+        return "eventos/listado";
     }
 
     @GetMapping("/editar/{idEvento}")
     public String editar(@PathVariable("idEvento") Integer id, Model model) {
         model.addAttribute("evento", eventoService.buscarPorId(id));
         cargarCombos(model);
-        return "evento/formulario";
+        return "eventos/listado";
     }
 
     @PostMapping("/guardar")
@@ -83,7 +93,28 @@ public class EventoController {
             ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-        return "redirect:/evento/listado";
+        return "redirect:/eventos/listado";
+    }
+
+    @PostMapping("/actualizar")
+    public String actualizar(@ModelAttribute EventoListadoDTO dto, RedirectAttributes ra) {
+        try {
+            Evento evento = new Evento();
+            evento.setIdEvento(dto.getIdEvento());
+            evento.setNombre(dto.getNombre());
+            evento.setDetalle(dto.getDetalle());
+            evento.setFecha(dto.getFecha());
+            evento.setDireccion(dto.getDireccion());
+            evento.setIdBanda(dto.getIdBanda());
+            evento.setIdEstado(dto.getIdEstado());
+
+            eventoService.actualizarEvento(evento);
+            ra.addFlashAttribute("todoOk", "Evento actualizado correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al actualizar: " + ex.getMessage());
+        }
+        return "redirect:/eventos/listado";
     }
 
     @PostMapping("/eliminar")
@@ -94,7 +125,7 @@ public class EventoController {
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/evento/listado";
+        return "redirect:/eventos/listado";
     }
 
     private void cargarCombos(Model model) {

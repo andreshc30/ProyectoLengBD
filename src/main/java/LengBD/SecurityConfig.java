@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 "/",
                                 "/audiciones/listado",
                                 "/eventos/listado",
+                                "/eventos/guardar",
                                 "/general/listado",
                                 "/gestion_bandas/listado",
                                 "/secciones/listadoDirector",

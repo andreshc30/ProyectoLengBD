@@ -29,6 +29,6 @@ public class TipoListadoDTO implements Serializable {
     private String descripcion;
     private String estado;
     
-    private Estado idEstado; 
+    private Integer idEstado; 
     
 }

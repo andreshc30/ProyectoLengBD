@@ -26,7 +26,7 @@ public class TelefonoListadoDTO implements Serializable {
     
     private Integer idTelefono;
     
-    private Integer telefono;
+    private String telefono;
     private String estado;
     
     private Integer idEstado; 

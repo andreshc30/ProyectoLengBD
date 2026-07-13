@@ -31,20 +31,16 @@ public class SolicitudIngresoListadoDTO implements Serializable {
     
     private String mensaje;
     private String correo;
+    private String telefono;
     private String nombreSeccion;
     private String nombreBanda;
-    private Integer telefono;
     private String estado;
     
     private LocalDate fechaSolicitud;
     
-    private Integer idCorreo; 
-    
     private Integer idSeccion; 
     
     private Integer idBanda; 
-    
-    private Integer idTelefono; 
     
     private Integer idEstado; 
     

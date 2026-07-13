@@ -84,7 +84,7 @@ public void actualizarAsignacionInstrumento(AsignacionInstrumento asignacion) {
 
     public List<AsignacionListadoDTO> readAllAsignacionInstrumento() {
         Map<String, Object> result = asignacionInstrumentoReadAllCall.execute();
-        return (List<AsignacionListadoDTO>) result.get("p_cursor");
+        return (List<AsignacionListadoDTO>) result.get("P_REGISTRO");
     }
 
     public void deleteAsignacionInstrumento(AsignacionInstrumento asignacionInstrumento) {

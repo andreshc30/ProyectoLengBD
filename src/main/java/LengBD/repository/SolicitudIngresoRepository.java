@@ -49,7 +49,7 @@ public class SolicitudIngresoRepository {
 
         solicitudIngresoDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
-                .withProcedureName("FIDE_SOLICITUD_INGRESO_DELETE_SP");
+                .withProcedureName("FIDE_SOLICITUD_INGRESO_DELETE_LOGICO_SP");
 
         solicitudIngresoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
@@ -65,12 +65,11 @@ public class SolicitudIngresoRepository {
         params.put("P_SEGUNDO_APELLIDO", solicitudIngreso.getSegundoApellido());
         params.put("P_MENSAJE", solicitudIngreso.getMensaje());
         params.put("P_FECHA_SOLICITUD", solicitudIngreso.getFechaSolicitud());
-        params.put("P_ID_CORREO", solicitudIngreso.getIdCorreo());
+        params.put("P_CORREO", solicitudIngreso.getCorreo());
         params.put("P_ID_SECCION", solicitudIngreso.getIdSeccion());
         params.put("P_ID_BANDA", solicitudIngreso.getIdBanda());
-        params.put("P_ID_TELEFONO", solicitudIngreso.getIdTelefono());
+        params.put("P_TELEFONO", solicitudIngreso.getTelefono());
         params.put("P_ID_ESTADO", solicitudIngreso.getIdEstado());
-        solicitudIngresoUpdateCall.execute(params);
         solicitudIngresoInsertCall.execute(params);
     }
 
@@ -82,10 +81,10 @@ public class SolicitudIngresoRepository {
         params.put("P_SEGUNDO_APELLIDO", solicitudIngreso.getSegundoApellido());
         params.put("P_MENSAJE", solicitudIngreso.getMensaje());
         params.put("P_FECHA_SOLICITUD", solicitudIngreso.getFechaSolicitud());
-        params.put("P_ID_CORREO", solicitudIngreso.getIdCorreo());
+        params.put("P_CORREO", solicitudIngreso.getCorreo());
         params.put("P_ID_SECCION", solicitudIngreso.getIdSeccion());
         params.put("P_ID_BANDA", solicitudIngreso.getIdBanda());
-        params.put("P_ID_TELEFONO", solicitudIngreso.getIdTelefono());
+        params.put("P_TELEFONO", solicitudIngreso.getTelefono());
         params.put("P_ID_ESTADO", solicitudIngreso.getIdEstado());
         solicitudIngresoUpdateCall.execute(params);
     }

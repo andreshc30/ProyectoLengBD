@@ -32,7 +32,7 @@ public class BandaInstrumento implements Serializable {
     private Integer idInstrumento;
     
     @Column(name="ID_ESTADO")
-    private Estado idEstado; 
+    private Integer idEstado; 
     
 
 }

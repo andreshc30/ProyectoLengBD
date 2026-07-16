@@ -312,18 +312,27 @@
                                                                     <th>Correo</th>
                                                                     <th>Teléfono</th>
                                                                     <th>Mensaje</th>
+                                                                    <th>Estado</th>
+                                                                    <th>Seccion</th>
                                                                     <th class="text-center">Acciones</th>
+                                                                    
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
                                                                     <td th:text="${sol.idSolicitud}">1</td>
-                                                                    <td th:text="${sol.nombre + ' ' + sol.apellidoPaterno + ' ' + (sol.apellidoMaterno != null ? sol.apellidoMaterno : '')}">Juan Pérez</td>
+                       
+                                                                    <td th:text="${sol.nombre + ' ' + sol.primerApellido + ' ' + (sol.segundoApellido != null ? sol.segundoApellido : '')}">Juan Pérez</td>
                                                                     <td th:text="${sol.correo}">correo@x.com</td>
                                                                     <td th:text="${sol.telefono}">8888-8888</td>
                                                                     <td th:text="${sol.mensaje}">Mensaje...</td>
+                                                                    <td>
+                                                                        <span th:text="${sol.estado}"
+                                                                              th:classappend="${sol.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                                    </td>
+                                                                    <td th:text ="${sol.nombreSeccion}">Nombre de la Seccion</td>
                                                                     <td class="text-center">
-                                                                        <a th:href="@{/solicitudIngreso/editar/{id}(id=${sol.idSolicitud})}"
+                                                                        <a th:href="@{/solicitudIngreso/editarDirector/{id}(id=${sol.idSolicitud})}"
                                                                            class="btn btn-sm btn-info text-white mb-1">Editar</a>
                                                                         <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
                                                                               onsubmit="return confirm('¿Eliminar esta solicitud?');">
@@ -420,196 +429,3 @@
         
     </body>
 </html>
-
-<!--<!DOCTYPE html>
-                                <html xmlns="http://www.w3.org/1999/xhtml"
-                                      xmlns:th="http://www.thymeleaf.org"
-                                      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-                                
-                                    <head>
-                                        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
-                                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-                                    </head>
-                                
-                                    <body>
-                                        <header>
-                                            <div class="Center">
-                                                <div class="site-logo">
-                                                    <h1><a th:href="@{/}">BandCore</a></h1>
-                                                </div>
-                                                <nav class="Navigation">
-                                                    <ul>
-                                                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
-                                                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
-                                                        <li class="active"><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
-                                                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
-                                                        <li><a th:href="@{/suscripcion/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
-                                                    </ul>
-                                                </nav>
-                                                <div id="mobile_sec">
-                                                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </header>
-                                
-                                        <section th:fragment="Page-Wrapper">
-                                            <div id="wrapper">
-                                                
-                                                <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                                                    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
-                                                        <div class="sidebar">
-                                                            <i class="fas fa-laugh-wink"></i>
-                                                        </div>
-                                                        <div class="sidebar-brand-text mx-3">BLCM</div>
-                                                    </a>
-                                                    <hr class="sidebar-divider my-0">
-                                                    <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
-                                                    
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" th:href="@{/inicio/listado}">
-                                                            <i class="fas fa-fw"></i>
-                                                            <span>Dashboard</span>
-                                                        </a>
-                                                    </li>
-                                                    <hr class="sidebar-divider">
-                                                    <li class="nav-item active">
-                                                        <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#">Lideres de Seccion</a>
-                                                    </li>
-                                                    
-                                                    <li class="nav-item" th:each="seccion : ${listaSecciones}">
-                                                        <a class="nav-link" th:href="@{/banda/secciones/{id}(id=${seccion.id_seccion})}" th:text="${seccion.nombre_seccion}">Nombre Sección</a>
-                                                    </li>
-                                                </ul>
-                                
-                                                <div id="content-wrapper" class="d-flex flex-column w-100">
-                                                    <div id="content">
-                                                        
-                                                        <div class="container-fluid mt-4">
-                                                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
-                                                            </div>
-                                
-                                                            <div class="card shadow mb-4">
-                                                                <div class="card-header py-3">
-                                                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    
-                                                                    <form th:action="@{/integrantes/guardar}" method="post" class="mb-4">
-                                                                        <div class="row">
-                                                                            <div class="col-md-5 mb-3">
-                                                                                <label for="nombre" class="form-label font-weight-bold">Nombre Completo:</label>
-                                                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                                                                            </div>
-                                                                            <div class="col-md-5 mb-3">
-                                                                                <label for="seccion" class="form-label font-weight-bold">Sección:</label>
-                                                                                <select class="form-select form-control" id="seccion" name="idSeccion">
-                                                                                    <option value="">-- Seleccione --</option>
-                                                                                    <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-md-2 d-flex align-items-end mb-3">
-                                                                                <button type="submit" class="btn btn-primary w-100">Guardar</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                                                            <thead class="thead-light">
-                                                                                <tr>
-                                                                                    <th>Nombre</th>
-                                                                                    <th>Sección</th>
-                                                                                    <th>Rol</th>
-                                                                                    <th class="text-center">Acciones</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr th:each="integrante : ${listaIntegrantes}">
-                                                                                    <td th:text="${integrante.nombre}">Juan Pérez</td>
-                                                                                    <td th:text="${integrante.seccion.nombre_seccion}">Trompetas</td>
-                                                                                    <td>
-                                                                                        <span th:class="${integrante.rol.nombre_rol == 'Líder'} ? 'badge bg-warning text-dark' : 'badge bg-secondary text-white'" 
-                                                                                              th:text="${integrante.rol.nombre_rol}">Músico</span>
-                                                                                    </td>
-                                                                                    <td class="text-center">
-                                                                                        <a th:href="@{/integrantes/editar/{id}(id=${integrante.id_usuario})}" class="btn btn-sm btn-info text-white me-2">Editar</a>
-                                                                                        <form th:action="@{/integrantes/eliminar/{id}(id=${integrante.id_usuario})}" method="post" style="display:inline;">
-                                                                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                                                                        </form>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                
-                                                            <div class="row">
-                                                                <div class="col-lg-6 mb-4">
-                                                                    <div class="card shadow h-100">
-                                                                        <div class="card-header py-3">
-                                                                            <h6 class="m-0 font-weight-bold text-success">Asignar Instrumento a Integrante</h6>
-                                                                        </div>
-                                                                        <div class="card-body">
-                                                                            <form th:action="@{/instrumentos/asignar}" method="post">
-                                                                                <div class="mb-3">
-                                                                                    <label for="integrante-inst" class="form-label font-weight-bold">Integrante:</label>
-                                                                                    <select class="form-select form-control" id="integrante-inst" name="idIntegrante" required>
-                                                                                        <option value="">-- Seleccione integrante sin instrumento --</option>
-                                                                                        <option th:each="int : ${integrantesSinInstrumento}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="mb-4">
-                                                                                    <label for="instrumento" class="form-label font-weight-bold">Instrumento Disponible:</label>
-                                                                                    <select class="form-select form-control" id="instrumento" name="idInstrumento" required>
-                                                                                        <option value="">-- Seleccione del inventario --</option>
-                                                                                        <option th:each="inst : ${instrumentosDisponibles}" th:value="${inst.id_instrumento}" th:text="${inst.marca + ' (' + inst.estado + ')'}"></option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <button type="submit" class="btn btn-success w-100">Vincular Instrumento</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                
-                                                                <div class="col-lg-6 mb-4">
-                                                                    <div class="card shadow h-100">
-                                                                        <div class="card-header py-3">
-                                                                            <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
-                                                                        </div>
-                                                                        <div class="card-body">
-                                                                            <form th:action="@{/secciones/asignar-lider}" method="post">
-                                                                                <div class="mb-3">
-                                                                                    <label for="seccion-lider" class="form-label font-weight-bold">Sección a modificar:</label>
-                                                                                    <select class="form-select form-control" id="seccion-lider" name="idSeccion" required>
-                                                                                        <option value="">-- Seleccione la sección --</option>
-                                                                                        <option th:each="sec : ${listaSecciones}" th:value="${sec.id_seccion}" th:text="${sec.nombre_seccion}"></option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="mb-4">
-                                                                                    <label for="nuevo-lider" class="form-label font-weight-bold">Seleccionar Nuevo Líder:</label>
-                                                                                    <select class="form-select form-control" id="nuevo-lider" name="idIntegrante" required>
-                                                                                        <option value="">-- Seleccione al integrante --</option>
-                                                                                        <option th:each="int : ${listaIntegrantes}" th:value="${int.id_usuario}" th:text="${int.nombre}"></option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <button type="submit" class="btn btn-warning w-100 text-dark font-weight-bold">Guardar Asignación</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
-                                
-                                        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
-                                        
-                                    </body>
-                                </html> -->

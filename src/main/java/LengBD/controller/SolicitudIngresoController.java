@@ -1,5 +1,6 @@
 package LengBD.controller;
 
+import LengBD.domain.SeccionListadoDTO;
 import LengBD.domain.SolicitudIngreso;
 import LengBD.domain.SolicitudIngresoListadoDTO;
 import LengBD.service.SolicitudIngresoService;
@@ -93,7 +94,7 @@ public class SolicitudIngresoController {
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al eliminar");
         }
-        return "redirect:/solicitudIngreso/listado";
+        return "redirect:/banda/secciones/listadoDirector";
     }
 
     private void cargarCombos(Model model) {
@@ -106,6 +107,59 @@ public class SolicitudIngresoController {
             model.addAttribute("errorCarga", "No se pudieron cargar los datos de las listas.");
         }
     }
+    
+@GetMapping("/editarDirector/{idSolicitud}")
+public String editarDirector(@PathVariable("idSolicitud") Integer id, Model model) {
+    // 1. Obtener la solicitud
+    var solicitud = solicitudIngresoService.buscarPorId(id);
+    model.addAttribute("solicitudIngreso", solicitud);
+    
+    // 2. Cargar las listas (esto llena el modelo con 'secciones')
+    cargarCombos(model);
+    
+    // 3. Buscar el nombre de la sección actual (Aquí SÍ puedes usar Stream)
+    // Nota: 'secciones' ya fue cargado por cargarCombos(model)
+    List<SeccionListadoDTO> listaSecciones = (List<SeccionListadoDTO>) model.getAttribute("secciones");
+    
+    String nombreSeccionActual = "No asignada";
+    if (listaSecciones != null && solicitud != null && solicitud.getIdSeccion() != null) {
+        nombreSeccionActual = listaSecciones.stream()
+                .filter(s -> s.getIdSeccion().equals(solicitud.getIdSeccion()))
+                .findFirst()
+                .map(SeccionListadoDTO::getNombre)
+                .orElse("No asignada");
+    }
+            
+    model.addAttribute("nombreSeccionActual", nombreSeccionActual);
+    
+    return "solicitudes/formularioDirector";
+}
+
+
+@PostMapping("/guardarDirector")
+public String guardarDirector(@ModelAttribute SolicitudIngresoListadoDTO dto, RedirectAttributes ra) {
+    try {
+        SolicitudIngreso s = new SolicitudIngreso();
+        s.setIdSolicitud(dto.getIdSolicitud());
+        s.setNombre(dto.getNombre());
+        s.setPrimerApellido(dto.getPrimerApellido());
+        s.setSegundoApellido(dto.getSegundoApellido());
+        s.setMensaje(dto.getMensaje());
+        s.setCorreo(dto.getCorreo());
+        s.setTelefono(dto.getTelefono());
+        s.setFechaSolicitud(dto.getFechaSolicitud());
+        s.setIdSeccion(dto.getIdSeccion());
+        s.setIdBanda(dto.getIdBanda());
+        s.setIdEstado(dto.getIdEstado());
+
+        solicitudIngresoService.actualizarSolicitudIngreso(s);
+        ra.addFlashAttribute("todoOk", "Solicitud actualizada correctamente");
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        ra.addFlashAttribute("error", "Error al actualizar: " + ex.getMessage());
+    }
+    return "redirect:/banda/secciones/listadoDirector";
+}
     
 
 }

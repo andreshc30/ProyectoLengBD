@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Gestionar Solicitud de Ingreso</h4>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/solicitudIngreso/guardarDirector}" th:object="${solicitudIngreso}" method="post">
+
+                    <input type="hidden" th:field="*{idSolicitud}">
+                    <input type="hidden" th:field="*{fechaSolicitud}">
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" th:field="*{nombre}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Primer Apellido:</label>
+                            <input type="text" class="form-control" th:field="*{primerApellido}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Segundo Apellido:</label>
+                            <input type="text" class="form-control" th:field="*{segundoApellido}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Correo:</label>
+                            <input type="email" class="form-control" th:field="*{correo}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="tel" class="form-control" th:field="*{telefono}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Banda:</label>
+                            <select class="form-select" name="idBanda" required>
+                                <option value="">-- Seleccione banda --</option>
+                                <option th:each="b : ${bandas}"
+                                        th:value="${b.idBanda}"
+                                        th:text="${b.nombre}"
+                                        th:selected="${solicitudIngreso.idBanda != null and solicitudIngreso.idBanda == b.idBanda}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Sección Actual:</label>
+                            <input type="text" class="form-control" readonly th:value="${nombreSeccionActual}"> 
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Cambiar Sección:</label>
+                            <select class="form-select" name="idSeccion" required>
+                                <option value="">Seleccione una sección</option>
+                                <option th:each="s : ${secciones}"
+                                        th:value="${s.idSeccion}"
+                                        th:text="${s.nombre}"
+                                        th:selected="${solicitudIngreso.idSeccion == s.idSeccion}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Estado:</label>
+                            <select class="form-select" name="idEstado" required>
+                                <option th:each="e : ${estados}"
+                                        th:value="${e.idEstado}"
+                                        th:text="${e.estado}"
+                                        th:selected="${solicitudIngreso.idEstado != null and solicitudIngreso.idEstado == e.idEstado}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Mensaje:</label>
+                        <textarea class="form-control" th:field="*{mensaje}" rows="4"></textarea>
+                    </div>
+
+                    <div class="text-end">
+                        <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

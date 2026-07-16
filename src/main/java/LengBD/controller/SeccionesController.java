@@ -14,7 +14,7 @@ public class SeccionesController {
 
     @Autowired
     private AsignacionInstrumentoService asignacionInstrumentoService;
-    
+
     @Autowired
     private SolicitudIngresoService solicitudIngresoService;
 

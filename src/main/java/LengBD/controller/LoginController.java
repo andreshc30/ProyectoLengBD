@@ -19,4 +19,9 @@ public class LoginController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/acceso_denegado")
+    public String accesoDenegado() {
+        return "general/acceso_denegado";
+    }
 }

@@ -8,11 +8,13 @@ package LengBD.repository;
  *
  * @author peper
  */
+import LengBD.domain.UsuarioLoginDTO;
 import LengBD.domain.Usuario;
 import LengBD.domain.UsuarioListadoDTO;
 import jakarta.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ public class UsuarioRepository {
     private SimpleJdbcCall usuarioUpdateCall;
     private SimpleJdbcCall usuarioDeleteCall;
     private SimpleJdbcCall usuarioReadAllCall;
-
+        
     // CORREGIDO: mapeo POR POSICION (indice de columna), no por nombre.
     // El mapeo por nombre fallaba (ORA-17006) porque varias tablas del JOIN
     // (Usuario, Seccion, Banda) comparten columnas fisicas llamadas "NOMBRE",
@@ -89,6 +91,16 @@ public class UsuarioRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_USUARIO_SP")
                 .returningResultSet("P_CURSOR", USUARIO_ROW_MAPPER);
+        
+        loginCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LOGIN_USUARIO_SP")
+                .returningResultSet("P_CURSOR", LOGIN_ROW_MAPPER);
+
+        rolesCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_ROLES_USUARIO_SP")
+                .returningResultSet("P_CURSOR", ROL_ROW_MAPPER);
     }
 
     public void insertarUsuario(Usuario usuario) {
@@ -136,4 +148,44 @@ public class UsuarioRepository {
         usuarioDeleteCall.execute(params);
     }
 
+    
+    
+     @SuppressWarnings("unchecked")
+    public UsuarioLoginDTO buscarPorCorreo(String correo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_CORREO", correo);
+        Map<String, Object> result = loginCall.execute(params);
+        List<UsuarioLoginDTO> lista = (List<UsuarioLoginDTO>) result.get("P_CURSOR");
+        return (lista == null || lista.isEmpty()) ? null : lista.get(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> buscarRolesPorCedula(Integer cedula) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_CEDULA", cedula);
+        Map<String, Object> result = rolesCall.execute(params);
+        List<String> roles = (List<String>) result.get("P_CURSOR");
+        return roles == null ? new ArrayList<>() : roles;
+    }
+    
+    private SimpleJdbcCall loginCall;
+    private SimpleJdbcCall rolesCall;
+
+    // Orden del SELECT en FIDE_LOGIN_USUARIO_SP:
+    // 1 CEDULA, 2 PASSWORD, 3 NOMBRE, 4 PRIMER_APELLIDO,
+    // 5 ID_ESTADO, 6 ID_BANDA, 7 NOMBRE_BANDA, 8 CORREO
+    private static final RowMapper<UsuarioLoginDTO> LOGIN_ROW_MAPPER = (rs, rowNum) -> {
+        UsuarioLoginDTO dto = new UsuarioLoginDTO();
+        dto.setCedula(rs.getObject(1) != null ? rs.getInt(1) : null);
+        dto.setPassword(rs.getString(2));
+        dto.setNombre(rs.getString(3));
+        dto.setPrimerApellido(rs.getString(4));
+        dto.setIdEstado(rs.getObject(5) != null ? rs.getInt(5) : null);
+        dto.setIdBanda(rs.getObject(6) != null ? rs.getInt(6) : null);
+        dto.setNombreBanda(rs.getString(7));
+        dto.setCorreo(rs.getString(8));
+        return dto;
+    };
+
+    private static final RowMapper<String> ROL_ROW_MAPPER = (rs, rowNum) -> rs.getString(2);
 }

@@ -41,391 +41,295 @@
                         <div class="sidebar-brand-text mx-3">BLCM</div>
                     </a>
                     <hr class="sidebar-divider my-0">
-                        <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/banda/listado}">
-                                <i class="fas fa-fw"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <hr class="sidebar-divider">
-                            <li class="nav-item active">
-                                <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-                            </li>
+                    <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
 
-                            </li>
-                            <hr class="sidebar-divider">
-                                <li class="nav-item active">
-                                    <a class="nav-link" th:href="@{/banda/secciones/adminListado}">Admin</a>
-                                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/banda/listado}">
+                            <i class="fas fa-fw"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <hr class="sidebar-divider">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
+                    </li>
+                    <hr class="sidebar-divider">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/banda/secciones/adminListado}">Admin</a>
+                    </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Líderes de Sección</a>
-                                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Líderes de Sección</a>
+                    </li>
 
-                                <li class="nav-item"><a class="nav-link" href="#">Cajas</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Liras</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Principales</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Bombos</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Tenores</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Güiros</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Folclore</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Color Guard</a></li>
-                                </ul>
+                    <li class="nav-item"><a class="nav-link" href="#">Cajas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Liras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Principales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Bombos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tenores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Güiros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Folclore</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Color Guard</a></li>
+                </ul>
 
-                                <div id="content-wrapper" class="d-flex flex-column w-100">
-                                    <div id="content">
+                <div id="content-wrapper" class="d-flex flex-column w-100">
+                    <div id="content">
+                        <div class="container-fluid mt-4">
 
-                                        <div class="container-fluid mt-4">
-                                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
-                                            </div>
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
+                            </div>
 
-                                            <div class="card shadow mb-4 border-left-primary">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="#" method="post" class="mb-4">
-                                                        <div class="row">
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="cedula" class="form-label font-weight-bold">Cédula:</label>
-                                                                <input type="number" class="form-control" id="cedula" name="cedula" placeholder="Ej. 112340567" required>
-                                                            </div>
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="nombre" class="form-label font-weight-bold">Nombre:</label>
-                                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                                                            </div>
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="primerApellido" class="form-label font-weight-bold">1° Apellido:</label>
-                                                                <input type="text" class="form-control" id="primerApellido" name="primerApellido" required>
-                                                            </div>
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="segundoApellido" class="form-label font-weight-bold">2° Apellido:</label>
-                                                                <input type="text" class="form-control" id="segundoApellido" name="segundoApellido">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6 mb-3">
-                                                                <label for="seccion" class="form-label font-weight-bold">Sección Musical:</label>
-                                                                <select class="form-select form-control" id="seccion" name="idSeccion">
-                                                                    <option value="">-- Seleccione una sección --</option>
-                                                                    <option value="1">Bombos</option>
-                                                                    <option value="2">Liras</option>
-                                                                    <option value="3">Trompetas</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="estado" class="form-label font-weight-bold">Estado:</label>
-                                                                <select class="form-select form-control" id="estado" name="idEstado">
-                                                                    <option value="1">Activo</option>
-                                                                    <option value="2">Inactivo</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-3 d-flex align-items-end mb-3">
-                                                                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save me-1"></i> Guardar</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                            <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
 
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                                            <thead class="thead-light">
-                                                                <tr>
-                                                                    <th>Cédula</th>
-                                                                    <th>Nombre Completo</th>
-                                                                    <th>Sección</th>
-                                                                    <th>Fecha Ingreso</th>
-                                                                    <th class="text-center">Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="align-middle">114560789</td>
-                                                                    <td class="font-weight-bold align-middle">Carlos Andrés Méndez Salas</td>
-                                                                    <td class="align-middle">Trompetas</td>
-                                                                    <td class="align-middle">15/02/2026</td>
-                                                                    <td class="text-center">
-                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                        <form action="#" method="post" style="display:inline;">
-                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle">208760543</td>
-                                                                    <td class="font-weight-bold align-middle">Ana Lucía Rojas Mora</td>
-                                                                    <td class="align-middle">Liras</td>
-                                                                    <td class="align-middle">10/06/2025</td>
-                                                                    <td class="text-center">
-                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                        <form action="#" method="post" style="display:inline;">
-                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <!-- ============ INTEGRANTES ============ -->
+                            <div class="card shadow mb-4 border-left-primary">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
+                                    <a th:href="@{/usuario/nuevo}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus me-1"></i> Nuevo Integrante
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="tablaUsuarios">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Cédula</th>
+                                                    <th>Nombre Completo</th>
+                                                    <th>Sección</th>
+                                                    <th>Correo</th>
+                                                    <th>Fecha Ingreso</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="u : ${usuarios}" class="fila-usuario">
+                                                    <td class="align-middle" th:text="${u.cedula}">114560789</td>
+                                                    <td class="font-weight-bold align-middle"
+                                                        th:text="${u.nombre + ' ' + u.primerApellido + ' ' + (u.segundoApellido != null ? u.segundoApellido : '')}">Carlos Méndez</td>
+                                                    <td class="align-middle" th:text="${u.nombreSeccion}">Trompetas</td>
+                                                    <td class="align-middle" th:text="${u.correo}">correo@x.com</td>
+                                                    <td class="align-middle" th:text="${u.fechaIngreso}">2026-02-15</td>
+                                                    <td class="text-center">
+                                                        <a th:href="@{/usuario/editar/{cedula}(cedula=${u.cedula})}"
+                                                           class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                        <form th:action="@{/usuario/eliminarD}" method="post" style="display:inline;"
+                                                              onsubmit="return confirm('¿Eliminar este integrante?');">
+                                                            <input type="hidden" name="cedula" th:value="${u.cedula}">
+                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(usuarios)}">
+                                                    <td colspan="6" class="text-center text-muted py-3">No hay integrantes registrados</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                            <div class="card shadow mb-4 border-left-info">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="#" method="post" class="mb-4">
-                                                        <div class="row">
-                                                            <div class="col-md-5 mb-3">
-                                                                <label for="nombreSeccion" class="form-label font-weight-bold">Nombre de la Sección:</label>
-                                                                <input type="text" class="form-control" id="nombreSeccion" name="nombre" placeholder="Ej. Percusión Latina" required>
-                                                            </div>
-                                                            <div class="col-md-4 mb-3">
-                                                                <label class="form-label font-weight-bold text-muted">Banda Actual:</label>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-text bg-light"><i class="fas fa-music text-muted"></i></span>
-                                                                    <input type="text" class="form-control bg-light text-muted" value="Banda Lírica Cantonal de Moravia" readonly>
-                                                                </div>
-                                                                <input type="hidden" name="idBanda" value="1">
-                                                            </div>
-                                                            <div class="col-md-3 mb-3">
-                                                                <label for="estadoSeccion" class="form-label font-weight-bold">Estado:</label>
-                                                                <select class="form-select form-control" id="estadoSeccion" name="idEstado">
-                                                                    <option value="1">Activo</option>
-                                                                    <option value="2">Inactivo</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-9 mb-3">
-                                                                <label for="descripcion" class="form-label font-weight-bold">Descripción:</label>
-                                                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripción...">
-                                                            </div>
-                                                            <div class="col-md-3 d-flex align-items-end mb-3">
-                                                                <button type="submit" class="btn btn-info text-white w-100"><i class="fas fa-save me-1"></i> Guardar</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                                                            <thead class="thead-light">
-                                                                <tr>
-                                                                    <th style="width: 5%;">ID</th>
-                                                                    <th style="width: 20%;">Nombre</th>
-                                                                    <th style="width: 40%;">Descripción</th>
-                                                                    <th style="width: 15%;">Banda</th>
-                                                                    <th class="text-center" style="width: 20%;">Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="align-middle">1</td>
-                                                                    <td class="font-weight-bold align-middle">Trompetas</td>
-                                                                    <td class="align-middle">Vientos metal principales.</td>
-                                                                    <td class="align-middle"><span class="badge bg-secondary">BLCM</span></td>
-                                                                    <td class="text-center">
-                                                                        <a href="#" class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                        <form action="#" method="post" style="display:inline;">
-                                                                            <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="card shadow mb-4 border-left-success">
-                                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                    <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
-                                                    <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
-                                                        <i class="fas fa-plus me-1"></i> Nueva Asignación
-                                                    </a>
-                                                </div>
-                                                <div class="card-body">
-
-                                                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                                                    <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
-
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover" id="tablaAsignaciones">
-                                                            <thead class="table-light">
-                                                                <tr>
-                                                                    <th>ID</th>
-                                                                    <th>Integrante</th>
-                                                                    <th>Instrumento</th>
-                                                                    <th>Fecha Inicio</th>
-                                                                    <th>Motivo</th>
-                                                                    <th class="text-center">Acciones</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="asig : ${asignaciones}" class="fila-asignacion">
-                                                                    <td th:text="${asig.idAsignacion}">1</td>
-                                                                    <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
-                                                                    <td th:text="${asig.nombreInstrumento}">Trompeta</td>
-                                                                    <td th:text="${asig.fechaInicio}">2026-07-11</td>
-                                                                    <td th:text="${asig.motivo}">Préstamo temporal</td>
-                                                                    <td class="text-center">
-                                                                        <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
-                                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
-                                                                        <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;">
-                                                                            <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
-                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
-                                                    <!-- Controles de paginación -->
-                                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                                        <span id="infoPagina" class="text-muted small"></span>
-                                                        <div>
-                                                            <button id="btnAnterior" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
-                                                            <span id="numPagina" class="mx-2"></span>
-                                                            <button id="btnSiguiente" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            
-
-
-                                            <div class="card shadow mb-4 border-left-primary">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso (Aspirantes)</h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover" id="tablaSolicitudes">
-                                                            <thead class="table-light">
-                                                                <tr>
-                                                                    <th>ID</th>
-                                                                    <th>Candidato</th>
-                                                                    <th>Correo</th>
-                                                                    <th>Teléfono</th>
-                                                                    <th>Mensaje</th>
-                                                                    <th>Estado</th>
-                                                                    <th>Seccion</th>
-                                                                    <th class="text-center">Acciones</th>
-                                                                    
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
-                                                                    <td th:text="${sol.idSolicitud}">1</td>
-                       
-                                                                    <td th:text="${sol.nombre + ' ' + sol.primerApellido + ' ' + (sol.segundoApellido != null ? sol.segundoApellido : '')}">Juan Pérez</td>
-                                                                    <td th:text="${sol.correo}">correo@x.com</td>
-                                                                    <td th:text="${sol.telefono}">8888-8888</td>
-                                                                    <td th:text="${sol.mensaje}">Mensaje...</td>
-                                                                    <td>
-                                                                        <span th:text="${sol.estado}"
-                                                                              th:classappend="${sol.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                    </td>
-                                                                    <td th:text ="${sol.nombreSeccion}">Nombre de la Seccion</td>
-                                                                    <td class="text-center">
-                                                                        <a th:href="@{/solicitudIngreso/editarDirector/{id}(id=${sol.idSolicitud})}"
-                                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
-                                                                        <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
-                                                                              onsubmit="return confirm('¿Eliminar esta solicitud?');">
-                                                                            <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
-                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr th:if="${#lists.isEmpty(solicitudes)}">
-                                                                    <td colspan="6" class="text-center text-muted py-3">No hay solicitudes pendientes</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
-                                                    <!-- Paginación solicitudes -->
-                                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                                        <span id="infoPagina" class="text-muted small"></span>
-                                                        <div>
-                                                            <button id="btnAnterior" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
-                                                            <span id="numPagina" class="mx-2"></span>
-                                                            <button id="btnSiguiente" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="card shadow mb-4 border-left-warning">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="#" method="post">
-                                                        <div class="row">
-                                                            <div class="col-md-5 mb-3">
-                                                                <label for="seccionLider" class="form-label font-weight-bold">Sección:</label>
-                                                                <select class="form-select form-control" id="seccionLider" name="idSeccion" required>
-                                                                    <option value="">-- Buscar sección --</option>
-                                                                    <option value="1">Trompetas</option>
-                                                                    <option value="2">Liras</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-5 mb-3">
-                                                                <label for="nuevoLider" class="form-label font-weight-bold">Nuevo Líder:</label>
-                                                                <select class="form-select form-control" id="nuevoLider" name="cedula" required>
-                                                                    <option value="">-- Buscar integrante --</option>
-                                                                    <option value="208760543">Ana Lucía Rojas Mora (208760543)</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 d-flex align-items-end mb-3">
-                                                                <button type="submit" class="btn btn-warning w-100 font-weight-bold text-dark"><i class="fas fa-medal me-1"></i> Asignar</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-
-                                                    <hr class="mt-2 mb-4">
-
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-sm table-hover" width="100%" cellspacing="0">
-                                                                <thead class="bg-light">
-                                                                    <tr>
-                                                                        <th style="width: 30%;">Sección</th>
-                                                                        <th style="width: 50%;">Líder Actual</th>
-                                                                        <th class="text-center" style="width: 20%;">Acción</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td class="font-weight-bold align-middle">Liras</td>
-                                                                        <td class="align-middle"><i class="fas fa-user-circle text-gray-500 me-1"></i> Ana Lucía Rojas Mora</td>
-                                                                        <td class="text-center">
-                                                                            <form action="#" method="post" style="display:inline;">
-                                                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-times me-1"></i> Revocar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                </div>
-                                            </div>
-
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span id="infoPaginaUsu" class="text-muted small"></span>
+                                        <div>
+                                            <button id="btnAnteriorUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(-1)">Anterior</button>
+                                            <span id="numPaginaUsu" class="mx-2"></span>
+                                            <button id="btnSiguienteUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(1)">Siguiente</button>
                                         </div>
                                     </div>
                                 </div>
-                
- 
+                            </div>
+
+                            <!-- ============ SECCIONES (pendiente CRUD) ============ -->
+                            <div class="card shadow mb-4 border-left-info">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
+                                    <span class="badge bg-secondary">Pendiente</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-0">Módulo en construcción.</p>
+                                </div>
+                            </div>
+
+                            <!-- ============ ASIGNACIONES ============ -->
+                            <div class="card shadow mb-4 border-left-success">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
+                                    <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
+                                        <i class="fas fa-plus me-1"></i> Nueva Asignación
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="tablaAsignaciones">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Integrante</th>
+                                                    <th>Instrumento</th>
+                                                    <th>Fecha Inicio</th>
+                                                    <th>Motivo</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="asig : ${asignaciones}" class="fila-asignacion">
+                                                    <td th:text="${asig.idAsignacion}">1</td>
+                                                    <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
+                                                    <td th:text="${asig.nombreInstrumento}">Trompeta</td>
+                                                    <td th:text="${asig.fechaInicio}">2026-07-11</td>
+                                                    <td th:text="${asig.motivo}">Préstamo temporal</td>
+                                                    <td class="text-center">
+                                                        <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
+                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                        <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;"
+                                                              onsubmit="return confirm('¿Eliminar esta asignación?');">
+                                                            <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
+                                                            <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(asignaciones)}">
+                                                    <td colspan="6" class="text-center text-muted py-3">No hay asignaciones registradas</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span id="infoPaginaAsig" class="text-muted small"></span>
+                                        <div>
+                                            <button id="btnAnteriorAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
+                                            <span id="numPaginaAsig" class="mx-2"></span>
+                                            <button id="btnSiguienteAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ============ SOLICITUDES ============ -->
+                            <div class="card shadow mb-4 border-left-primary">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso (Aspirantes)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="tablaSolicitudes">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Candidato</th>
+                                                    <th>Correo</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Mensaje</th>
+                                                    <th>Estado</th>
+                                                    <th>Sección</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
+                                                    <td th:text="${sol.idSolicitud}">1</td>
+                                                    <td th:text="${sol.nombre + ' ' + sol.primerApellido + ' ' + (sol.segundoApellido != null ? sol.segundoApellido : '')}">Juan Pérez</td>
+                                                    <td th:text="${sol.correo}">correo@x.com</td>
+                                                    <td th:text="${sol.telefono}">8888-8888</td>
+                                                    <td th:text="${sol.mensaje}">Mensaje...</td>
+                                                    <td>
+                                                        <span th:text="${sol.estado}"
+                                                              th:classappend="${sol.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                    </td>
+                                                    <td th:text="${sol.nombreSeccion}">Sección</td>
+                                                    <td class="text-center">
+                                                        <a th:href="@{/solicitudIngreso/editarDirector/{id}(id=${sol.idSolicitud})}"
+                                                           class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                        <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
+                                                              onsubmit="return confirm('¿Eliminar esta solicitud?');">
+                                                            <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
+                                                            <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(solicitudes)}">
+                                                    <td colspan="8" class="text-center text-muted py-3">No hay solicitudes pendientes</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span id="infoPaginaSol" class="text-muted small"></span>
+                                        <div>
+                                            <button id="btnAnteriorSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(-1)">Anterior</button>
+                                            <span id="numPaginaSol" class="mx-2"></span>
+                                            <button id="btnSiguienteSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(1)">Siguiente</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ============ LIDERES (pendiente CRUD) ============ -->
+                            <div class="card shadow mb-4 border-left-warning">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
+                                    <span class="badge bg-secondary">Pendiente</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-0">Módulo en construcción.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
 
+        <script>
+            const FILAS_POR_PAGINA = 25;
 
-        
+            const paginadores = {
+                usuarios:     { pagina: 1, filaClass: 'fila-usuario',    num: 'numPaginaUsu',  info: 'infoPaginaUsu',  prev: 'btnAnteriorUsu',  next: 'btnSiguienteUsu' },
+                asignaciones: { pagina: 1, filaClass: 'fila-asignacion', num: 'numPaginaAsig', info: 'infoPaginaAsig', prev: 'btnAnteriorAsig', next: 'btnSiguienteAsig' },
+                solicitudes:  { pagina: 1, filaClass: 'fila-solicitud',  num: 'numPaginaSol',  info: 'infoPaginaSol',  prev: 'btnAnteriorSol',  next: 'btnSiguienteSol' }
+            };
+
+            function mostrarPagina(clave) {
+                const p = paginadores[clave];
+                const filas = document.querySelectorAll('.' + p.filaClass);
+                const total = filas.length;
+                const totalPaginas = Math.ceil(total / FILAS_POR_PAGINA) || 1;
+
+                if (p.pagina < 1) p.pagina = 1;
+                if (p.pagina > totalPaginas) p.pagina = totalPaginas;
+
+                const inicio = (p.pagina - 1) * FILAS_POR_PAGINA;
+                const fin = inicio + FILAS_POR_PAGINA;
+
+                filas.forEach(function (fila, i) {
+                    fila.style.display = (i >= inicio && i < fin) ? '' : 'none';
+                });
+
+                const el = function (id) { return document.getElementById(id); };
+                if (el(p.num))  el(p.num).textContent  = 'Página ' + p.pagina + ' de ' + totalPaginas;
+                if (el(p.info)) el(p.info).textContent = total + ' registros en total';
+                if (el(p.prev)) el(p.prev).disabled = (p.pagina === 1);
+                if (el(p.next)) el(p.next).disabled = (p.pagina === totalPaginas);
+            }
+
+            function cambiarPaginaUsu(d)  { paginadores.usuarios.pagina     += d; mostrarPagina('usuarios'); }
+            function cambiarPaginaAsig(d) { paginadores.asignaciones.pagina += d; mostrarPagina('asignaciones'); }
+            function cambiarPaginaSol(d)  { paginadores.solicitudes.pagina  += d; mostrarPagina('solicitudes'); }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                mostrarPagina('usuarios');
+                mostrarPagina('asignaciones');
+                mostrarPagina('solicitudes');
+            });
+        </script>
+
     </body>
 </html>

@@ -34,7 +34,7 @@ public class UsuarioRepository {
     private SimpleJdbcCall usuarioUpdateCall;
     private SimpleJdbcCall usuarioDeleteCall;
     private SimpleJdbcCall usuarioReadAllCall;
-        
+    private SimpleJdbcCall cambiarPasswordCall;
     // CORREGIDO: mapeo POR POSICION (indice de columna), no por nombre.
     // El mapeo por nombre fallaba (ORA-17006) porque varias tablas del JOIN
     // (Usuario, Seccion, Banda) comparten columnas fisicas llamadas "NOMBRE",
@@ -101,6 +101,10 @@ public class UsuarioRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_ROLES_USUARIO_SP")
                 .returningResultSet("P_CURSOR", ROL_ROW_MAPPER);
+        
+        cambiarPasswordCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_USUARIO_CAMBIAR_PASSWORD_SP");
     }
 
     public void insertarUsuario(Usuario usuario) {
@@ -111,12 +115,13 @@ public class UsuarioRepository {
         params.put("P_SEGUNDO_APELLIDO", usuario.getSegundoApellido());
         params.put("P_FECHA_INGRESO", usuario.getFechaIngreso());
         params.put("P_LOGO_URL", usuario.getLogoUrl());
-        params.put("P_ID_TELEFONO", usuario.getIdTelefono());
-        params.put("P_ID_CORREO", usuario.getIdCorreo());
+        params.put("P_TELEFONO", usuario.getTelefono());
+        params.put("P_CORREO", usuario.getCorreo());
         params.put("P_ID_ESTADO", usuario.getIdEstado());
         params.put("P_ID_SECCION", usuario.getIdSeccion());
         params.put("P_ID_DIRECCION", usuario.getIdDireccion());
         params.put("P_ID_BANDA", usuario.getIdBanda());
+        params.put("P_PASSWORD", usuario.getPassword());
         usuarioInsertCall.execute(params);
     }
 
@@ -128,8 +133,8 @@ public class UsuarioRepository {
         params.put("P_SEGUNDO_APELLIDO", usuario.getSegundoApellido());
         params.put("P_FECHA_INGRESO", usuario.getFechaIngreso());
         params.put("P_LOGO_URL", usuario.getLogoUrl());
-        params.put("P_ID_TELEFONO", usuario.getIdTelefono());
-        params.put("P_ID_CORREO", usuario.getIdCorreo());
+        params.put("P_TELEFONO", usuario.getTelefono());
+        params.put("P_CORREO", usuario.getCorreo());
         params.put("P_ID_ESTADO", usuario.getIdEstado());
         params.put("P_ID_SECCION", usuario.getIdSeccion());
         params.put("P_ID_DIRECCION", usuario.getIdDireccion());
@@ -144,7 +149,7 @@ public class UsuarioRepository {
 
     public void deleteUsuario(Usuario usuario) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_USUARIO", usuario.getCedula());
+        params.put("P_CEDULA", usuario.getCedula());
         usuarioDeleteCall.execute(params);
     }
 
@@ -166,6 +171,13 @@ public class UsuarioRepository {
         Map<String, Object> result = rolesCall.execute(params);
         List<String> roles = (List<String>) result.get("P_CURSOR");
         return roles == null ? new ArrayList<>() : roles;
+    }
+
+        public void cambiarPassword(Integer cedula, String passwordHash) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_CEDULA", cedula);
+        params.put("P_PASSWORD", passwordHash);
+        cambiarPasswordCall.execute(params);
     }
     
     private SimpleJdbcCall loginCall;

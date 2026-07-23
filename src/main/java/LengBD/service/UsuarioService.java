@@ -47,4 +47,8 @@ public class UsuarioService {
                 .orElse(null);
     }
     
+        public void cambiarPassword(Integer cedula, String passwordHash) {
+        usuarioRepository.cambiarPassword(cedula, passwordHash);
+    }
+    
 }

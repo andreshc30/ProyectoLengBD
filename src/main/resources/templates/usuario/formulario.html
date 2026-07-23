@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0" th:text="${usuario.cedula != null ? 'Editar Integrante' : 'Nuevo Integrante'}">
+                    Nuevo Integrante
+                </h4>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/usuario/guardarD}" th:object="${usuario}" method="post">
+                     <input type="hidden" th:field="*{idDireccion}">
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label fw-bold">Cédula:</label>
+                            <input type="number" class="form-control" th:field="*{cedula}"
+                                   th:readonly="${usuario.cedula != null}" required>
+                            <small class="text-muted" th:if="${usuario.cedula != null}">No se puede modificar</small>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label fw-bold">Nombre:</label>
+                            <input type="text" class="form-control" th:field="*{nombre}" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label fw-bold">1° Apellido:</label>
+                            <input type="text" class="form-control" th:field="*{primerApellido}" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label fw-bold">2° Apellido:</label>
+                            <input type="text" class="form-control" th:field="*{segundoApellido}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Fecha de Ingreso:</label>
+                            <input type="date" class="form-control" th:field="*{fechaIngreso}" required>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label fw-bold">Foto (URL):</label>
+                            <input type="text" class="form-control" th:field="*{logoUrl}"
+                                   placeholder="/img/integrantes/foto.jpg">
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h6 class="text-muted mb-3">Contacto</h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Correo:</label>
+                            <input type="email" class="form-control" th:field="*{correo}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Teléfono:</label>
+                        <input type="tel" class="form-control" th:field="*{telefono}" maxlength="9" required>
+                    </div>
+                    </div>
+
+                    <hr>
+                    <h6 class="text-muted mb-3">Banda</h6>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Banda:</label>
+                            <select class="form-select" name="idBanda" required>
+                                <option value="">-- Seleccione banda --</option>
+                                <option th:each="b : ${bandas}"
+                                        th:value="${b.idBanda}"
+                                        th:text="${b.nombre}"
+                                        th:selected="${usuario.idBanda != null and usuario.idBanda == b.idBanda}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Sección:</label>
+                            <select class="form-select" name="idSeccion" required>
+                                <option value="">-- Seleccione sección --</option>
+                                <option th:each="s : ${secciones}"
+                                        th:value="${s.idSeccion}"
+                                        th:text="${s.nombre}"
+                                        th:selected="${usuario.idSeccion != null and usuario.idSeccion == s.idSeccion}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Estado:</label>
+                            <select class="form-select" name="idEstado" required>
+                                <option value="">-- Seleccione estado --</option>
+                                <option th:each="e : ${estados}"
+                                        th:value="${e.idEstado}"
+                                        th:text="${e.estado}"
+                                        th:selected="${usuario.idEstado != null and usuario.idEstado == e.idEstado}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

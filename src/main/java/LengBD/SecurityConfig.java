@@ -18,29 +18,32 @@ public class SecurityConfig {
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/chat")
             )
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
+                        
+                .requestMatchers("/usuario/cambiarPassword").authenticated()
 
-                // ---------- PUBLICO ----------
+                // ---------- ESTATICOS ----------
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**",
+                                 "/logo/**", "/fonts/**", "/api/chat", "/error").permitAll()
+
+                // ---------- PUBLICO (sin login) ----------
                 .requestMatchers(
-                    "/css/**", "/js/**", "/img/**", "/webjars/**", "/logo/**", "/fonts/**",
-                    "/api/chat",
                     "/",
-                    "/error",
                     "/login",
                     "/audiciones/listado",
-                    "/solicitudIngreso/nuevo",
-                    "/solicitudIngreso/guardar",
                     "/eventos/listado",
-                    "/general/listado"
+                    "/suscripcion/listado",
+                    "/solicitudIngreso/nuevo",
+                    "/solicitudIngreso/guardar"
                 ).permitAll()
 
                 // ---------- DIRECTOR / ADMIN ----------
                 .requestMatchers(
                     "/banda/secciones/listadoDirector",
                     "/solicitudIngreso/listado",
+                    "/solicitudIngreso/editar/**",
                     "/solicitudIngreso/editarDirector/**",
                     "/solicitudIngreso/guardarDirector",
-                    "/solicitudIngreso/editar/**",
                     "/solicitudIngreso/eliminar",
                     "/asignacionInstrumento/**"
                 ).hasAnyRole("DIRECTOR", "ADMIN", "SUPER_ADMIN")
@@ -48,8 +51,14 @@ public class SecurityConfig {
                 // ---------- SOLO ADMIN ----------
                 .requestMatchers(
                     "/banda/secciones/adminListado",
-                    "/suscripcion/**"
+                    "/suscripcion/nuevo",
+                    "/suscripcion/editar/**",
+                    "/suscripcion/guardar",
+                    "/suscripcion/eliminar"
                 ).hasAnyRole("ADMIN", "SUPER_ADMIN")
+
+                // ---------- BANDA: requiere login ----------
+                .requestMatchers("/banda/**").authenticated()
 
                 // ---------- TODO LO DEMAS ----------
                 .anyRequest().authenticated()
@@ -57,7 +66,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/procesar-login")
-                .defaultSuccessUrl("/banda/secciones/listadoDirector", true)
+                .defaultSuccessUrl("/banda/listado", false)
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

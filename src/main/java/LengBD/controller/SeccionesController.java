@@ -2,6 +2,7 @@ package LengBD.controller;
 
 import LengBD.service.AsignacionInstrumentoService;
 import LengBD.service.SolicitudIngresoService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,9 @@ public class SeccionesController {
 
     @Autowired
     private AsignacionInstrumentoService asignacionInstrumentoService;
+    
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private SolicitudIngresoService solicitudIngresoService;
@@ -22,6 +26,7 @@ public class SeccionesController {
     public String cargarPantallaDirector(Model model) {
         model.addAttribute("asignaciones", asignacionInstrumentoService.readAllAsignacionInstrumento());
         model.addAttribute("solicitudes", solicitudIngresoService.readAllSolicitudIngreso());
+        model.addAttribute("usuarios", usuarioService.readAllUsuario());
         return "seccion/listadoDirector";
     }
 

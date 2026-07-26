@@ -1,6 +1,7 @@
 package LengBD.controller;
 
 import LengBD.service.AsignacionInstrumentoService;
+import LengBD.service.RolUsuariosService;
 import LengBD.service.SolicitudIngresoService;
 import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class SeccionesController {
     private AsignacionInstrumentoService asignacionInstrumentoService;
     
     @Autowired
+    private RolUsuariosService rolUsuariosService;
+    
+    @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
@@ -27,6 +31,7 @@ public class SeccionesController {
         model.addAttribute("asignaciones", asignacionInstrumentoService.readAllAsignacionInstrumento());
         model.addAttribute("solicitudes", solicitudIngresoService.readAllSolicitudIngreso());
         model.addAttribute("usuarios", usuarioService.readAllUsuario());
+        model.addAttribute("lideres", rolUsuariosService.readAllLideres());
         return "seccion/listadoDirector";
     }
 

@@ -45,7 +45,8 @@ public class SecurityConfig {
                     "/solicitudIngreso/editarDirector/**",
                     "/solicitudIngreso/guardarDirector",
                     "/solicitudIngreso/eliminar",
-                    "/asignacionInstrumento/**"
+                    "/asignacionInstrumento/**",
+                    "/lider/**"
                 ).hasAnyRole("DIRECTOR", "ADMIN", "SUPER_ADMIN")
 
                 // ---------- SOLO ADMIN ----------

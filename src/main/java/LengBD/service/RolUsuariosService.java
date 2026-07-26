@@ -5,6 +5,7 @@
 package LengBD.service;
 
 import LengBD.domain.AsignacionListadoDTO;
+import LengBD.domain.LiderListadoDTO;
 import LengBD.domain.RolUsuario;
 import LengBD.domain.RolUsuarioListadoDTO;
 import LengBD.repository.RolUsuariosRepository;
@@ -49,4 +50,8 @@ public class RolUsuariosService {
                 .orElse(null);
     }
     
+    
+    public List<LiderListadoDTO> readAllLideres() {
+        return rolUsuariosRepository.readAllLideres();
+    }
 }

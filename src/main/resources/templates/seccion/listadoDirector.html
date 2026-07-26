@@ -246,7 +246,7 @@
                                                         <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
                                                               onsubmit="return confirm('¿Eliminar esta solicitud?');">
                                                             <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
-                                                            <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -269,13 +269,61 @@
                             </div>
 
                             <!-- ============ LIDERES (pendiente CRUD) ============ -->
-                            <div class="card shadow mb-4 border-left-warning">
+                            <div class="card shadow mb-4 border-left-info">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-warning">Nombrar Líder de Sección</h6>
-                                    <span class="badge bg-secondary">Pendiente</span>
+                                    <h6 class="m-0 font-weight-bold text-info">Gestión de Líderes de Sección</h6>
+                                    <a th:href="@{/lider/nuevo}" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-plus me-1"></i> Nuevo Líder
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <p class="text-muted mb-0">Módulo en construcción.</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="tablaLideres">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Cédula</th>
+                                                    <th>Nombre completo</th>
+                                                    <th>Sección a cargo</th>
+                                                    <th>Correo</th>
+                                                    <th>Estado</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="lid : ${lideres}" class="fila-lider">
+                                                    <td th:text="${lid.cedula}">1-1234-5678</td>
+                                                    <td th:text="${lid.nombreUsuario}">José Pablo Ramírez</td>
+                                                    <td th:text="${lid.nombreSeccion}">Cajas</td>
+                                                    <td th:text="${lid.correo}">pepe@blcm.cr</td>
+                                                    <td>
+                                                        <span th:text="${lid.estado}"
+                                                              th:classappend="${lid.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <form th:action="@{/lider/revocar}" method="post" style="display:inline;"
+                                                              onsubmit="return confirm('¿Revocar el rol de líder a esta persona?');">
+                                                            <input type="hidden" name="cedula" th:value="${lid.cedula}">
+                                                                <button type="submit" class="btn btn-sm btn-danger mb-1">
+                                                                    <i class="fas fa-trash me-1"></i> Revocar
+                                                                </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(lideres)}">
+                                                    <td colspan="6" class="text-center text-muted py-3">No hay líderes asignados</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span id="infoPaginaLid" class="text-muted small"></span>
+                                        <div>
+                                            <button id="btnAnteriorLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(-1)">Anterior</button>
+                                            <span id="numPaginaLid" class="mx-2"></span>
+                                            <button id="btnSiguienteLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(1)">Siguiente</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0">Nombrar Líder de Sección</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            Seleccioná un integrante. Liderará la sección que ya tiene asignada.
+                        </p>
+
+                        <form th:action="@{/lider/guardar}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Integrante:</label>
+                                <select class="form-select" name="cedula" required>
+                                    <option value="">-- Seleccione un integrante --</option>
+                                    <option th:each="u : ${usuarios}"
+                                            th:value="${u.cedula}"
+                                            th:text="${u.nombre + ' ' + u.primerApellido + ' — ' + u.nombreSeccion}">
+                                        Juan Pérez — Cajas
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="text-end">
+                                <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Asignar como líder</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

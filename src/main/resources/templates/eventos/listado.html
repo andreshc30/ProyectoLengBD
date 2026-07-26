@@ -56,7 +56,7 @@
                             <h4>TOTAL EVENTOS ACTIVOS</h4>
 
                             <div class="evento-tag">
-                                Consulta el total de eventos activos
+                                <span th:text="${totalEventosActivos}">0</span> eventos activos
                             </div>
                         </div>
                     </div>
@@ -65,8 +65,17 @@
                         <div class="evento-card h-100">
                             <h4>NOMBRE EVENTO</h4>
 
-                            <div class="evento-tag">
-                                Consulta el nombre del evento
+                            <form th:action="@{/eventos/listado}" method="get" class="d-flex gap-2 mb-2">
+                                <input type="number" name="idEventoConsulta" class="form-control form-control-sm"
+                                       placeholder="ID del evento" th:value="${idEventoConsulta}" required>
+                                <button type="submit" class="btn evento-btn btn-sm">Consultar</button>
+                            </form>
+
+                            <div class="evento-tag" th:if="${nombreConsultado != null}">
+                                <span th:text="${nombreConsultado}"></span>
+                            </div>
+                            <div class="evento-tag text-muted" th:if="${nombreConsultado == null}">
+                                Ingresá un ID para consultar el nombre del evento
                             </div>
                         </div>
                     </div>

@@ -30,6 +30,8 @@ public class EventoRepository {
     private SimpleJdbcCall eventoUpdateCall;
     private SimpleJdbcCall eventoDeleteCall;
     private SimpleJdbcCall eventoReadAllCall;
+    private SimpleJdbcCall totalEventosActivosCall;
+    private SimpleJdbcCall obtenerNombreEventoCall;
 
     @PostConstruct
     public void init() {
@@ -45,15 +47,19 @@ public class EventoRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_EVENTO_DELETE_LOGICO_SP");
 
-        // CORREGIDO: cursor en mayuscula ("P_CURSOR"), coincide con lo que
-        // usamos en el resto del proyecto. Se vuelve a BeanPropertyRowMapper
-        // (estructura original) ahora que los tipos del DTO ya coinciden bien
-        // con las columnas del SP.
         eventoReadAllCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_EVENTO_SP")
                 .returningResultSet("P_CURSOR",
                         BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
+
+        totalEventosActivosCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withFunctionName("FIDE_TOTAL_EVENTOS_ACTIVOS_FN");
+
+        obtenerNombreEventoCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withFunctionName("FIDE_OBTENER_NOMBRE_EVENTO_FN");
     }
 
     public void insertarEvento(Evento evento) {
@@ -89,5 +95,16 @@ public class EventoRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_EVENTO", evento.getIdEvento());
         eventoDeleteCall.execute(params);
+    }
+
+    public Integer totalEventosActivos() {
+        java.math.BigDecimal resultado = totalEventosActivosCall.executeFunction(java.math.BigDecimal.class);
+        return resultado != null ? resultado.intValue() : 0;
+    }
+
+    public String obtenerNombreEvento(Integer idEvento) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_EVENTO", idEvento);
+        return obtenerNombreEventoCall.executeFunction(String.class, params);
     }
 }

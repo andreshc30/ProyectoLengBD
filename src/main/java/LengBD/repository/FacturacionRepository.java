@@ -55,7 +55,7 @@ public class FacturacionRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_FACTURACION_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(FacturacionListadoDTO.class));;
+                BeanPropertyRowMapper.newInstance(FacturacionListadoDTO.class));
     }
 
     public void insertarFacturacion(Facturacion facturacion) {

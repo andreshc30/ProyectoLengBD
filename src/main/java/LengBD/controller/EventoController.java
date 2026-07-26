@@ -19,20 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-/*
- * NOTA: en Evento.java y EventoListadoDTO.java el campo se llama "direccion" (Integer),
- * no "idDireccion" como en el resto del proyecto -- ambos coinciden entre sí así que
- * no rompe nada, pero es una inconsistencia de naming a tener en cuenta.
- *
- * NOTA 2: ruta cambiada de "/evento" a "/eventos" (plural) para coincidir con la vista
- * ya existente de la compañera, que hardcodea esos links y nombres de atributo
- * ("evento" para el modal, "listaEventos" para la tabla). Los combos (direcciones,
- * bandas, estados) NO se cargan en listado() porque esa vista usa <input type="number">
- * simples para esos campos, no <select> -- si más adelante se cambia a selects,
- * hay que agregar cargarCombos(model) de vuelta ahí.
- *
- * TODO: confirmar el nombre real del archivo/carpeta del template (asumido "eventos/listado").
- */
 @Controller
 @RequestMapping("/eventos")
 public class EventoController {
@@ -50,10 +36,18 @@ public class EventoController {
     private EstadoService estadoService;
 
     @GetMapping("/listado")
-    public String listado(Model model) {
+    public String listado(Model model,
+                           @RequestParam(value = "idEventoConsulta", required = false) Integer idEventoConsulta) {
         List<EventoListadoDTO> lista = eventoService.readAllEvento();
         model.addAttribute("listaEventos", lista);
         model.addAttribute("evento", new EventoListadoDTO());
+        model.addAttribute("totalEventosActivos", eventoService.totalEventosActivos());
+
+        if (idEventoConsulta != null) {
+            model.addAttribute("idEventoConsulta", idEventoConsulta);
+            model.addAttribute("nombreConsultado", eventoService.obtenerNombreEvento(idEventoConsulta));
+        }
+
         return "eventos/listado";
     }
 

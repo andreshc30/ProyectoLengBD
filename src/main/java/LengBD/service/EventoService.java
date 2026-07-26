@@ -4,16 +4,11 @@
  */
 package LengBD.service;
 
-import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Evento;
 import LengBD.domain.EventoListadoDTO;
 import LengBD.repository.EventoRepository;
 import java.util.List;
-import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 
@@ -45,6 +40,14 @@ public class EventoService {
                 .filter(even -> even.getIdEvento().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Integer totalEventosActivos() {
+        return eventoRepository.totalEventosActivos();
+    }
+
+    public String obtenerNombreEvento(Integer idEvento) {
+        return eventoRepository.obtenerNombreEvento(idEvento);
     }
     
 }

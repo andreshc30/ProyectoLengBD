@@ -145,13 +145,59 @@
                             <div class="card shadow mb-4 border-left-info">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
-                                    <span class="badge bg-secondary">Pendiente</span>
+                                    <a th:href="@{/seccion/nuevoD}" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-plus me-1"></i> Nueva Sección
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <p class="text-muted mb-0">Módulo en construcción.</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="tablaSecciones">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Descripción</th>
+                                                    <th>Banda</th>
+                                                    <th>Estado</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="sec : ${secciones}" class="fila-seccion">
+                                                    <td th:text="${sec.idSeccion}">1</td>
+                                                    <td th:text="${sec.nombre}">Cajas</td>
+                                                    <td th:text="${sec.descripcion}">Percusión menor</td>
+                                                    <td th:text="${sec.nombreBanda}">Banda Moravia</td>
+                                                    <td>
+                                                        <span th:text="${sec.estado}"
+                                                              th:classappend="${sec.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a th:href="@{/seccion/editarD/{id}(id=${sec.idSeccion})}"
+                                                           class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                        <form th:action="@{/seccion/eliminarD}" method="post" style="display:inline;"
+                                                              onsubmit="return confirm('¿Eliminar esta sección?');">
+                                                            <input type="hidden" name="idSeccion" th:value="${sec.idSeccion}">
+                                                                <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(secciones)}">
+                                                    <td colspan="6" class="text-center text-muted py-3">No hay secciones registradas</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span id="infoPaginaSec" class="text-muted small"></span>
+                                        <div>
+                                            <button id="btnAnteriorSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(-1)">Anterior</button>
+                                            <span id="numPaginaSec" class="mx-2"></span>
+                                            <button id="btnSiguienteSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(1)">Siguiente</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                             <!-- ============ ASIGNACIONES ============ -->
                             <div class="card shadow mb-4 border-left-success">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">

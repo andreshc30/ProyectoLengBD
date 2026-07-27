@@ -46,5 +46,8 @@ public class SeccionService {
                 .findFirst()
                 .orElse(null);
     }
-    
+
+    public List<SeccionListadoDTO> readSeccionPorBanda(Integer idBanda) {
+        return seccionRepository.readSeccionPorBanda(idBanda);
+    }
 }

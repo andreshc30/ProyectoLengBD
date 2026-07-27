@@ -36,6 +36,7 @@ public class SeccionRepository {
     private SimpleJdbcCall seccionUpdateCall;
     private SimpleJdbcCall seccionDeleteCall;
     private SimpleJdbcCall seccionReadAllCall;
+    private SimpleJdbcCall seccionPorBandaCall;
 
     @PostConstruct
     public void init() {
@@ -56,6 +57,11 @@ public class SeccionRepository {
                 .withProcedureName("FIDE_LISTAR_SECCION_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(SeccionListadoDTO.class));;
+         seccionPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_SECCION_POR_BANDA_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(SeccionListadoDTO.class));
     }
 
     public void insertarSeccion(Seccion seccion) {
@@ -87,6 +93,14 @@ public class SeccionRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_SECCION", seccion.getIdSeccion());
         seccionDeleteCall.execute(params);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<SeccionListadoDTO> readSeccionPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = seccionPorBandaCall.execute(params);
+        return (List<SeccionListadoDTO>) result.get("p_cursor");
     }
 
 }

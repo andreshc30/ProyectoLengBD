@@ -42,449 +42,82 @@
         </header>
         <main class="container my-4 principal">
 
-            <section class="evento-hero text-center mb-5">
-                <h2 class="evento-titulo">Gestión de Eventos</h2>
+            <section class="evento-hero mb-5 text-center">
+
+                <div class="evento-icono">
+                    🎺
+                </div>
+
+                <h1 class="evento-titulo">
+                    Eventos de la Banda
+                </h1>
+
+                <p class="evento-subtitulo">
+                    Consulta las presentaciones, próximos eventos y actividades
+                    programadas de la banda.
+                </p>
 
             </section>
 
             <section class="mb-5">
-                <h3 class="texto mb-4">Funciones implementadas</h3>
 
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="evento-card h-100">
-                            <h4>TOTAL EVENTOS ACTIVOS</h4>
-
-                            <div class="evento-tag">
-                                <span th:text="${totalEventosActivos}">0</span> eventos activos
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="evento-card h-100">
-                            <h4>NOMBRE EVENTO</h4>
-
-                            <form th:action="@{/eventos/listado}" method="get" class="d-flex gap-2 mb-2">
-                                <input type="number" name="idEventoConsulta" class="form-control form-control-sm"
-                                       placeholder="ID del evento" th:value="${idEventoConsulta}" required>
-                                <button type="submit" class="btn evento-btn btn-sm">Consultar</button>
-                            </form>
-
-                            <div class="evento-tag" th:if="${nombreConsultado != null}">
-                                <span th:text="${nombreConsultado}"></span>
-                            </div>
-                            <div class="evento-tag text-muted" th:if="${nombreConsultado == null}">
-                                Ingresá un ID para consultar el nombre del evento
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <section class="mb-5">
-                <h3 class="texto mb-4">Agregar, actualizar o eliminar evento</h3>
-
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="evento-card h-100 text-center">
-                            <h4>Agregar nuevo evento</h4>
-
-                            <button class="btn evento-btn mt-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalAgregarEvento">
-                                Agregar
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="evento-card h-100 text-center">
-                            <h4>Actualizar evento</h4>
-
-                            <button class="btn evento-btn mt-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalActualizarEvento">
-                                Actualizar
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="evento-card h-100 text-center">
-                            <h4>Cancelar evento</h4>
-
-                            <button class="btn evento-btn mt-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalCancelarEvento">
-                                Cancelar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <section class="mb-5">
-                <h3 class="texto mb-4">Información de eventos y planes</h3>
+                <h3 class="texto mb-4">
+                    Resumen de eventos
+                </h3>
 
                 <div class="row g-4">
 
-                    <div class="col-md-6">
-                        <button type="button" class="evento-card-btn w-100">
-                            <div class="evento-card evento-card-info h-100 text-center">
-                                <h4>Estado de los eventos</h4>
-                            </div>
-                        </button>
-                    </div>
+                    <div class="col-lg-6">
 
-                    <div class="col-md-6">
-                        <button type="button" class="evento-card-btn w-100">
-                            <div class="evento-card evento-card-info h-100 text-center">
-                                <h4>Próximos eventos</h4>
-                            </div>
-                        </button>
-                    </div>
+                        <div class="stats-card text-center">
 
-                    <div class="col-md-6">
-                        <button type="button" class="evento-card-btn w-100">
-                            <div class="evento-card evento-card-info h-100 text-center">
-                                <h4>Suscripciones y planes</h4>
-                            </div>
-                        </button>
-                    </div>
+                            <h5 class="mb-4">
+                                Próximos eventos
+                            </h5>
 
-                    <div class="col-md-6">
-                        <div class="evento-card evento-card-info h-100 text-center">
-                            <h4>Características de los planes</h4>
-                            <button class="btn evento-btn mt-3">Agregar nuevo plan</button>
+                            <div class="stats-number">
+                                5
+                            </div>
+
+                            <p class="stats-text">
+                                Eventos programados próximamente.
+                            </p>
+
                         </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="stats-card">
+
+                            <h5 class="mb-4">
+                                Buscar evento
+                            </h5>
+
+                            <select class="form-select mb-3">
+
+                                <option>
+                                    Seleccione un evento
+                                </option>
+
+                            </select>
+
+                            <button class="btn evento-btn">
+                                Ver información
+                            </button>
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </section>
 
-            <section class="mb-4">
-                <div class="evento-resumen">
-                    <h3 class="mb-3">Resumen de eventos</h3>
 
-                </div>
-            </section>
         </main>
 
-        <div class="modal fade"
-             id="modalAgregarEvento"
-             tabindex="-1"
-             aria-hidden="true">
-
-            <div class="modal-dialog modal-lg">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            Agregar nuevo evento
-                        </h4>
-
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal">
-                        </button>
-                    </div>
-
-                    <form th:action="@{/eventos/guardar}"
-                          th:object="${evento}"
-                          method="post">
-
-                        <div class="modal-body">
-
-                            <div class="row">
-                                
-                                
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label>Nombre</label>
-
-                                    <input type="text"
-                                           class="form-control"
-                                           th:field="*{nombre}">
-                                </div>
-
-                                <div class="col-12 mb-3">
-                                    <label>Detalle</label>
-
-                                    <textarea class="form-control"
-                                              rows="3"
-                                              th:field="*{detalle}">
-                                    </textarea>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>Fecha</label>
-
-                                    <input type="date"
-                                           class="form-control"
-                                           th:field="*{fecha}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Dirección</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{direccion}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Estado</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{idEstado}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Banda</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{idBanda}">
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal">
-                                Cancelar
-                            </button>
-
-                            <button type="submit"
-                                    class="btn evento-btn">
-                                Guardar
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal fade"
-             id="modalActualizarEvento"
-             tabindex="-1"
-             aria-hidden="true">
-
-            <div class="modal-dialog modal-lg">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            Actualizar evento
-                        </h4>
-
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal">
-                        </button>
-                    </div>
-
-                    <form th:action="@{/eventos/actualizar}"
-                          th:object="${evento}"
-                          method="post">
-
-                        <div class="modal-body">
-
-                            <div class="row">
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID del evento</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{idEvento}"
-                                           placeholder="Ingrese el ID">
-                                </div>
-
-                                <div class="col-md-8 mb-3">
-                                    <label>Nombre</label>
-
-                                    <input type="text"
-                                           class="form-control"
-                                           th:field="*{nombre}">
-                                </div>
-
-                                <div class="col-12 mb-3">
-                                    <label>Detalle</label>
-
-                                    <textarea class="form-control"
-                                              rows="3"
-                                              th:field="*{detalle}">
-                                    </textarea>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>Fecha</label>
-
-                                    <input type="date"
-                                           class="form-control"
-                                           th:field="*{fecha}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Dirección</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{direccion}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Estado</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{idEstado}">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label>ID Banda</label>
-
-                                    <input type="number"
-                                           class="form-control"
-                                           th:field="*{idBanda}">
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal">
-                                Cancelar
-                            </button>
-
-                            <button type="submit"
-                                    class="btn evento-btn">
-                                Guardar cambios
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="modal fade"
-             id="modalCancelarEvento"
-             tabindex="-1"
-             aria-hidden="true">
-
-            <div class="modal-dialog modal-lg">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            Cancelar evento
-                        </h4>
-
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal">
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <p class="mb-3">
-                            Seleccione el evento que desea cancelar.
-                        </p>
-
-                        <div class="table-responsive">
-
-                            <table class="table table-hover align-middle">
-
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Fecha</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <tr th:each="evento : ${listaEventos}">
-
-                                        <td th:text="${evento.idEvento}"></td>
-
-                                        <td th:text="${evento.nombre}"></td>
-
-                                        <td th:text="${evento.fecha}"></td>
-
-                                        <td>
-
-                                            <form th:action="@{/eventos/eliminar}"
-                                                  method="post">
-
-                                                <input type="hidden"
-                                                       name="idEvento"
-                                                       th:value="${evento.idEvento}" />
-
-                                                <button type="submit"
-                                                        class="btn btn-danger btn-sm">
-                                                    Cancelar
-                                                </button>
-
-                                            </form>
-
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-
-                        <button type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal">
-                            Cerrar
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
     </body>

@@ -1263,195 +1263,117 @@ footer {
     border-top: 1px solid #eee;
     padding-top: 10px;
 }
-/*stilo de eventos*/
+/*stilo de eventos para el usuario*/
+
 .evento-hero{
-    background: linear-gradient(
-        135deg,
-        rgba(43,47,56,0.96) 0%,
-        rgba(63,70,84,0.92) 100%
-    );
-    border-radius: 24px;
-    padding: 3rem 2rem;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.14);
-    color: white;
+    background:#ffffff;
+    border-radius:24px;
+    padding:1.8rem 2rem;
+    border:1px solid #e6eef8;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    position:relative;
+    overflow:hidden;
+}
+
+.evento-hero::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:4px;
+    background:#8fa8c9;
 }
 
 .evento-titulo{
-    font-family: 'NunitoBold', Arial, sans-serif;
-    font-size: 2.4rem;
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.3px;
+    font-family:'Nunito', sans-serif;
+    font-size:3rem;
+    font-weight:800;
+    color:var(--text-primary);
+    margin:.5rem 0;
 }
 
 .evento-subtitulo{
-    max-width: 850px;
-    margin: 0 auto;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.88);
+    max-width:700px;
+    margin:0 auto;
+    color:var(--text-secondary);
+    font-size:1.05rem;
+    line-height:1.7;
 }
 
-.evento-card{
+.evento-icono{
+    font-size:2.6rem;
+    margin-bottom:.4rem;
+}
+
+.stats-card{
     background: rgba(255,255,255,0.72);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(0,0,0,0.06);
     border-radius: 22px;
     box-shadow: 0 16px 35px rgba(0,0,0,0.10);
-    padding: 1.7rem;
-    transition: transform .25s ease, box-shadow .25s ease;
+    padding: 2.2rem;
     height: 100%;
+    transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.evento-card:hover{
+.stats-card:hover{
     transform: translateY(-5px);
     box-shadow: 0 20px 38px rgba(0,0,0,0.14);
 }
 
-.evento-card h4{
-    font-family: 'NunitoBold', Arial, sans-serif;
-    font-size: 1.2rem;
-    color: #1f2126;
-    margin-bottom: 0.9rem;
+.stats-card h5{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    color:var(--text-primary);
+    font-size:1.2rem;
+    text-align:center;
 }
 
-.evento-card p{
-    color: rgba(0,0,0,0.72);
-    line-height: 1.75;
-    margin-bottom: 0;
+.stats-number{
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:4.5rem;
+    color:#8fa8c9;
+    text-align:center;
+    line-height:1;
+    margin:20px 0;
 }
 
-.evento-tag{
-    margin-top: 1rem;
-    display: inline-block;
-    background: rgba(43,47,56,0.08);
-    color: #2b2f38;
-    border-radius: 14px;
-    padding: 0.65rem 1rem;
-    font-size: 0.95rem;
-    font-weight: 700;
+.stats-text{
+    text-align: center;
+    color: rgba(0,0,0,0.65);
+    font-size: .95rem;
 }
 
-.evento-table-wrap{
-    background: rgba(255,255,255,0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
-    border: 1px solid rgba(0,0,0,0.06);
-}
-
-.evento-table{
-    margin: 0;
-}
-
-.evento-table thead th{
-    background-color: #2b2f38;
-    color: white;
-    font-family: 'NunitoBold', Arial, sans-serif;
-    font-size: 1rem;
-    border: none;
-    padding: 1rem;
-}
-
-.evento-table tbody td{
-    background-color: transparent;
-    border-color: rgba(0,0,0,0.08);
-    padding: 1rem;
-    color: rgba(0,0,0,0.76);
-    vertical-align: middle;
-}
-
-.evento-table tbody tr:hover{
-    background-color: rgba(143,168,201,0.08);
-}
-
-.evento-resumen{
-    background: rgba(255,255,255,0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 22px;
-    box-shadow: 0 16px 35px rgba(0,0,0,0.10);
-    border: 1px solid rgba(0,0,0,0.06);
-    padding: 2rem;
-}
-
-.evento-resumen h3{
-    font-family: 'NunitoBold', Arial, sans-serif;
-    color: #1f2126;
-}
-
-.evento-resumen p{
-    color: rgba(0,0,0,0.74);
-    line-height: 1.8;
+.stats-card select{
+    border-radius: 12px;
+    padding: .75rem;
+    margin-bottom: 1rem;
 }
 
 .evento-btn{
-    background-color: #2b2f38;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    padding: 0.7rem 1.4rem;
+    width: 100%;
+    background: #ffffff;
+    color: #4ea3f1;
+    border: 2px solid #4ea3f1;
+    border-radius: 50px;
+    padding: 0.9rem 1.5rem;
     font-family: 'NunitoBold', Arial, sans-serif;
     font-size: 1rem;
-    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    transition: all .3s ease;
+    box-shadow: 0 8px 20px rgba(78,163,241,.15);
 }
 
 .evento-btn:hover{
-    background-color: #8fa8c9;
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 14px 25px rgba(0,0,0,0.16);
+    background: #4ea3f1;
+    color: #ffffff;
+    border-color: #4ea3f1;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(78,163,241,.30);
 }
 
-.evento-card-btn{
-    background: transparent;
-    border: none;
-    padding: 0;
-    text-align: inherit;
-    width: 100%;
-    display: block;
-}
-
-.evento-card-btn:focus{
-    outline: none;
-}
-
-.evento-card-info{
-    min-height: 210px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-    padding: 2rem;
-}
-
-.evento-card-btn .evento-card{
-    width: 100%;
-    cursor: pointer;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.evento-card-btn:hover .evento-card{
-    transform: translateY(-4px);
-    box-shadow: 0 16px 30px rgba(0,0,0,0.14);
-}
-
-.evento-card-btn:focus .evento-card{
-    box-shadow: 0 0 0 3px rgba(143,168,201,0.35), 0 16px 30px rgba(0,0,0,0.14);
-}
-
-.evento-card-info h4{
-    margin: 0;
-    font-family: 'NunitoBold', Arial, sans-serif;
-    font-size: 1.15rem;
-    color: #1f2126;
-}
-
-.evento-card-info .evento-btn{
-    margin-top: 0.8rem;
+.evento-btn:focus{
+    box-shadow: 0 0 0 .2rem rgba(78,163,241,.25);
 }

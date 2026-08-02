@@ -49,7 +49,7 @@
                 </div>
 
                 <h1 class="evento-titulo">
-                    Eventos de la Banda
+                    Eventos de Bandas
                 </h1>
 
                 <p class="evento-subtitulo">
@@ -103,8 +103,13 @@
 
                             </select>
 
-                            <button class="btn evento-btn">
+                            <button
+                                class="btn evento-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEvento">
+
                                 Ver información
+
                             </button>
 
                         </div>
@@ -115,9 +120,300 @@
 
             </section>
 
+            <section class="mt-5">
 
+                <h3 class="texto mb-4">
+                    Próximas presentaciones
+                </h3>
+
+                <div class="row g-4">
+
+                    <!-- Tarjeta 1 -->
+                    <div class="col-lg-4">
+
+                        <div class="presentacion-card">
+
+                            <div class="presentacion-icono">
+                                📍
+                            </div>
+
+                            <h5>
+                                Parque Central
+                            </h5>
+
+                            <p class="evento-nombre">
+                                Festival Nacional de Bandas
+                            </p>
+
+                            <p class="evento-fecha">
+                                📅 15 Agosto 2026
+                            </p>
+
+                            <p class="evento-bandas">
+
+                                🎺 Banda participante
+
+                            </p>
+
+                            <button class="btn evento-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalBanda">
+
+                                Ver banda
+
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Tarjeta 2 -->
+                    <div class="col-lg-4">
+
+                        <div class="presentacion-card">
+
+                            <div class="presentacion-icono">
+                                📍
+                            </div>
+
+                            <h5>
+                                Teatro Nacional
+                            </h5>
+
+                            <p class="evento-nombre">
+                                Concierto de Gala
+                            </p>
+
+                            <p class="evento-fecha">
+                                📅 30 Agosto 2026
+                            </p>
+
+                            <p class="evento-bandas">
+
+                                🎺 Banda participante
+
+                            </p>
+
+                            <button class="btn evento-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalBanda">
+
+                                Ver banda
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Tarjeta 3 -->
+                    <div class="col-lg-4">
+
+                        <div class="presentacion-card">
+
+                            <div class="presentacion-icono">
+                                📍
+                            </div>
+
+                            <h5>
+                                Estadio Nacional
+                            </h5>
+
+                            <p class="evento-nombre">
+                                Desfile de Independencia
+                            </p>
+
+                            <p class="evento-fecha">
+                                📅 15 Septiembre 2026
+                            </p>
+
+                            <p class="evento-bandas">
+
+                                🎺 Banda participante
+
+                            </p>
+
+                            <button class="btn evento-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalBanda">
+
+                                Ver banda
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
         </main>
 
+        <!-- Modal para Información del Evento -->
+        <div class="modal fade"
+             id="modalEvento"
+             tabindex="-1"
+             aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content evento-modal">
+
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">
+                            🎺 Festival Nacional de Bandas
+                        </h4>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="evento-info">
+
+                            <p>
+                                <strong>🎵 Banda:</strong><br>
+                                Banda Municipal de Tibás
+                            </p>
+
+                            <p>
+                                <strong>📍 Lugar:</strong><br>
+                                Parque Central, San José
+                            </p>
+
+                            <p>
+                                <strong>📅 Fecha:</strong><br>
+                                15 Agosto 2026
+                            </p>
+
+                            <p>
+                                <strong>🕒 Hora:</strong><br>
+                                6:00 PM
+                            </p>
+
+                            <p>
+                                <strong>📝 Descripción:</strong><br>
+                                Festival anual de bandas municipales.
+                            </p>
+
+                            <p>
+                                <strong>🟢 Estado:</strong><br>
+                                Programado
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button class="btn evento-btn"
+                                data-bs-dismiss="modal">
+
+                            Cerrar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Modal Bandas Participantes -->
+
+        <div class="modal fade"
+             id="modalBanda"
+             tabindex="-1"
+             aria-labelledby="modalBandaLabel"
+             aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content evento-modal">
+
+                    <div class="modal-header">
+
+                        <h4 class="modal-title" id="modalBandaLabel">
+                            🎺 Banda Municipal de Tibás
+                        </h4>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Cerrar">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="detalle-item">
+                            <strong>🎺 Banda</strong>
+                            <p>Banda Municipal de Tibás</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>🎵 Evento</strong>
+                            <p>Festival Nacional de Bandas</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>📍 Lugar</strong>
+                            <p>Parque Central, San José</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>📅 Fecha</strong>
+                            <p>15 Agosto 2026</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>🕒 Hora</strong>
+                            <p>6:00 PM</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>👥 Director</strong>
+                            <p>Carlos Ramírez</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>🎼 Tipo de banda</strong>
+                            <p>Banda Municipal</p>
+                        </div>
+
+                        <div class="detalle-item">
+                            <strong>🟢 Estado</strong>
+                            <p>Activa</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn evento-btn"
+                                data-bs-dismiss="modal">
+
+                            Cerrar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
     </body>

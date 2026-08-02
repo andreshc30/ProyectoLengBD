@@ -1377,3 +1377,155 @@ footer {
 .evento-btn:focus{
     box-shadow: 0 0 0 .2rem rgba(78,163,241,.25);
 }
+
+/*modal para buscar info de evento*/
+
+.evento-modal{
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.18);
+}
+
+.evento-modal .modal-header{
+    background: linear-gradient(135deg,#8fa8c9,#6ea4e7);
+    color:white;
+    border:none;
+    padding:.9rem 1.5rem;
+}
+
+.evento-modal .modal-title{
+    font-family:'NunitoBold', Arial, sans-serif;
+    font-size:1.25rem;
+    margin:0;
+}
+
+.evento-modal .btn-close{
+    filter: invert(1);
+}
+
+.evento-modal .modal-body{
+    padding:1.4rem 1.8rem;
+    background: #fff;
+}
+
+.evento-info p{
+    margin-bottom:.9rem;
+    line-height:1.45;
+    color:#4b5563;
+}
+
+.evento-info strong{
+    display:block;
+    margin-bottom:.15rem;
+    font-size:1rem;
+}
+
+.evento-modal .modal-footer{
+    border:none;
+    padding:1rem 1.8rem 1.3rem;
+    background:#f8fafc;
+}
+
+.evento-modal .evento-btn{
+    padding:.7rem 1rem;
+}
+
+/*Proximas presentaciones*/
+
+.presentacion-card{
+    background:#fff;
+    border-radius:22px;
+    padding:2rem;
+    border:1px solid #e6eef8;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.25s;
+    height:100%;
+}
+
+.presentacion-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 16px 30px rgba(0,0,0,.12);
+}
+
+.presentacion-icono{
+    font-size:2rem;
+    margin-bottom:.6rem;
+}
+
+.presentacion-card h5{
+    font-family:'NunitoBold', Arial, sans-serif;
+    color:#1f2937;
+    margin-bottom:.8rem;
+}
+
+.evento-nombre{
+    color:#4b5563;
+    font-weight:600;
+    margin-bottom:.8rem;
+}
+
+.evento-fecha{
+    color:#8fa8c9;
+    font-weight:700;
+    margin-bottom:1.4rem;
+}
+
+.evento-bandas{
+    margin-bottom: 1.4rem;
+    color: #4ea3f1;
+    font-weight: 700;
+    font-size: .95rem;
+}
+
+/*modal de proximas presentaciones*/
+
+.titulo-seccion-modal{
+    font-family:'NunitoBold', Arial, sans-serif;
+    color:#1f2937;
+    margin-bottom:1.3rem;
+}
+
+.lista-bandas{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.banda-item{
+    background:#f8fbff;
+    border:1px solid #e6eef8;
+    border-radius:14px;
+    padding:14px 18px;
+    font-weight:600;
+    color:#374151;
+    transition:.25s;
+}
+
+.banda-item:hover{
+    background:#eef5fc;
+    transform:translateX(5px);
+}
+
+.total-bandas{
+    margin-top:28px;
+    padding-top:18px;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:700;
+    color:#4ea3f1;
+}
+
+.total-bandas span{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#4ea3f1;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1.2rem;
+}

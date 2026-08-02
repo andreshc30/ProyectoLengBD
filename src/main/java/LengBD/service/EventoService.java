@@ -11,9 +11,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class EventoService {
+
     @Autowired
     private EventoRepository eventoRepository;
 
@@ -24,7 +24,7 @@ public class EventoService {
     public void actualizarEvento(Evento evento) {
         eventoRepository.actualizarEvento(evento);
     }
-    
+
     public List<EventoListadoDTO> readAllEvento() {
         return eventoRepository.readAllEvento();
     }
@@ -34,7 +34,7 @@ public class EventoService {
         evento.setIdEvento(idEvento);
         eventoRepository.deleteEvento(evento);
     }
-    
+
     public EventoListadoDTO buscarPorId(Integer id) {
         return readAllEvento().stream()
                 .filter(even -> even.getIdEvento().equals(id))
@@ -49,5 +49,12 @@ public class EventoService {
     public String obtenerNombreEvento(Integer idEvento) {
         return eventoRepository.obtenerNombreEvento(idEvento);
     }
-    
+
+    public List<EventoListadoDTO> obtenerEventosBusqueda() {
+        return eventoRepository.obtenerEventosBusqueda();
+    }
+
+    public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
+        return eventoRepository.obtenerDetalleEvento(idEvento);
+    }
 }

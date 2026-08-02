@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -37,9 +39,10 @@ public class EventoController {
 
     @GetMapping("/listado")
     public String listado(Model model,
-                           @RequestParam(value = "idEventoConsulta", required = false) Integer idEventoConsulta) {
+            @RequestParam(value = "idEventoConsulta", required = false) Integer idEventoConsulta) {
         List<EventoListadoDTO> lista = eventoService.readAllEvento();
         model.addAttribute("listaEventos", lista);
+        model.addAttribute("eventosBusqueda", eventoService.obtenerEventosBusqueda());
         model.addAttribute("evento", new EventoListadoDTO());
         model.addAttribute("totalEventosActivos", eventoService.totalEventosActivos());
 
@@ -126,5 +129,23 @@ public class EventoController {
         model.addAttribute("direcciones", direccionService.readAllDireccion());
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
+    }
+
+    @GetMapping("/detalle")
+    public String detalleEvento(
+            @RequestParam Integer idEvento,
+            Model model) {
+
+        model.addAttribute("detalleEvento", eventoService.obtenerDetalleEvento(idEvento));
+
+        return "eventos/listado";
+    }
+
+    @GetMapping("/detalle/{idEvento}")
+    @ResponseBody
+    public EventoListadoDTO obtenerDetalleEvento(@PathVariable Integer idEvento) {
+
+        return eventoService.obtenerDetalleEvento(idEvento);
+
     }
 }

@@ -107,4 +107,40 @@ public class EventoRepository {
         params.put("P_ID_EVENTO", idEvento);
         return obtenerNombreEventoCall.executeFunction(String.class, params);
     }
+
+    public List<EventoListadoDTO> obtenerEventosBusqueda() {
+
+        String sql = """
+        SELECT
+            ID_EVENTO,
+            NOMBRE_EVENTO AS NOMBRE
+        FROM FIDE_EVENTOS_BUSQUEDA_V
+        """;
+
+        return jdbcTemplate.query(
+                sql,
+                BeanPropertyRowMapper.newInstance(EventoListadoDTO.class)
+        );
+    }
+
+    public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
+
+        String sql = """
+        SELECT
+            ID_EVENTO,
+            NOMBRE_EVENTO AS NOMBRE,
+            DETALLE,
+            FECHA,
+            NOMBRE_BANDA AS NOMBREBANDA,
+            LUGAR AS NOMBREDIRECCION,
+            ESTADO
+        FROM FIDE_EVENTO_DETALLE_V
+        WHERE ID_EVENTO = ?
+        """;
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                BeanPropertyRowMapper.newInstance(EventoListadoDTO.class),
+                idEvento);
+    }
 }

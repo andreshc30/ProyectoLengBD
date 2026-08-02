@@ -95,22 +95,34 @@
                                 Buscar evento
                             </h5>
 
-                            <select class="form-select mb-3">
+                                <select
+                                    class="form-select mb-3"
+                                    id="eventoSeleccionado"
+                                    name="idEvento">
 
-                                <option>
-                                    Seleccione un evento
-                                </option>
+                                    <option value="">
+                                        Seleccione un evento
+                                    </option>
 
-                            </select>
+                                    <option
+                                        th:each="evento : ${eventosBusqueda}"
+                                        th:value="${evento.idEvento}"
+                                        th:text="${evento.nombre}">
+                                    </option>
 
-                            <button
-                                class="btn evento-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalEvento">
+                                </select>
 
-                                Ver información
+                                <button
+                                    type="button"
+                                    id="btnVerEvento"
+                                    class="btn evento-btn">
 
-                            </button>
+                                    Ver información
+
+                                </button>
+
+                            </form>
+
 
                         </div>
 
@@ -416,5 +428,33 @@
         </div>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+        <script>
+
+            document.getElementById("btnVerEvento").addEventListener("click", function () {
+
+                const idEvento =
+                        document.getElementById("eventoSeleccionado").value;
+
+                if (!idEvento) {
+
+                    alert("Seleccione un evento.");
+
+                    return;
+                }
+
+                fetch("/eventos/detalle/" + idEvento)
+
+                        .then(response => response.json())
+
+                        .then(data => {
+
+                            console.log(data);
+
+                        });
+
+            });
+
+        </script>
     </body>
 </html>

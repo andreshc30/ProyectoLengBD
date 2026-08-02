@@ -41,6 +41,7 @@ public class RolUsuariosRepository {
     private SimpleJdbcCall rolUsuarioInsertCall;
     private SimpleJdbcCall rolUsuarioUpdateCall;
     private SimpleJdbcCall rolUsuarioDeleteCall;
+    private SimpleJdbcCall lideresPorBandaCall;
     private SimpleJdbcCall rolUsuarioReadAllCall;
 
     @PostConstruct
@@ -84,6 +85,27 @@ public class RolUsuariosRepository {
                 .withProcedureName("FIDE_LISTAR_ROL_USUARIOS_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(RolUsuarioListadoDTO.class));;
+                
+                
+        lideresPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_LIDERES_POR_BANDA_SP")
+                .returningResultSet("p_cursor", new RowMapper<LiderListadoDTO>() {
+                    @Override
+                    public LiderListadoDTO mapRow(ResultSet rs, int n) throws SQLException {
+                        LiderListadoDTO d = new LiderListadoDTO();
+                        d.setCedula(rs.getObject(1) != null ? rs.getInt(1) : null);
+                        d.setNombreUsuario(rs.getString(2));
+                        d.setIdRol(rs.getObject(3) != null ? rs.getInt(3) : null);
+                        d.setIdSeccion(rs.getObject(4) != null ? rs.getInt(4) : null);
+                        d.setNombreSeccion(rs.getString(5));
+                        d.setCorreo(rs.getString(6));
+                        d.setEstado(rs.getString(7));
+                        d.setIdEstado(rs.getObject(8) != null ? rs.getInt(8) : null);
+                        return d;
+                    }
+                });
+        
     }
 
     public void insertarRolUsuario(RolUsuario rolUsuario) {
@@ -120,6 +142,15 @@ public class RolUsuariosRepository {
         Map<String, Object> params = new HashMap<>();
         Map<String, Object> result = listarLideresCall.execute(params);
         List<LiderListadoDTO> lista = (List<LiderListadoDTO>) result.get("P_CURSOR");
+        return lista == null ? new java.util.ArrayList<>() : lista;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<LiderListadoDTO> readLideresPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = lideresPorBandaCall.execute(params);
+        List<LiderListadoDTO> lista = (List<LiderListadoDTO>) result.get("p_cursor");
         return lista == null ? new java.util.ArrayList<>() : lista;
     }
 

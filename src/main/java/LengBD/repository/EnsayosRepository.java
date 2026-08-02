@@ -27,6 +27,7 @@ public class EnsayosRepository {
     private SimpleJdbcCall ensayosUpdateCall;
     private SimpleJdbcCall ensayosDeleteCall;
     private SimpleJdbcCall ensayosReadAllCall;
+    private SimpleJdbcCall ensayosPorBandaCall;
 
     @PostConstruct
     public void init() {
@@ -45,6 +46,11 @@ public class EnsayosRepository {
                 .withProcedureName("FIDE_LISTAR_ENSAYOS_SP")
                 .returningResultSet("P_CURSOR",
                 BeanPropertyRowMapper.newInstance(EnsayosListadoDTO.class));
+        ensayosPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_ENSAYOS_POR_BANDA_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(EnsayosListadoDTO.class));
     }
 
     public void insertarEnsayos(Ensayos ensayos) {
@@ -81,5 +87,15 @@ public class EnsayosRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_ENSAYO", ensayos.getIdEnsayo());
         ensayosDeleteCall.execute(params);
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    public List<EnsayosListadoDTO> readEnsayosPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = ensayosPorBandaCall.execute(params);
+        List<EnsayosListadoDTO> lista = (List<EnsayosListadoDTO>) result.get("p_cursor");
+        return lista == null ? new java.util.ArrayList<>() : lista;
     }
 }

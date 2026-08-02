@@ -2,9 +2,12 @@ package LengBD.controller;
 
 import LengBD.domain.RolUsuario;
 import LengBD.domain.RolUsuarioListadoDTO;
+import LengBD.domain.UsuarioLoginDTO;
+import LengBD.repository.UsuarioRepository;
 import LengBD.service.RolUsuariosService;
 import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +21,17 @@ public class LiderSeccionController {
     private RolUsuariosService rolUsuariosService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
 
     private static final Integer ROL_LIDER = 4;
 
     @GetMapping("/nuevo")
-    public String nuevo(Model model) {
-        model.addAttribute("usuarios", usuarioService.readAllUsuario());
+    public String nuevo(Model model, Authentication auth) {
+        UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+        Integer idBanda = director.getIdBanda();
+        model.addAttribute("usuarios", usuarioService.readUsuariosPorBanda(idBanda));
         return "lider/formulario";
     }
 
@@ -33,7 +41,6 @@ public class LiderSeccionController {
             RolUsuarioListadoDTO existente = rolUsuariosService.buscarPorId(ROL_LIDER, cedula);
 
             if (existente == null) {
-                // no existe → insertar
                 RolUsuario ru = new RolUsuario();
                 ru.setCedula(cedula);
                 ru.setIdRol(ROL_LIDER);
@@ -59,7 +66,7 @@ public class LiderSeccionController {
     @PostMapping("/revocar")
     public String revocar(@RequestParam("cedula") Integer cedula, RedirectAttributes ra) {
         try {
-            rolUsuariosService.eliminarRolUsuario(ROL_LIDER, cedula);  // OJO: (idRol, cedula)
+            rolUsuariosService.eliminarRolUsuario(ROL_LIDER, cedula);
             ra.addFlashAttribute("todoOk", "Rol de líder revocado");
         } catch (Exception ex) {
             ex.printStackTrace();

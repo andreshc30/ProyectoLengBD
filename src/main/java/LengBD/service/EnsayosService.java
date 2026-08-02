@@ -46,5 +46,9 @@ public class EnsayosService {
                 .findFirst()
                 .orElse(null);
     }
-    
+
+    public List<EnsayosListadoDTO> readEnsayosPorBanda(Integer idBanda) {
+        return ensayosRepository.readEnsayosPorBanda(idBanda);
+    }
+
 }

@@ -2,6 +2,8 @@ package LengBD.controller;
 
 import LengBD.domain.Ensayos;
 import LengBD.domain.EnsayosListadoDTO;
+import LengBD.domain.UsuarioLoginDTO;
+import LengBD.repository.UsuarioRepository;
 import LengBD.service.EnsayosService;
 import LengBD.service.DireccionService;
 import LengBD.service.BandaService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequestMapping("/ensayos")
@@ -34,6 +37,11 @@ public class EnsayosController {
 
     @Autowired
     private EstadoService estadoService;
+
+    
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("/listado")
     public String listado(Model model) {
@@ -100,4 +108,62 @@ public class EnsayosController {
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
+    
+    
+    
+    
+    @GetMapping("/nuevoD")
+    public String nuevoD(Model model) {
+        model.addAttribute("ensayo", new EnsayosListadoDTO());
+        cargarCombos(model);
+        return "seccion/formularioEnsayo";
+    }
+
+    @GetMapping("/editarD/{idEnsayo}")
+    public String editarD(@PathVariable("idEnsayo") Integer id, Model model) {
+        model.addAttribute("ensayo", ensayosService.buscarPorId(id));
+        cargarCombos(model);
+        return "seccion/formularioEnsayo";
+    }
+
+    @PostMapping("/guardarD")
+    public String guardarD(@ModelAttribute EnsayosListadoDTO dto, Authentication auth, RedirectAttributes ra) {
+        try {
+            Ensayos ensayo = new Ensayos();
+            ensayo.setIdEnsayo(dto.getIdEnsayo());
+            ensayo.setNombre(dto.getNombre());
+            ensayo.setFechaInicio(dto.getFechaInicio());
+            ensayo.setFechaFin(dto.getFechaFin());
+            ensayo.setDescripcion(dto.getDescripcion());
+            ensayo.setIdDireccion(dto.getIdDireccion());
+            UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+            ensayo.setIdBanda(director.getIdBanda()); 
+            ensayo.setIdEstado(dto.getIdEstado() != null ? dto.getIdEstado() : 1);
+
+            if (dto.getIdEnsayo() != null) {
+                ensayosService.actualizarEnsayos(ensayo);
+            } else {
+                ensayosService.insertarEnsayos(ensayo);
+            }
+            ra.addFlashAttribute("todoOk", "Ensayo guardado correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+
+    @PostMapping("/eliminarD")
+    public String eliminarD(@RequestParam("idEnsayo") Integer idEnsayo, RedirectAttributes ra) {
+        try {
+            ensayosService.eliminarEnsayos(idEnsayo);
+            ra.addFlashAttribute("todoOk", "Ensayo eliminado correctamente");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Error al eliminar");
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
 }
+
+
+

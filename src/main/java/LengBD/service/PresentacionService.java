@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class PresentacionService {
     @Autowired
     private PresentacionRepository presentacionRepository;
+    
+
 
     public void insertarPresentacion(Presentacion presentacion) {
         presentacionRepository.insertarPresentacion(presentacion);
@@ -47,4 +49,7 @@ public class PresentacionService {
                 .orElse(null);
     }
     
+    public List<PresentacionListadoDTO> readPresentacionPorBanda(Integer idBanda) {
+        return presentacionRepository.readPresentacionPorBanda(idBanda);
+    }
 }

@@ -36,6 +36,7 @@ public class PresentacionRepository {
     private SimpleJdbcCall presentacionUpdateCall;
     private SimpleJdbcCall presentacionDeleteCall;
     private SimpleJdbcCall presentacionReadAllCall;
+    private SimpleJdbcCall presentacionPorBandaCall;
 
     @PostConstruct
     public void init() {
@@ -56,6 +57,11 @@ public class PresentacionRepository {
                 .withProcedureName("FIDE_LISTAR_PRESENTACION_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(PresentacionListadoDTO.class));;
+        presentacionPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_PRESENTACION_POR_BANDA_SP")
+                .returningResultSet("p_cursor",
+                BeanPropertyRowMapper.newInstance(PresentacionListadoDTO.class));
     }
 
     public void insertarPresentacion(Presentacion presentacion) {
@@ -64,7 +70,7 @@ public class PresentacionRepository {
         params.put("P_DESCRIPCION", presentacion.getDescripcion());
         params.put("P_ID_BANDA", presentacion.getIdBanda());
         params.put("P_FECHA", presentacion.getFecha());
-        params.put("P_ID_LUGAR", presentacion.getIdLugar());
+        params.put("P_NOMBRE_LUGAR", presentacion.getNombreLugar());
         params.put("P_ID_ESTADO", presentacion.getIdEstado());
         presentacionInsertCall.execute(params);
     }
@@ -76,7 +82,7 @@ public class PresentacionRepository {
         params.put("P_DESCRIPCION", presentacion.getDescripcion());
         params.put("P_ID_BANDA", presentacion.getIdBanda());
         params.put("P_FECHA", presentacion.getFecha());
-        params.put("P_ID_LUGAR", presentacion.getIdLugar());
+        params.put("P_NOMBRE_LUGAR", presentacion.getNombreLugar());
         params.put("P_ID_ESTADO", presentacion.getIdEstado());
         presentacionUpdateCall.execute(params);
     }
@@ -91,6 +97,15 @@ public class PresentacionRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_PRESENTACION", presentacion.getIdPresentacion());
         presentacionDeleteCall.execute(params);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<PresentacionListadoDTO> readPresentacionPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = presentacionPorBandaCall.execute(params);
+        List<PresentacionListadoDTO> lista = (List<PresentacionListadoDTO>) result.get("p_cursor");
+        return lista == null ? new java.util.ArrayList<>() : lista;
     }
 
 }

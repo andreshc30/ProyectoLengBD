@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0" th:text="${presentacion.idPresentacion != null ? 'Editar Presentación' : 'Nueva Presentación'}">Nueva Presentación</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/presentacion/guardarD}" th:object="${presentacion}" method="post">
+
+                            <input type="hidden" th:field="*{idPresentacion}">
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nombre:</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Fecha y hora:</label>
+                                <input type="datetime-local" class="form-control" th:field="*{fecha}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Lugar:</label>
+                                <input type="text" class="form-control" th:field="*{nombreLugar}"
+                                       placeholder="Ej: Teatro Nacional" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Descripción:</label>
+                                <textarea class="form-control" th:field="*{descripcion}" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3" th:if="${presentacion.idPresentacion != null}">
+                                <label class="form-label fw-bold">Estado:</label>
+                                <select class="form-select" th:field="*{idEstado}">
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                </select>
+                            </div>
+
+                            <div class="text-end">
+                                <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

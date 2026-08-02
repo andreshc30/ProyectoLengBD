@@ -50,5 +50,8 @@ public class UsuarioService {
         public void cambiarPassword(Integer cedula, String passwordHash) {
         usuarioRepository.cambiarPassword(cedula, passwordHash);
     }
-    
+
+    public List<UsuarioListadoDTO> readUsuariosPorBanda(Integer idBanda) {
+        return usuarioRepository.readUsuariosPorBanda(idBanda);
+    }
 }

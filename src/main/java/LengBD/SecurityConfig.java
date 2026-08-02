@@ -24,7 +24,7 @@ public class SecurityConfig {
 
                 // ---------- ESTATICOS ----------
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**",
-                                 "/logo/**", "/fonts/**", "/api/chat", "/error").permitAll()
+                                 "/logo/**", "/fonts/**", "/error").permitAll()
 
                 // ---------- PUBLICO (sin login) ----------
                 .requestMatchers(
@@ -47,7 +47,8 @@ public class SecurityConfig {
                     "/solicitudIngreso/eliminar",
                     "/asignacionInstrumento/**",
                     "/lider/**",
-                    "/seccion/**"
+                    "/seccion/**",
+                    "/api/chat"
                 ).hasAnyRole("DIRECTOR", "ADMIN", "SUPER_ADMIN")
 
                 // ---------- SOLO ADMIN ----------

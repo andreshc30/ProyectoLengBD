@@ -3,6 +3,8 @@ package LengBD.controller;
 import LengBD.domain.UsuarioLoginDTO;
 import LengBD.repository.UsuarioRepository;
 import LengBD.service.AsignacionInstrumentoService;
+import LengBD.service.EnsayosService;
+import LengBD.service.PresentacionService;
 import LengBD.service.RolUsuariosService;
 import LengBD.service.SeccionService;
 import LengBD.service.SolicitudIngresoService;
@@ -39,6 +41,12 @@ public class SeccionesController {
     private SolicitudIngresoService solicitudIngresoService;
 
 
+    @Autowired
+    private EnsayosService ensayosService;
+
+
+    @Autowired
+    private PresentacionService presentacionService;
 
     @GetMapping("/banda/secciones/listadoDirector")
     public String cargarPantallaDirector(Model model, Authentication auth) {
@@ -47,9 +55,11 @@ public class SeccionesController {
 
         model.addAttribute("asignaciones", asignacionInstrumentoService.readAllAsignacionInstrumento());
         model.addAttribute("solicitudes", solicitudIngresoService.readAllSolicitudIngreso());
-        model.addAttribute("usuarios", usuarioService.readAllUsuario());
-        model.addAttribute("lideres", rolUsuariosService.readAllLideres());
-        model.addAttribute("secciones", seccionService.readSeccionPorBanda(idBanda));  // ← solo su banda
+        model.addAttribute("usuarios", usuarioService.readUsuariosPorBanda(idBanda));
+        model.addAttribute("lideres", rolUsuariosService.readLideresPorBanda(idBanda));
+        model.addAttribute("secciones", seccionService.readSeccionPorBanda(idBanda)); 
+        model.addAttribute("ensayos", ensayosService.readEnsayosPorBanda(idBanda));
+        model.addAttribute("presentaciones", presentacionService.readPresentacionPorBanda(idBanda));
         return "seccion/listadoDirector";
     }
 }

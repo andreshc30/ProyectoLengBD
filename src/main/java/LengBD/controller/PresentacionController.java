@@ -2,6 +2,8 @@ package LengBD.controller;
 
 import LengBD.domain.Presentacion;
 import LengBD.domain.PresentacionListadoDTO;
+import LengBD.domain.UsuarioLoginDTO;
+import LengBD.repository.UsuarioRepository;
 import LengBD.service.PresentacionService;
 import LengBD.service.BandaService;
 import LengBD.service.LugarService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequestMapping("/presentacion")
@@ -34,6 +37,10 @@ public class PresentacionController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
 
     @GetMapping("/listado")
     public String listado(Model model) {
@@ -99,4 +106,56 @@ public class PresentacionController {
         model.addAttribute("lugares", lugarService.readAllLugar());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
+    
+    @GetMapping("/nuevoD")
+    public String nuevoD(Model model) {
+        model.addAttribute("presentacion", new PresentacionListadoDTO());
+        cargarCombos(model);
+        return "seccion/formularioPresentacion";
+    }
+
+    @GetMapping("/editarD/{idPresentacion}")
+    public String editarD(@PathVariable("idPresentacion") Integer id, Model model) {
+        model.addAttribute("presentacion", presentacionService.buscarPorId(id));
+        cargarCombos(model);
+        return "seccion/formularioPresentacion";
+    }
+
+    @PostMapping("/guardarD")
+    public String guardarD(@ModelAttribute PresentacionListadoDTO dto,
+            Authentication auth, RedirectAttributes ra) {
+        try {
+            Presentacion presentacion = new Presentacion();
+            presentacion.setIdPresentacion(dto.getIdPresentacion());
+            presentacion.setNombre(dto.getNombre());
+            presentacion.setDescripcion(dto.getDescripcion());
+            presentacion.setFecha(dto.getFecha());
+            presentacion.setNombreLugar(dto.getNombreLugar());
+            UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+            presentacion.setIdBanda(director.getIdBanda());
+            presentacion.setIdEstado(dto.getIdEstado() != null ? dto.getIdEstado() : 1);
+            if (dto.getIdPresentacion() != null) {
+                presentacionService.actualizarPresentacion(presentacion);
+            } else {
+                presentacionService.insertarPresentacion(presentacion);
+            }
+            ra.addFlashAttribute("todoOk", "Presentación guardada correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+
+    @PostMapping("/eliminarD")
+    public String eliminarD(@RequestParam("idPresentacion") Integer idPresentacion, RedirectAttributes ra) {
+        try {
+            presentacionService.eliminarPresentacion(idPresentacion);
+            ra.addFlashAttribute("todoOk", "Presentación eliminada correctamente");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Error al eliminar");
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+    
 }

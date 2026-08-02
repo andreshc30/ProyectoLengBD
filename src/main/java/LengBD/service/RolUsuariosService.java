@@ -54,4 +54,8 @@ public class RolUsuariosService {
     public List<LiderListadoDTO> readAllLideres() {
         return rolUsuariosRepository.readAllLideres();
     }
+    
+    public List<LiderListadoDTO> readLideresPorBanda(Integer idBanda) {
+        return rolUsuariosRepository.readLideresPorBanda(idBanda);
+    }
 }

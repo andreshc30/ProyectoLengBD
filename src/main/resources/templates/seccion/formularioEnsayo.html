@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0" th:text="${ensayo.idEnsayo != null ? 'Editar Ensayo' : 'Nuevo Ensayo'}">Nuevo Ensayo</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/ensayos/guardarD}" th:object="${ensayo}" method="post">
+
+                            <input type="hidden" th:field="*{idEnsayo}">
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nombre:</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Fecha y hora de inicio:</label>
+                                    <input type="datetime-local" class="form-control" th:field="*{fechaInicio}" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Fecha y hora de fin:</label>
+                                    <input type="datetime-local" class="form-control" th:field="*{fechaFin}" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Descripción:</label>
+                                <textarea class="form-control" th:field="*{descripcion}" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Lugar (dirección):</label>
+                                <select class="form-select" name="idDireccion">
+                                    <option value="">-- Seleccione una dirección --</option>
+                                    <option th:each="d : ${direcciones}"
+                                            th:value="${d.idDireccion}"
+                                            th:text="${d.otrosDetalles}"
+                                            th:selected="${ensayo.idDireccion != null and ensayo.idDireccion == d.idDireccion}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" th:if="${ensayo.idEnsayo != null}">
+                                <label class="form-label fw-bold">Estado:</label>
+                                <select class="form-select" name="idEstado">
+                                    <option value="1" th:selected="${ensayo.idEstado == 1}">Activo</option>
+                                    <option value="2" th:selected="${ensayo.idEstado == 2}">Inactivo</option>
+                                </select>
+                            </div>
+
+                            <div class="text-end">
+                                <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

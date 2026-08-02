@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LengBD.controller;
 
-/**
- *
- * @author peper
- */
 import LengBD.service.GeminiService;
+import java.util.Map;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,8 +16,8 @@ public class GeminiController {
     }
 
     @PostMapping("/chat")
-    public String chatear(@RequestBody String usuarioMensaje) {
-        String respuestaIA = geminiService.llamarGemini(usuarioMensaje);
-        return geminiService.llamarGemini(usuarioMensaje);
+    public String chatear(@RequestBody Map<String, String> body, Authentication auth) {
+        String mensaje = body.get("mensaje");
+        return geminiService.preguntar(auth.getName(), mensaje);
     }
 }

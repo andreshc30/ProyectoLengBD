@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.Data;
-
 @Data
 @Entity
 @Table(name = "FIDE_SECCION_TB")

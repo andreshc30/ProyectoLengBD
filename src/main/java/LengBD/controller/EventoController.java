@@ -55,6 +55,7 @@ public class EventoController {
         List<EventoListadoDTO> lista = eventoService.readAllEvento();
         model.addAttribute("listaEventos", lista);
         model.addAttribute("eventosBusqueda", eventoService.obtenerEventosBusqueda());
+        model.addAttribute("proximosEventos", eventoService.obtenerProximosEventos());
         model.addAttribute("evento", new EventoListadoDTO());
         model.addAttribute("totalEventosActivos", eventoService.totalEventosActivos());
 

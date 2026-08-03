@@ -122,25 +122,47 @@ public class EventoRepository {
                 BeanPropertyRowMapper.newInstance(EventoListadoDTO.class)
         );
     }
+    
+    public List<EventoListadoDTO> obtenerProximosEventos() {
+
+    String sql = """
+        SELECT
+            NOMBRE_EVENTO AS NOMBRE,
+            LUGAR AS NOMBREDIRECCION,
+            FECHA,
+            NOMBRE_BANDA AS NOMBREBANDA
+        FROM FIDE_EVENTO_DETALLE_V
+        WHERE FECHA >= TRUNC(SYSDATE)
+        ORDER BY FECHA
+        FETCH FIRST 3 ROWS ONLY
+        """;
+
+    return jdbcTemplate.query(
+            sql,
+            BeanPropertyRowMapper.newInstance(EventoListadoDTO.class)
+    );
+}
 
     public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
 
         String sql = """
-        SELECT
-            ID_EVENTO,
-            NOMBRE_EVENTO AS NOMBRE,
-            DETALLE,
-            FECHA,
-            NOMBRE_BANDA AS NOMBREBANDA,
-            LUGAR AS NOMBREDIRECCION,
-            ESTADO
-        FROM FIDE_EVENTO_DETALLE_V
-        WHERE ID_EVENTO = ?
-        """;
+    SELECT
+        ID_EVENTO,
+        NOMBRE_EVENTO AS NOMBRE,
+        DETALLE,
+        FECHA,
+        NOMBRE_BANDA AS NOMBREBANDA,
+        LUGAR AS NOMBREDIRECCION,
+        ESTADO
+    FROM FIDE_EVENTO_DETALLE_V
+    WHERE ID_EVENTO = ?
+    """;
 
         return jdbcTemplate.queryForObject(
                 sql,
                 BeanPropertyRowMapper.newInstance(EventoListadoDTO.class),
                 idEvento);
     }
+    
+    
 }

@@ -20,6 +20,7 @@ public class EventoListadoDTO implements Serializable {
     private String detalle;
     private String nombreBanda;
     private String estado;
+    private String nombreDireccion;
 
     private LocalDate fecha;
 

@@ -54,6 +54,10 @@ public class EventoService {
         return eventoRepository.obtenerEventosBusqueda();
     }
 
+    public List<EventoListadoDTO> obtenerProximosEventos() {
+        return eventoRepository.obtenerProximosEventos();
+    }
+
     public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
         return eventoRepository.obtenerDetalleEvento(idEvento);
     }

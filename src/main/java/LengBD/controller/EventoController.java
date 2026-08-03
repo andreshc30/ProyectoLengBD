@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ResponseBody;
+import LengBD.domain.Direccion;
 
 import java.util.List;
 
@@ -81,8 +82,10 @@ public class EventoController {
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute EventoListadoDTO dto, RedirectAttributes ra) {
+
         try {
             Evento evento = new Evento();
+
             evento.setIdEvento(dto.getIdEvento());
             evento.setNombre(dto.getNombre());
             evento.setDetalle(dto.getDetalle());
@@ -138,10 +141,7 @@ public class EventoController {
 
     private void cargarCombos(Model model) {
 
-        model.addAttribute("provincias", provinciaService.readAllProvincia());
-        model.addAttribute("cantones", cantonService.readAllCanton());
-        model.addAttribute("distritos", distritoService.readAllDistrito());
-
+        model.addAttribute("direcciones", direccionService.readAllDireccion());
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
     }

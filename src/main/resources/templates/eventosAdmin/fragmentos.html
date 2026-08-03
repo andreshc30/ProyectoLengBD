@@ -32,9 +32,17 @@
                             <td>
                                 <button
                                     type="button"
-                                    class="btn btn-sm btn-outline-primary"
+                                    class="btn btn-sm btn-outline-primary js-editar-evento"
                                     data-bs-toggle="modal"
-                                    th:data-bs-target="'#modalEditar-' + ${e.idEvento}">
+                                    data-bs-target="#modalEditarEvento"
+
+                                    th:data-id="${e.idEvento}"
+                                    th:data-nombre="${e.nombre}"
+                                    th:data-detalle="${e.detalle}"
+                                    th:data-fecha="${e.fecha}"
+                                    th:data-direccion="${e.idDireccion}"
+                                    th:data-banda="${e.idBanda}"
+                                    th:data-estado="${e.idEstado}">
 
                                     <i class="ti ti-edit"></i>
 
@@ -44,8 +52,8 @@
                                     type="button"
                                     class="btn btn-sm btn-outline-danger"
                                     data-bs-toggle="modal"
-                                    th:data-bs-target="'#modalEliminar-' + ${e.idEvento}">
-
+                                    data-bs-target="#modalEliminarEvento"
+                                    th:data-id="${e.idEvento}">
                                     <i class="ti ti-trash"></i>
 
                                 </button>
@@ -58,8 +66,8 @@
                 </table>
             </div>
 
-            <!-- Modal: nuevo evento -->
-            <div class="modal fade" id="modalNuevoEvento" tabindex="-1">
+            <!-- Modal: Nuevo evento -->
+            <div class="modal fade" id="modalNuevoEvento" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
 
@@ -78,119 +86,85 @@
 
                             <div class="modal-body">
 
+                                <!-- Nombre -->
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    <input
-                                        class="form-control"
-                                        type="text"
-                                        th:field="*{nombre}"
-                                        required>
+                                    <input type="text"
+                                           class="form-control"
+                                           th:field="*{nombre}"
+                                           required>
                                 </div>
 
+                                <!-- Banda -->
                                 <div class="mb-3">
                                     <label class="form-label">Banda</label>
 
-                                    <select class="form-select" th:field="*{idBanda}" required>
+                                    <select class="form-select"
+                                            th:field="*{idBanda}"
+                                            required>
+
                                         <option value="">-- Seleccione una banda --</option>
 
-                                        <option
-                                            th:each="b : ${bandas}"
-                                            th:value="${b.idBanda}"
-                                            th:text="${b.nombre}">
+                                        <option th:each="b : ${bandas}"
+                                                th:value="${b.idBanda}"
+                                                th:text="${b.nombre}">
                                         </option>
 
                                     </select>
                                 </div>
 
+                                <!-- Detalle -->
                                 <div class="mb-3">
                                     <label class="form-label">Detalle</label>
 
-                                    <textarea
-                                        class="form-control"
-                                        rows="3"
-                                        th:field="*{detalle}">
+                                    <textarea class="form-control"
+                                              rows="4"
+                                              th:field="*{detalle}">
                                     </textarea>
                                 </div>
 
+                                <!-- Fecha -->
                                 <div class="mb-3">
                                     <label class="form-label">Fecha</label>
 
-                                    <input
-                                        class="form-control"
-                                        type="date"
-                                        th:field="*{fecha}"
-                                        required>
+                                    <input type="date"
+                                           class="form-control"
+                                           th:field="*{fecha}"
+                                           required>
                                 </div>
 
+                                <!-- Dirección -->
                                 <div class="mb-3">
-                                    <label class="form-label">Provincia</label>
+                                    <label class="form-label">Dirección</label>
 
-                                    <select class="form-select" th:field="*{idProvincia}" required>
+                                    <select class="form-select"
+                                            th:field="*{idDireccion}"
+                                            required>
 
-                                        <option value="">-- Seleccione una provincia --</option>
+                                        <option value="">-- Seleccione una dirección --</option>
 
                                         <option
-                                            th:each="p : ${provincias}"
-                                            th:value="${p.idProvincia}"
-                                            th:text="${p.nombre}">
+                                            th:each="d : ${direcciones}"
+                                            th:value="${d.idDireccion}"
+                                            th:text="${d.otrosDetalles}">
                                         </option>
 
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Cantón</label>
-
-                                    <select class="form-select" th:field="*{idCanton}" required>
-
-                                        <option value="">-- Seleccione un cantón --</option>
-
-                                        <option
-                                            th:each="c : ${cantones}"
-                                            th:value="${c.idCanton}"
-                                            th:text="${c.nombre}">
-                                        </option>
-
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Distrito</label>
-
-                                    <select class="form-select" th:field="*{idDistrito}" required>
-
-                                        <option value="">-- Seleccione un distrito --</option>
-
-                                        <option
-                                            th:each="d : ${distritos}"
-                                            th:value="${d.idDistrito}"
-                                            th:text="${d.nombre}">
-                                        </option>
-
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Otros detalles</label>
-
-                                    <textarea
-                                        class="form-control"
-                                        rows="2"
-                                        th:field="*{otrosDetalles}"
-                                        placeholder="Ejemplo: 150 metros norte del parque central">
-                                    </textarea>
-                                </div>
-
+                                <!-- Estado -->
                                 <div class="mb-3">
                                     <label class="form-label">Estado</label>
 
-                                    <select class="form-select" th:field="*{idEstado}" required>
+                                    <select class="form-select"
+                                            th:field="*{idEstado}"
+                                            required>
+
                                         <option value="">-- Seleccione un estado --</option>
 
-                                        <option
-                                            th:each="e : ${estados}"
-                                            th:value="${e.idEstado}"
-                                            th:text="${e.estado}">
+                                        <option th:each="e : ${estados}"
+                                                th:value="${e.idEstado}"
+                                                th:text="${e.estado}">
                                         </option>
 
                                     </select>
@@ -206,8 +180,8 @@
                                     Cancelar
                                 </button>
 
-                                <button class="btn btn-primary"
-                                        type="submit">
+                                <button type="submit"
+                                        class="btn btn-primary">
                                     Guardar
                                 </button>
 
@@ -219,12 +193,193 @@
                 </div>
             </div>
 
+            <!-- Modal: Editar evento -->
+            <!-- Modal: Editar evento -->
+            <div class="modal fade" id="modalEditarEvento" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
 
-            <!-- Modal: editar instrumento (uno por fila) -->
+                        <form th:action="@{/eventos/actualizar}"
+                              th:object="${evento}"
+                              method="post">
 
+                            <!-- ID oculto -->
+                            <input type="hidden" th:field="*{idEvento}">
 
-            <!-- Modal: confirmar eliminación (uno por fila) -->
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar evento</h5>
 
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <!-- Nombre -->
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           th:field="*{nombre}"
+                                           required>
+                                </div>
+
+                                <!-- Banda -->
+                                <div class="mb-3">
+                                    <label class="form-label">Banda</label>
+
+                                    <select class="form-select"
+                                            th:field="*{idBanda}"
+                                            required>
+
+                                        <option value="">-- Seleccione una banda --</option>
+
+                                        <option th:each="b : ${bandas}"
+                                                th:value="${b.idBanda}"
+                                                th:text="${b.nombre}">
+                                        </option>
+
+                                    </select>
+                                </div>
+
+                                <!-- Detalle -->
+                                <div class="mb-3">
+                                    <label class="form-label">Detalle</label>
+
+                                    <textarea class="form-control"
+                                              rows="4"
+                                              th:field="*{detalle}">
+                                    </textarea>
+                                </div>
+
+                                <!-- Fecha -->
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha</label>
+
+                                    <input type="date"
+                                           class="form-control"
+                                           th:field="*{fecha}"
+                                           required>
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="mb-3">
+                                    <label class="form-label">Dirección</label>
+
+                                    <select class="form-select"
+                                            th:field="*{idDireccion}"
+                                            required>
+
+                                        <option value="">-- Seleccione una dirección --</option>
+
+                                        <option th:each="d : ${direcciones}"
+                                                th:value="${d.idDireccion}"
+                                                th:text="${d.otrosDetalles}">
+                                        </option>
+
+                                    </select>
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="mb-3">
+                                    <label class="form-label">Estado</label>
+
+                                    <select class="form-select"
+                                            th:field="*{idEstado}"
+                                            required>
+
+                                        <option value="">-- Seleccione un estado --</option>
+
+                                        <option th:each="e : ${estados}"
+                                                th:value="${e.idEstado}"
+                                                th:text="${e.estado}">
+                                        </option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    Actualizar
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Eliminar evento -->
+            <div class="modal fade" id="modalEliminarEvento" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <form th:action="@{/eventos/eliminar}"
+                              method="post">
+
+                            <input type="hidden"
+                                   id="idEventoEliminar"
+                                   name="idEvento">
+
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title">Eliminar evento</h5>
+
+                                <button type="button"
+                                        class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal">
+                                </button>
+                            </div>
+
+                            <div class="modal-body text-center">
+
+                                <i class="ti ti-alert-triangle text-danger"
+                                   style="font-size: 60px;"></i>
+
+                                <h5 class="mt-3">
+                                    ¿Desea eliminar este evento?
+                                </h5>
+
+                                <p class="text-muted">
+                                    Esta acción no se puede deshacer.
+                                </p>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+
+                                <button type="submit"
+                                        class="btn btn-danger">
+                                    Eliminar
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
 
         </div>
     </body>

@@ -36,6 +36,7 @@ public class DireccionRepository {
     private SimpleJdbcCall direccionUpdateCall;
     private SimpleJdbcCall direccionDeleteCall;
     private SimpleJdbcCall direccionReadAllCall;
+    private SimpleJdbcCall direccionObtenerIdCall;
 
     @PostConstruct
     public void init() {
@@ -55,7 +56,11 @@ public class DireccionRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_DIRECCION_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(DireccionListadoDTO.class));;
+                        BeanPropertyRowMapper.newInstance(DireccionListadoDTO.class));;
+
+        direccionObtenerIdCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withFunctionName("FIDE_OBTENER_ID_DIRECCION_FN");
     }
 
     public void insertarDireccion(Direccion direccion) {
@@ -79,8 +84,7 @@ public class DireccionRepository {
         direccionUpdateCall.execute(params);
     }
 
-    public 
-        List<DireccionListadoDTO> readAllDireccion() {
+    public List<DireccionListadoDTO> readAllDireccion() {
         Map<String, Object> result = direccionReadAllCall.execute();
         return (List<DireccionListadoDTO>) result.get("p_cursor");
     }
@@ -89,6 +93,21 @@ public class DireccionRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_DIRECCION_ID_DIRECCION", direccion.getIdDireccion());
         direccionDeleteCall.execute(params);
+    }
+
+    public Integer obtenerIdDireccion(Integer idProvincia,
+            Integer idCanton,
+            Integer idDistrito,
+            String otrosDetalles) {
+
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("P_ID_PROVINCIA", idProvincia);
+        params.put("P_ID_CANTON", idCanton);
+        params.put("P_ID_DISTRITO", idDistrito);
+        params.put("P_OTROS_DETALLES", otrosDetalles);
+
+        return direccionObtenerIdCall.executeFunction(Integer.class, params);
     }
 
 }

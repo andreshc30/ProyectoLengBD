@@ -64,7 +64,7 @@ public class EventoRepository {
 
     public void insertarEvento(Evento evento) {
         Map<String, Object> params = new HashMap<>();
-        params.put("P_ID_EVENTO", evento.getIdEvento());
+        /*params.put("P_ID_EVENTO", evento.getIdEvento());*/
         params.put("P_NOMBRE", evento.getNombre());
         params.put("P_DETALLE", evento.getDetalle());
         params.put("P_FECHA", evento.getFecha());

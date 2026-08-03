@@ -17,7 +17,6 @@ public class EventoListadoDTO implements Serializable {
     private String nombre;
     
     private String detalle;
-    private String nombreDireccion;
     private String nombreBanda;
     private String estado;
     
@@ -25,6 +24,10 @@ public class EventoListadoDTO implements Serializable {
     
     private String direccion;     
     private Integer idDireccion;  
+    private Integer idProvincia;
+    private Integer idCanton;
+    private Integer idDistrito;
+    private String otrosDetalles;
     
     private Integer idBanda;
     

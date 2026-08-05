@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+    <style>
+        /* Estilos específicos para que la impresión quede limpia y profesional */
+        @media print {
+            body { background-color: white; }
+            .card { border: none !important; box-shadow: none !important; }
+            .card-header {
+                background-color: transparent !important;
+                color: black !important;
+                border-bottom: 2px solid #000 !important;
+            }
+            .bg-dark { background-color: transparent !important; }
+            .text-white, .text-light { color: black !important; }
+            
+            /* Esta clase oculta botones, navbars y footers al imprimir */
+            header, nav, footer, .d-print-none { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5 mb-5">
+    
+    <!-- Botones de Acción (Desaparecen automáticamente al imprimir) -->
+    <div class="d-flex justify-content-between mb-3 d-print-none">
+        <a th:href="@{/suscripcion/listado}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a suscripciones
+        </a>
+        <button onclick="window.print()" class="btn btn-primary shadow">
+            <i class="fas fa-print"></i> Imprimir Factura
+        </button>
+    </div>
+
+    <!-- Contenedor principal de la Factura -->
+    <div class="card shadow-lg">
+        
+        <!-- Encabezado de Factura -->
+        <div class="card-header bg-dark text-white p-4">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h2 class="mb-0 fw-bold">BandCore</h2>
+                    <p class="mb-0 text-light small">San José, Costa Rica</p>
+                </div>
+                <div class="col-sm-6 text-sm-end mt-3 mt-sm-0">
+                    <h4 class="mb-1 text-uppercase text-light">Factura Electrónica</h4>
+                    <p class="mb-0"><strong>Nro:</strong> <span th:text="${factura.idFactura}">#0000</span></p>
+                    <p class="mb-0"><strong>Fecha:</strong> <span th:text="${#temporals.format(factura.fechaEmision, 'dd/MM/yyyy')}">01/01/2026</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            
+            <div class="row mb-4">
+                <!-- Sección del Detalle -->
+                <div class="col-md-7 mb-4 mb-md-0">
+                    <h6 class="mb-3 text-muted text-uppercase fw-bold">Detalle de facturación:</h6>
+                    <div class="p-4 bg-white border rounded shadow-sm">
+                        <!-- Imprime el texto del campo detalle que guardaste en el controlador -->
+                        <p class="mb-0 fs-5" th:text="${factura.detalle}">Descripción de la compra</p>
+                    </div>
+
+                    <!-- Datos adicionales obtenidos del DTO -->
+                    <div class="mt-4 row">
+                        <div class="col-6" th:if="${factura.nombreSuscripcion != null}">
+                            <span class="text-muted small d-block">Plan / Suscripción</span>
+                            <strong th:text="${factura.nombreSuscripcion}">Plan Básico</strong>
+                        </div>
+                        <div class="col-6" th:if="${factura.nombreMetodoPago != null}">
+                            <span class="text-muted small d-block">Método de pago</span>
+                            <strong th:text="${factura.nombreMetodoPago}">SINPE Móvil</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desglose de Totales -->
+                <div class="col-md-5">
+                    <div class="bg-light p-4 rounded border">
+                        <table class="table table-borderless table-sm text-end mb-0">
+                            <tr>
+                                <td class="text-muted text-start">Subtotal:</td>
+                                <td th:text="${'₡ ' + #numbers.formatDecimal(factura.subtotal, 1, 'COMMA', 2, 'POINT')}">₡ 0.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted text-start">Impuestos (13%):</td>
+                                <td th:text="${'₡ ' + #numbers.formatDecimal(factura.impuestos, 1, 'COMMA', 2, 'POINT')}">₡ 0.00</td>
+                            </tr>
+                            <tr class="fw-bold fs-4 text-primary border-top border-dark">
+                                <td class="text-start pt-3">Total a Pagar:</td>
+                                <td class="pt-3" th:text="${'₡ ' + #numbers.formatDecimal(factura.total, 1, 'COMMA', 2, 'POINT')}">₡ 0.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Estado de la factura -->
+                    <div class="text-end mt-3" th:if="${factura.estado != null}">
+                        <span class="badge bg-success fs-6 px-3 py-2" th:text="${factura.estado}">PAGADO</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Pie de página de la factura -->
+            <div class="text-center text-muted small">
+                <p class="mb-1">¡Gracias por preferir nuestros servicios!</p>
+                <p class="mb-0">Si tienes alguna consulta sobre este comprobante, contáctanos a nuestro correo oficial.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

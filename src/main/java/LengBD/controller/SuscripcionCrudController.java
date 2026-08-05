@@ -1,15 +1,21 @@
 package LengBD.controller;
 
+import LengBD.domain.Facturacion;
+import LengBD.domain.FacturacionListadoDTO;
 import LengBD.domain.Suscripcion;
 import LengBD.domain.SuscripcionListadoDTO;
+import LengBD.domain.UsuarioLoginDTO;
+import LengBD.repository.UsuarioRepository;
 import LengBD.service.BandaService;
 import LengBD.service.SuscripcionService;
 import LengBD.service.EstadoService;
+import LengBD.service.FacturacionService;
 import LengBD.service.MetodoPagoService;
 import LengBD.service.SuscripcionService;
 import LengBD.service.PlanesService;
 import LengBD.service.SuscripcionService;
 import LengBD.service.UsuarioService;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequestMapping("/suscripcion")
@@ -29,6 +36,12 @@ public class SuscripcionCrudController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    
+    
+    @Autowired
+    private FacturacionService facturacionService;
+    
     
     @Autowired
     private SuscripcionService suscripcionService;
@@ -38,6 +51,9 @@ public class SuscripcionCrudController {
     
     @Autowired
     private PlanesService planesService;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping("/listado")
     public String listado(Model model) {
@@ -102,5 +118,73 @@ public class SuscripcionCrudController {
         model.addAttribute("planes", planesService.readAllPlanes());
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
+    }
+    
+    
+    @GetMapping("/formulario")
+    public String pasarelaPago(@RequestParam(value = "plan", required = false, defaultValue = "Básico") String plan, Model model) {
+        
+        System.out.println("Cargando pasarela de pago para el plan: " + plan);
+        model.addAttribute("plan", plan);
+        
+        return "suscripcion/pasarela"; 
+    }
+    
+    
+    @PostMapping("/pagar")
+    public String pagar(@RequestParam("plan") String plan,
+                        @RequestParam("metodo") String metodo,
+                        Authentication auth,
+                        RedirectAttributes ra) {
+        try {
+            UsuarioLoginDTO usuario = usuarioRepository.buscarPorCorreo(auth.getName());
+            Integer idBanda = usuario.getIdBanda() != null ? usuario.getIdBanda() : 1;
+            Integer idPlan = planesService.buscarIdPorNombre(plan);
+            Integer idMetodo = "SINPE".equalsIgnoreCase(metodo) ? 4 : 2;
+
+            double subtotal = 10000.00;
+            double impuestos = subtotal * 0.13;
+            double total = subtotal + impuestos;
+
+            Long idFactura = planesService.procesarPago(idBanda, idPlan, idMetodo,
+                    subtotal, impuestos, total, "Plan " + plan);
+
+            System.out.println(">>> idFactura antes de redirect: " + idFactura);
+
+            ra.addFlashAttribute("idFactura", idFactura);
+            ra.addFlashAttribute("todoOk", "¡Pago exitoso! Factura generada.");
+            return "redirect:/suscripcion/verFactura";
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al procesar el pago: " + ex.getMessage());
+            return "redirect:/suscripcion/listado";
+        }
+    }
+     @GetMapping("/verFactura")
+    public String verFactura(Model model) {
+        System.out.println("===== ENTRANDO A VER FACTURA =====");
+        System.out.println(">>> tiene idFactura? " + model.containsAttribute("idFactura"));
+        System.out.println(">>> tiene facturaDirecta? " + model.containsAttribute("facturaDirecta"));
+        System.out.println(">>> keys en model: " + model.asMap().keySet());
+
+        if (model.containsAttribute("facturaDirecta")) {
+            model.addAttribute("factura", model.getAttribute("facturaDirecta"));
+            return "suscripcion/verFactura";
+        }
+
+        if (model.containsAttribute("idFactura")) {
+            Long idFactura = (Long) model.getAttribute("idFactura");
+            if (idFactura != null) {
+                FacturacionListadoDTO factura = facturacionService.buscarPorId(idFactura);
+                if (factura != null) {
+                    model.addAttribute("factura", factura);
+                    return "suscripcion/verFactura";
+                }
+            }
+        }
+
+        System.out.println("REDIRECCIÓN: No se pudo cargar la factura.");
+        return "redirect:/planes/listado";
     }
 }

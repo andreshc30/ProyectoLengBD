@@ -34,17 +34,22 @@ public class FacturacionService {
         return facturacionRepository.readAllFacturacion();
     }
 
-    public void eliminarFacturacion(Integer idFactura) {
+    public void eliminarFacturacion(Long idFactura) {    
         Facturacion facturacion = new Facturacion();
         facturacion.setIdFactura(idFactura);
         facturacionRepository.deleteFacturacion(facturacion);
     }
-    
-    public FacturacionListadoDTO buscarPorId(Integer id) {
-        return readAllFacturacion().stream()
-                .filter(fac -> fac.getIdFactura().equals(id))
+
+    public FacturacionListadoDTO buscarPorId(Long id) {
+        List<FacturacionListadoDTO> todas = readAllFacturacion();
+        System.out.println(">>> buscando id: " + id + " | total facturas: " + todas.size());
+        for (FacturacionListadoDTO f : todas) {
+            System.out.println("   factura en lista: " + f.getIdFactura());
+        }
+        return todas.stream()
+                .filter(fac -> fac.getIdFactura() != null
+                        && fac.getIdFactura().longValue() == id.longValue())
                 .findFirst()
                 .orElse(null);
     }
-    
 }

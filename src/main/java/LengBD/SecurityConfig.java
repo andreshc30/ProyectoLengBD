@@ -34,7 +34,8 @@ public class SecurityConfig {
                     "/eventos/listado",
                     "/suscripcion/listado",
                     "/solicitudIngreso/nuevo",
-                    "/solicitudIngreso/guardar"
+                    "/solicitudIngreso/guardar",
+                    "/planes/listado"
                 ).permitAll()
 
                 // ---------- DIRECTOR / ADMIN ----------

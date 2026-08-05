@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+    <style>
+        /* Estilos para la tarjeta interactiva 3D */
+        #card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto 30px;
+        }
+
+        .credit-card {
+            width: 100%;
+            height: 220px;
+            border-radius: 15px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-out;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            position: relative;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .credit-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Caras de la tarjeta */
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            z-index: 2;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #444 0%, #111 100%);
+            transform: rotateY(180deg);
+            padding: 0; /* La banda negra usa todo el ancho */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        /* Elementos visuales del Frente */
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .viz-numero {
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .viz-nombre-exp {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Elementos visuales de Atrás */
+        .magnetic-strip {
+            width: 100%;
+            height: 40px;
+            background-color: black;
+            margin-top: 20px;
+        }
+        .signature-strip {
+            background: #eee;
+            color: black;
+            width: 80%;
+            margin: 0 auto;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-bold">Suscripción — Plan <span th:text="${plan}">Básico</span></h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+
+                    <form th:action="@{/suscripcion/pagar}" method="post">
+                        <input type="hidden" name="plan" th:value="${plan}">
+
+                        <!-- Selector de metodo -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Método de pago:</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metodo"
+                                           id="mTarjeta" value="Tarjeta" checked onclick="mostrarCampos()">
+                                    <label class="form-check-label" for="mTarjeta">Tarjeta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metodo"
+                                           id="mSinpe" value="SINPE" onclick="mostrarCampos()">
+                                    <label class="form-check-label" for="mSinpe">SINPE Móvil</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN DE TARJETA CON VISUALIZACIÓN 3D -->
+                        <div id="camposTarjeta">
+                            
+                            <!-- Visualización de la Tarjeta Interactiva -->
+                            <div id="card-container">
+                                <div class="credit-card" id="cc-viz">
+                                    <!-- Frente -->
+                                    <div class="card-front">
+                                        <div class="card-chip"></div>
+                                        <div class="viz-numero" id="cc-num-viz">**** **** **** ****</div>
+                                        <div class="viz-nombre-exp">
+                                            <span id="cc-name-viz">NOMBRE DEL TITULAR</span>
+                                            <span id="cc-exp-viz">MM/AA</span>
+                                        </div>
+                                    </div>
+                                    <!-- Atrás -->
+                                    <div class="card-back">
+                                        <div class="magnetic-strip"></div>
+                                        <div class="signature-strip">
+                                            <span id="cc-cvv-viz">CVV</span>
+                                        </div>
+                                        <div></div> <!-- Espaciador -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campos de entrada -->
+                            <div class="mb-3">
+                                <label class="form-label">Nombre en la tarjeta:</label>
+                                <input type="text" class="form-control" id="cc-name-input" name="nombreTarjeta" placeholder="Juan Pérez">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Número de tarjeta:</label>
+                                <input type="text" class="form-control" id="cc-num-input" name="numeroTarjeta"
+                                       maxlength="19" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">Vencimiento:</label>
+                                    <input type="text" class="form-control" id="cc-exp-input" name="vencimiento" placeholder="MM/AA" maxlength="5">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">CVV:</label>
+                                    <input type="text" class="form-control" id="cc-cvv-input" name="cvv" maxlength="4" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos de SINPE -->
+                        <div id="camposSinpe" style="display:none;">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-success">Número de teléfono SINPE:</label>
+                                <input type="text" class="form-control form-control-lg border-success" name="telefonoSinpe" placeholder="8888-8888">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nombre del titular:</label>
+                                <input type="text" class="form-control" name="titularSinpe">
+                            </div>
+                            <div class="alert alert-success small">
+                                Realizá el SINPE al número <strong>8888-8888</strong> (BandCore) y confirmá acá.
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="alert alert-warning small d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                            <div>Este es un pago simulado con fines de demostración. No se procesa ningún cobro real.</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/planes/listado}" class="btn btn-secondary px-4 me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-success btn-lg px-5">Confirmar pago</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- Columna adicional (opcional) para un resumen -->
+        <div class="col-md-3 mt-4 mt-md-0 d-none d-lg-block">
+            <div class="card shadow border-info">
+                <div class="card-body">
+                    <h5 class="card-title text-info">Resumen</h5>
+                    <p class="card-text">Estás a un paso de activar tu plan <strong th:text="${plan}">Básico</strong>.</p>
+                    <p class="text-muted small">El acceso será inmediato tras la confirmación.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Referencias a elementos visuales de la tarjeta
+    const cardViz = document.getElementById('cc-viz');
+    const numViz = document.getElementById('cc-num-viz');
+    const nameViz = document.getElementById('cc-name-viz');
+    const expViz = document.getElementById('cc-exp-viz');
+    const cvvViz = document.getElementById('cc-cvv-viz');
+
+    // Referencias a campos de entrada
+    const nameInput = document.getElementById('cc-name-input');
+    const numInput = document.getElementById('cc-num-input');
+    const expInput = document.getElementById('cc-exp-input');
+    const cvvInput = document.getElementById('cc-cvv-input');
+
+    // Actualizar NOMBRE
+    nameInput.addEventListener('input', (e) => {
+        nameViz.textContent = e.target.value.toUpperCase() || 'NOMBRE DEL TITULAR';
+    });
+
+    // Actualizar NÚMERO (con formato de espacios cada 4 dígitos)
+    numInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/g, ''); // Solo números
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
+        e.target.value = formattedValue; // Actualizar input
+        numViz.textContent = formattedValue || '**** **** **** ****';
+    });
+
+    // Actualizar VENCIMIENTO (con formato MM/AA)
+    expInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\//g, '').replace(/[^0-9]/g, ''); // Solo números
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        e.target.value = value; // Actualizar input
+        expViz.textContent = value || 'MM/AA';
+    });
+
+    // Actualizar CVV
+    cvvInput.addEventListener('input', (e) => {
+        cvvViz.textContent = e.target.value || 'CVV';
+    });
+
+    // Gira la tarjeta al hacer foco en CVV y vuelve al perderlo
+    cvvInput.addEventListener('focus', () => {
+        cardViz.classList.add('flipped');
+    });
+    cvvInput.addEventListener('blur', () => {
+        cardViz.classList.remove('flipped');
+    });
+
+
+    // Función original para cambiar de método
+    function mostrarCampos() {
+        var esTarjeta = document.getElementById('mTarjeta').checked;
+        document.getElementById('camposTarjeta').style.display = esTarjeta ? 'block' : 'none';
+        document.getElementById('camposSinpe').style.display = esTarjeta ? 'none' : 'block';
+    }
+</script>
+</body>
+</html>

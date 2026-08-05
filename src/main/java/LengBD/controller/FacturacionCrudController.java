@@ -53,13 +53,13 @@ public class FacturacionCrudController {
         return "facturacion/formulario";
     }
 
-    @GetMapping("/editar/{idFactura}")
-    public String editar(@PathVariable("idFactura") Integer id, Model model) {
+     @GetMapping("/editar/{idFactura}")
+    public String editar(@PathVariable("idFactura") Long id, Model model) {
         model.addAttribute("facturacion", facturacionService.buscarPorId(id));
         cargarCombos(model);
         return "facturacion/formulario";
     }
-
+    
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute FacturacionListadoDTO dto, RedirectAttributes ra) {
         try {
@@ -87,8 +87,8 @@ public class FacturacionCrudController {
         return "redirect:/facturacion/listado";
     }
 
-    @PostMapping("/eliminar")
-    public String eliminar(@RequestParam("idFactura") Integer idFactura, RedirectAttributes ra) {
+     @PostMapping("/eliminar")
+    public String eliminar(@RequestParam("idFactura") Long idFactura, RedirectAttributes ra) {
         try {
             facturacionService.eliminarFacturacion(idFactura);
             ra.addFlashAttribute("todoOk", "Factura eliminada correctamente");

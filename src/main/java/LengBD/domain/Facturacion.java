@@ -28,7 +28,7 @@ public class Facturacion implements Serializable {
 
     @Id
     @Column(name="ID_FACTURA")
-    private Integer idFactura;
+    private Long idFactura;
 
     @Column(name="FECHA_EMISION")
     private LocalDate fechaEmision;

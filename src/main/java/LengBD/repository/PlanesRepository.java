@@ -36,6 +36,7 @@ public class PlanesRepository {
     private SimpleJdbcCall planesUpdateCall;
     private SimpleJdbcCall planesDeleteCall;
     private SimpleJdbcCall planesReadAllCall;
+    private SimpleJdbcCall procesarPagoCall;
 
     @PostConstruct
     public void init() {
@@ -56,6 +57,9 @@ public class PlanesRepository {
                 .withProcedureName("FIDE_LISTAR_PLANES_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(PlanesListadoDTO.class));;
+        procesarPagoCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_PROCESAR_PAGO_SP");
     }
 
     public void insertarPlanes(Planes planes) {
@@ -89,6 +93,21 @@ public class PlanesRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_TIPO_PLAN", planes.getIdTipoPlan());
         planesDeleteCall.execute(params);
+    }
+    
+public Long procesarPago(Integer idBanda, Integer idPlan, Integer idMetodo,
+                             double subtotal, double impuestos, double total, String nombre) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        params.put("P_ID_TIPO_PLAN", idPlan);
+        params.put("P_ID_METODO_PAGO", idMetodo);
+        params.put("P_SUBTOTAL", subtotal);
+        params.put("P_IMPUESTOS", impuestos);
+        params.put("P_TOTAL", total);
+        params.put("P_NOMBRE", nombre);
+        Map<String, Object> result = procesarPagoCall.execute(params);
+        Number idFactura = (Number) result.get("P_ID_FACTURA");
+        return idFactura != null ? idFactura.longValue() : null;   // Long, no Integer
     }
 
 }

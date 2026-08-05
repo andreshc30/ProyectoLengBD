@@ -8,6 +8,7 @@ import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Planes;
 import LengBD.domain.PlanesListadoDTO;
 import LengBD.repository.PlanesRepository;
+import LengBD.repository.SuscripcionRepository;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class PlanesService {
     @Autowired
     private PlanesRepository planesRepository;
+
 
     public void insertarPlanes(Planes planes) {
         planesRepository.insertarPlanes(planes);
@@ -40,6 +42,14 @@ public class PlanesService {
         planesRepository.deletePlanes(planes);
     }
     
+    public Integer buscarIdPorNombre(String nombre) {
+        return readAllPlanes().stream()
+                .filter(plan -> plan.getNombre() != null && plan.getNombre().equalsIgnoreCase(nombre))
+                .map(PlanesListadoDTO::getIdTipoPlan)
+                .findFirst()
+                .orElse(null);
+    }
+    
     public PlanesListadoDTO buscarPorId(Integer id) {
         return readAllPlanes().stream()
                 .filter(plan -> plan.getIdTipoPlan().equals(id))
@@ -47,4 +57,11 @@ public class PlanesService {
                 .orElse(null);
     }
     
+    
+    public Long procesarPago(Integer idBanda, Integer idPlan, Integer idMetodo,
+                             double subtotal, double impuestos, double total, String nombre) {
+        return planesRepository.procesarPago(idBanda, idPlan, idMetodo, subtotal, impuestos, total, nombre);
+    }
+
+
 }

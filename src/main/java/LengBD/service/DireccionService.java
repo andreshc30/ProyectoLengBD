@@ -16,9 +16,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class DireccionService {
+
     @Autowired
     private DireccionRepository direccionRepository;
 
@@ -29,7 +29,7 @@ public class DireccionService {
     public void actualizarDireccion(Direccion direccion) {
         direccionRepository.actualizarDireccion(direccion);
     }
-    
+
     public List<DireccionListadoDTO> readAllDireccion() {
         return direccionRepository.readAllDireccion();
     }
@@ -39,12 +39,24 @@ public class DireccionService {
         direccion.setIdDireccion(idDireccion);
         direccionRepository.deleteDireccion(direccion);
     }
-    
+
     public DireccionListadoDTO buscarPorId(Integer idDireccion) {
         return readAllDireccion().stream()
                 .filter(dire -> dire.getIdDireccion().equals(idDireccion))
                 .findFirst()
                 .orElse(null);
     }
-    
+
+    public Integer obtenerIdDireccion(Integer idProvincia,
+            Integer idCanton,
+            Integer idDistrito,
+            String otrosDetalles) {
+
+        return direccionRepository.obtenerIdDireccion(
+                idProvincia,
+                idCanton,
+                idDistrito,
+                otrosDetalles);
+    }
+
 }

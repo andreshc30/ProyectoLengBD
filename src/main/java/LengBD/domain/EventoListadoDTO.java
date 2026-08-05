@@ -10,23 +10,32 @@ import lombok.Data;
 
 @Data
 public class EventoListadoDTO implements Serializable {
+
     private static final long serialVersionUID = 1l;
-    
+
     private Integer idEvento;
-    
+
     private String nombre;
-    
+
     private String detalle;
-    private String nombreDireccion;
     private String nombreBanda;
     private String estado;
-    
+    private String nombreDireccion;
+
     private LocalDate fecha;
-    
-    private String direccion;     
-    private Integer idDireccion;  
-    
+
+    private String direccion;
+    private Integer idDireccion;
+    private Integer idProvincia;
+    private Integer idCanton;
+    private Integer idDistrito;
+    private String otrosDetalles;
+
+    private String nombreProvincia;
+    private String nombreCanton;
+    private String nombreDistrito;
+
     private Integer idBanda;
-    
-    private Integer idEstado; 
+
+    private Integer idEstado;
 }

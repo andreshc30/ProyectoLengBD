@@ -75,8 +75,8 @@
                                 Próximos eventos
                             </h5>
 
-                            <div class="stats-number">
-                                5
+                            <div class="stats-number" th:text="${totalEventosActivos}">
+                                0
                             </div>
 
                             <p class="stats-text">
@@ -95,31 +95,31 @@
                                 Buscar evento
                             </h5>
 
-                                <select
-                                    class="form-select mb-3"
-                                    id="eventoSeleccionado"
-                                    name="idEvento">
+                            <select
+                                class="form-select mb-3"
+                                id="eventoSeleccionado"
+                                name="idEvento">
 
-                                    <option value="">
-                                        Seleccione un evento
-                                    </option>
+                                <option value="">
+                                    Seleccione un evento
+                                </option>
 
-                                    <option
-                                        th:each="evento : ${eventosBusqueda}"
-                                        th:value="${evento.idEvento}"
-                                        th:text="${evento.nombre}">
-                                    </option>
+                                <option
+                                    th:each="evento : ${eventosBusqueda}"
+                                    th:value="${evento.idEvento}"
+                                    th:text="${evento.nombre}">
+                                </option>
 
-                                </select>
+                            </select>
 
-                                <button
-                                    type="button"
-                                    id="btnVerEvento"
-                                    class="btn evento-btn">
+                            <button
+                                type="button"
+                                id="btnVerEvento"
+                                class="btn evento-btn">
 
-                                    Ver información
+                                Ver información
 
-                                </button>
+                            </button>
 
                             </form>
 
@@ -138,121 +138,41 @@
                     Próximas presentaciones
                 </h3>
 
-                <div class="row g-4">
+                <div class="col-lg-4"
+                     th:each="evento : ${proximosEventos}">
 
-                    <!-- Tarjeta 1 -->
-                    <div class="col-lg-4">
+                    <div class="presentacion-card">
 
-                        <div class="presentacion-card">
-
-                            <div class="presentacion-icono">
-                                📍
-                            </div>
-
-                            <h5>
-                                Parque Central
-                            </h5>
-
-                            <p class="evento-nombre">
-                                Festival Nacional de Bandas
-                            </p>
-
-                            <p class="evento-fecha">
-                                📅 15 Agosto 2026
-                            </p>
-
-                            <p class="evento-bandas">
-
-                                🎺 Banda participante
-
-                            </p>
-
-                            <button class="btn evento-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalBanda">
-
-                                Ver banda
-
-                            </button>
+                        <div class="presentacion-icono">
+                            📍
                         </div>
 
-                    </div>
+                        <h5 th:text="${evento.nombreDireccion}">
+                            Lugar
+                        </h5>
 
-                    <!-- Tarjeta 2 -->
-                    <div class="col-lg-4">
+                        <p class="evento-nombre"
+                           th:text="${evento.nombre}">
+                            Nombre del evento
+                        </p>
 
-                        <div class="presentacion-card">
+                        <p class="evento-fecha">
+                            📅
+                            <span th:text="${evento.fecha}"></span>
+                        </p>
 
-                            <div class="presentacion-icono">
-                                📍
-                            </div>
+                        <p class="evento-bandas">
+                            🎺
+                            <span th:text="${evento.nombreBanda}"></span>
+                        </p>
 
-                            <h5>
-                                Teatro Nacional
-                            </h5>
+                        <button class="btn evento-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalBanda">
 
-                            <p class="evento-nombre">
-                                Concierto de Gala
-                            </p>
+                            Ver banda
 
-                            <p class="evento-fecha">
-                                📅 30 Agosto 2026
-                            </p>
-
-                            <p class="evento-bandas">
-
-                                🎺 Banda participante
-
-                            </p>
-
-                            <button class="btn evento-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalBanda">
-
-                                Ver banda
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Tarjeta 3 -->
-                    <div class="col-lg-4">
-
-                        <div class="presentacion-card">
-
-                            <div class="presentacion-icono">
-                                📍
-                            </div>
-
-                            <h5>
-                                Estadio Nacional
-                            </h5>
-
-                            <p class="evento-nombre">
-                                Desfile de Independencia
-                            </p>
-
-                            <p class="evento-fecha">
-                                📅 15 Septiembre 2026
-                            </p>
-
-                            <p class="evento-bandas">
-
-                                🎺 Banda participante
-
-                            </p>
-
-                            <button class="btn evento-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalBanda">
-
-                                Ver banda
-
-                            </button>
-
-                        </div>
+                        </button>
 
                     </div>
 
@@ -273,9 +193,7 @@
 
                     <div class="modal-header">
 
-                        <h4 class="modal-title">
-                            🎺 Festival Nacional de Bandas
-                        </h4>
+                        <h4 class="modal-title" id="modalNombreEvento"></h4>
 
                         <button type="button"
                                 class="btn-close"
@@ -286,49 +204,39 @@
 
                     <div class="modal-body">
 
-                        <div class="evento-info">
+                        <div class="detalle-item">
+                            <strong>🎺 Banda</strong>
+                            <p id="modalNombreBanda"></p>
+                        </div>
 
-                            <p>
-                                <strong>🎵 Banda:</strong><br>
-                                Banda Municipal de Tibás
-                            </p>
+                        <div class="detalle-item">
+                            <strong>📍 Lugar</strong>
+                            <p id="modalLugar"></p>
+                        </div>
 
-                            <p>
-                                <strong>📍 Lugar:</strong><br>
-                                Parque Central, San José
-                            </p>
+                        <div class="detalle-item">
+                            <strong>📅 Fecha</strong>
+                            <p id="modalFecha"></p>
+                        </div>
 
-                            <p>
-                                <strong>📅 Fecha:</strong><br>
-                                15 Agosto 2026
-                            </p>
+                        <div class="detalle-item">
+                            <strong>📝 Descripción</strong>
+                            <p id="modalDetalle"></p>
+                        </div>
 
-                            <p>
-                                <strong>🕒 Hora:</strong><br>
-                                6:00 PM
-                            </p>
-
-                            <p>
-                                <strong>📝 Descripción:</strong><br>
-                                Festival anual de bandas municipales.
-                            </p>
-
-                            <p>
-                                <strong>🟢 Estado:</strong><br>
-                                Programado
-                            </p>
-
+                        <div class="detalle-item">
+                            <strong>🟢 Estado</strong>
+                            <p id="modalEstado"></p>
                         </div>
 
                     </div>
 
                     <div class="modal-footer">
 
-                        <button class="btn evento-btn"
+                        <button type="button"
+                                class="btn evento-btn"
                                 data-bs-dismiss="modal">
-
                             Cerrar
-
                         </button>
 
                     </div>
@@ -433,23 +341,38 @@
 
             document.getElementById("btnVerEvento").addEventListener("click", function () {
 
-                const idEvento =
-                        document.getElementById("eventoSeleccionado").value;
+                const idEvento = document.getElementById("eventoSeleccionado").value;
 
                 if (!idEvento) {
-
                     alert("Seleccione un evento.");
-
                     return;
                 }
 
                 fetch("/eventos/detalle/" + idEvento)
-
                         .then(response => response.json())
-
                         .then(data => {
 
-                            console.log(data);
+                            document.getElementById("modalNombreEvento").innerHTML =
+                                    "🎺 " + data.nombre;
+
+                            document.getElementById("modalNombreBanda").innerHTML =
+                                    data.nombreBanda;
+
+                            document.getElementById("modalLugar").innerHTML =
+                                    data.nombreDireccion;
+
+                            document.getElementById("modalFecha").innerHTML =
+                                    data.fecha;
+
+                            document.getElementById("modalDetalle").innerHTML =
+                                    data.detalle;
+
+                            document.getElementById("modalEstado").innerHTML =
+                                    data.estado;
+
+                            new bootstrap.Modal(
+                                    document.getElementById("modalEvento")
+                                    ).show();
 
                         });
 

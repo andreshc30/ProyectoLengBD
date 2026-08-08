@@ -7,7 +7,9 @@ package LengBD.service;
 import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.MaterialEstudio;
 import LengBD.domain.MaterialEstudioListadoDTO;
+import LengBD.domain.ObraListadoDTO;
 import LengBD.repository.MaterialEstudioRepository;
+import LengBD.repository.ObraRepository;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -21,6 +23,10 @@ import org.springframework.stereotype.Service;
 public class MaterialEstudioService {
     @Autowired
     private MaterialEstudioRepository materialEstudioRepository;
+
+    
+    @Autowired
+    private ObraRepository obraRepository;
 
     public void insertarMaterialEstudio(MaterialEstudio materialEstudio) {
         materialEstudioRepository.insertarMaterialEstudio(materialEstudio);
@@ -46,5 +52,17 @@ public class MaterialEstudioService {
                 .findFirst()
                 .orElse(null);
     }
-    
+
+    public List<ObraListadoDTO> readObrasPorBanda(Integer idBanda) {
+        return obraRepository.readObrasPorBanda(idBanda);
+    }
+
+    public List<MaterialEstudioListadoDTO> readMaterialPorSeccion(Integer idSeccion) {
+        return materialEstudioRepository.readMaterialPorSeccion(idSeccion);
+    }
+
+    public List<MaterialEstudioListadoDTO> readMaterialPorBanda(Integer idBanda) {
+        return materialEstudioRepository.readMaterialPorBanda(idBanda);
+    }
+
 }

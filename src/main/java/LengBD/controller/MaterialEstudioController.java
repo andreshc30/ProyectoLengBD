@@ -23,6 +23,8 @@ import java.util.List;
 public class MaterialEstudioController {
 
     @Autowired
+    private LengBD.repository.UsuarioRepository usuarioRepository;
+    @Autowired
     private MaterialEstudioService materialEstudioService;
 
     @Autowired
@@ -93,4 +95,56 @@ public class MaterialEstudioController {
         model.addAttribute("secciones", seccionService.readAllSeccion());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
+
+    @GetMapping("/nuevoD")
+    public String nuevoD(Model model, org.springframework.security.core.Authentication auth) {
+        LengBD.domain.UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+        model.addAttribute("materialEstudio", new MaterialEstudioListadoDTO());
+        model.addAttribute("secciones", seccionService.readSeccionPorBanda(director.getIdBanda()));
+        return "seccion/formularioMaterial";
+    }
+
+    @GetMapping("/editarD/{idMaterial}")
+    public String editarD(@PathVariable("idMaterial") Integer id, Model model,
+            org.springframework.security.core.Authentication auth) {
+        LengBD.domain.UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+        model.addAttribute("materialEstudio", materialEstudioService.buscarPorId(id));
+        model.addAttribute("secciones", seccionService.readSeccionPorBanda(director.getIdBanda()));
+        return "seccion/formularioMaterial";
+    }
+
+    @PostMapping("/guardarD")
+    public String guardarD(@ModelAttribute MaterialEstudioListadoDTO dto, RedirectAttributes ra) {
+        try {
+            MaterialEstudio m = new MaterialEstudio();
+            m.setIdMaterial(dto.getIdMaterial());
+            m.setNombre(dto.getNombre());
+            m.setFecha(dto.getFecha());
+            m.setRutaMaterialEstudio(dto.getRutaMaterialEstudio());
+            m.setIdSeccion(dto.getIdSeccion());
+            m.setIdEstado(dto.getIdEstado() != null ? dto.getIdEstado() : 1);
+            if (dto.getIdMaterial() != null) {
+                materialEstudioService.actualizarMaterialEstudio(m);
+            } else {
+                materialEstudioService.insertarMaterialEstudio(m);
+            }
+            ra.addFlashAttribute("todoOk", "Material guardado correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+
+    @PostMapping("/eliminarD")
+    public String eliminarD(@RequestParam("idMaterial") Integer idMaterial, RedirectAttributes ra) {
+        try {
+            materialEstudioService.eliminarMaterialEstudio(idMaterial);
+            ra.addFlashAttribute("todoOk", "Material eliminado correctamente");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Error al eliminar");
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+
 }

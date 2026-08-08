@@ -1,5 +1,4 @@
 package LengBD;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,8 +17,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/chat")
             )
-                .authorizeHttpRequests(auth -> auth
-                        
+            .authorizeHttpRequests(auth -> auth
+
                 .requestMatchers("/usuario/cambiarPassword").authenticated()
 
                 // ---------- ESTATICOS ----------
@@ -37,6 +36,16 @@ public class SecurityConfig {
                     "/solicitudIngreso/guardar",
                     "/planes/listado"
                 ).permitAll()
+
+                // ---------- VER SECCION: todos los roles de banda ----------
+                .requestMatchers("/seccion/ver/*/asistencia")
+                    .hasAnyRole("LIDER_SECCION", "ADMIN", "SUPER_ADMIN")
+                .requestMatchers("/seccion/ver/**")
+                    .hasAnyRole("DIRECTOR", "LIDER_SECCION", "INTEGRANTE", "ADMIN", "SUPER_ADMIN")
+
+                // ---------- MATERIAL Y OBRAS (gestion desde director/lider) ----------
+                .requestMatchers("/materialEstudio/**", "/obra/**")
+                    .hasAnyRole("DIRECTOR", "LIDER_SECCION", "ADMIN", "SUPER_ADMIN")
 
                 // ---------- DIRECTOR / ADMIN ----------
                 .requestMatchers(
@@ -86,7 +95,6 @@ public class SecurityConfig {
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
             );
-
         return http.build();
     }
 

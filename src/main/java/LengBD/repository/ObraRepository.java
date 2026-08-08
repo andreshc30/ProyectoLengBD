@@ -35,6 +35,7 @@ public class ObraRepository {
     private SimpleJdbcCall obraInsertCall;
     private SimpleJdbcCall obraUpdateCall;
     private SimpleJdbcCall obraDeleteCall;
+    private SimpleJdbcCall obraPorBandaCall;
     private SimpleJdbcCall obraReadAllCall;
 
     @PostConstruct
@@ -56,6 +57,11 @@ public class ObraRepository {
                 .withProcedureName("FIDE_LISTAR_OBRA_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(ObraListadoDTO.class));;
+        obraPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_OBRA_POR_BANDA_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(ObraListadoDTO.class));
     }
 
     public void insertarObra(Obra obra) {
@@ -66,6 +72,7 @@ public class ObraRepository {
         params.put("P_ID_TIPO", obra.getIdTipo());
         params.put("P_ID_ESTADO", obra.getIdEstado());
         params.put("P_ID_BANDA", obra.getIdBanda());
+        params.put("P_RUTA_OBRA", obra.getRutaObra());
         obraInsertCall.execute(params);
     }
 
@@ -78,6 +85,7 @@ public class ObraRepository {
         params.put("P_ID_TIPO", obra.getIdTipo());
         params.put("P_ID_ESTADO", obra.getIdEstado());
         params.put("P_ID_BANDA", obra.getIdBanda());
+        params.put("P_RUTA_OBRA", obra.getRutaObra());
         obraUpdateCall.execute(params);
     }
 
@@ -93,4 +101,12 @@ public class ObraRepository {
         obraDeleteCall.execute(params);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<ObraListadoDTO> readObrasPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = obraPorBandaCall.execute(params);
+        List<ObraListadoDTO> lista = (List<ObraListadoDTO>) result.get("p_cursor");
+        return lista == null ? new java.util.ArrayList<>() : lista;
+    }
 }

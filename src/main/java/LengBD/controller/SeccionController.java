@@ -4,9 +4,15 @@ import LengBD.domain.Seccion;
 import LengBD.domain.SeccionListadoDTO;
 import LengBD.domain.UsuarioLoginDTO;
 import LengBD.repository.UsuarioRepository;
+import LengBD.service.AsistenciaEnsayoService;
 import LengBD.service.SeccionService;
 import LengBD.service.BandaService;
+import LengBD.service.EnsayosService;
 import LengBD.service.EstadoService;
+import LengBD.service.MaterialEstudioService;
+import LengBD.service.ObraService;
+import LengBD.service.RolUsuariosService;
+import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +39,26 @@ public class SeccionController {
 
     @Autowired
     private EstadoService estadoService;
+    
+    @Autowired
+    private UsuarioService usuarioService;
 
+    @Autowired
+    private RolUsuariosService rolusuariosService;
+
+    @Autowired
+    private ObraService obraService;
+    @Autowired
+    private MaterialEstudioService materialEstudioService;
+    
+    @Autowired
+    private EnsayosService ensayosService;
+    
+    @Autowired
+    private AsistenciaEnsayoService asistenciaEnsayoService;
+    
+
+    
     @GetMapping("/listado")
     public String listado(Model model) {
         List<SeccionListadoDTO> lista = seccionService.readAllSeccion();
@@ -106,14 +131,13 @@ public class SeccionController {
                            Authentication auth,
                            RedirectAttributes ra) {
         try {
-            // la banda sale del director logueado, NO del formulario
             UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
 
             Seccion seccion = new Seccion();
             seccion.setIdSeccion(dto.getIdSeccion());
             seccion.setNombre(dto.getNombre());
             seccion.setDescripcion(dto.getDescripcion());
-            seccion.setIdBanda(director.getIdBanda());   // ← de la sesión, no del combo
+            seccion.setIdBanda(director.getIdBanda());
             seccion.setIdEstado(dto.getIdEstado() != null ? dto.getIdEstado() : 1);
 
             if (dto.getIdSeccion() != null) {
@@ -152,5 +176,54 @@ public class SeccionController {
         model.addAttribute("seccion", new SeccionListadoDTO());
         cargarCombos(model);
         return "seccion/formulario";
+    }
+
+    @GetMapping("/ver/{id}")
+    public String verSeccion(@PathVariable("id") Integer idSeccion,
+            @RequestParam(value = "idEnsayo", required = false) Integer idEnsayo,
+            Model model, Authentication auth) {
+        UsuarioLoginDTO usuario = usuarioRepository.buscarPorCorreo(auth.getName());
+        SeccionListadoDTO seccion = seccionService.buscarPorId(idSeccion);
+        System.out.println(">>> verSeccion - usuario.idBanda: " + (usuario != null ? usuario.getIdBanda() : "null"));
+        System.out.println(">>> verSeccion - seccion: " + (seccion != null ? seccion.getIdSeccion() + " banda=" + seccion.getIdBanda() : "null"));
+
+        if (seccion == null || !seccion.getIdBanda().equals(usuario.getIdBanda())) {
+            return "redirect:/banda/listado";
+        }
+        model.addAttribute("seccion", seccion);
+        model.addAttribute("integrantes", usuarioService.readUsuariosPorSeccion(idSeccion));
+        model.addAttribute("lideres", rolusuariosService.readLideresPorSeccion(idSeccion));
+        model.addAttribute("obras", obraService.readObrasPorBanda(seccion.getIdBanda()));
+        model.addAttribute("materiales", materialEstudioService.readMaterialPorSeccion(idSeccion));
+        model.addAttribute("ensayos", ensayosService.readEnsayosPorBanda(seccion.getIdBanda()));
+        if (idEnsayo != null) {
+            model.addAttribute("asistencias", asistenciaEnsayoService.listar(idEnsayo, idSeccion));
+            model.addAttribute("idEnsayoSel", idEnsayo);
+        }
+        return "seccion/detalle";
+    }
+    
+    @PostMapping("/ver/{id}/asistencia")
+    public String guardarAsistencia(@PathVariable("id") Integer idSeccion,
+                                    @RequestParam("idEnsayo") Integer idEnsayo,
+                                    @RequestParam java.util.Map<String, String> params,
+                                    RedirectAttributes ra) {
+        try {
+            for (java.util.Map.Entry<String, String> e : params.entrySet()) {
+                if (e.getKey().startsWith("estado_")) {
+                    Integer cedula = Integer.valueOf(e.getKey().substring("estado_".length()));
+                    String val = e.getValue();
+                    if (val != null && !val.isBlank()) {
+                        Integer idEstado = Integer.valueOf(val);
+                        asistenciaEnsayoService.guardar(idEnsayo, cedula, idEstado);
+                    }
+                }
+            }
+            ra.addFlashAttribute("todoOk", "Asistencia guardada correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar asistencia: " + ex.getMessage());
+        }
+        return "redirect:/seccion/ver/" + idSeccion + "?idEnsayo=" + idEnsayo;
     }
 }

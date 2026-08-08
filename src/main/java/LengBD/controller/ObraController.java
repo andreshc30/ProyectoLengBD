@@ -35,6 +35,10 @@ public class ObraController {
     @Autowired
     private EstadoService estadoService;
 
+    @Autowired
+    private LengBD.repository.UsuarioRepository usuarioRepository;
+
+    
     @GetMapping("/listado")
     public String listado(Model model) {
         List<ObraListadoDTO> lista = obraService.readAllObra();
@@ -99,4 +103,60 @@ public class ObraController {
         model.addAttribute("bandas", bandaService.readAllBanda());
         model.addAttribute("estados", estadoService.readAllEstado());
     }
+
+
+    @PostMapping("/guardarD")
+    public String guardarD(@ModelAttribute ObraListadoDTO dto,
+            org.springframework.security.core.Authentication auth,
+            RedirectAttributes ra) {
+        try {
+            LengBD.domain.UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
+            Obra obra = new Obra();
+            obra.setIdObra(dto.getIdObra());
+            obra.setNombre(dto.getNombre());
+            obra.setFecha(dto.getFecha());
+            obra.setDetalle(dto.getDetalle());
+            obra.setIdTipo(dto.getIdTipo());
+            obra.setRutaObra(dto.getRutaObra());
+            obra.setIdBanda(director.getIdBanda());          
+            obra.setIdEstado(dto.getIdEstado() != null ? dto.getIdEstado() : 1);
+
+            if (dto.getIdObra() != null) {
+                obraService.actualizarObra(obra);
+            } else {
+                obraService.insertarObra(obra);
+            }
+            ra.addFlashAttribute("todoOk", "Obra guardada correctamente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+
+    @PostMapping("/eliminarD")
+    public String eliminarD(@RequestParam("idObra") Integer idObra, RedirectAttributes ra) {
+        try {
+            obraService.eliminarObra(idObra);
+            ra.addFlashAttribute("todoOk", "Obra eliminada correctamente");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Error al eliminar");
+        }
+        return "redirect:/banda/secciones/listadoDirector";
+    }
+    
+    @GetMapping("/nuevoD")
+    public String nuevoD(Model model) {
+        model.addAttribute("obra", new ObraListadoDTO());
+        model.addAttribute("tipos", tipoService.readAllTipo());
+        return "seccion/formularioObra";
+    }
+
+    @GetMapping("/editarD/{idObra}")
+    public String editarD(@PathVariable("idObra") Integer id, Model model) {
+        model.addAttribute("obra", obraService.buscarPorId(id));
+        model.addAttribute("tipos", tipoService.readAllTipo());
+        return "seccion/formularioObra";
+    }
+    
 }

@@ -4,10 +4,13 @@ import LengBD.domain.UsuarioLoginDTO;
 import LengBD.repository.UsuarioRepository;
 import LengBD.service.AsignacionInstrumentoService;
 import LengBD.service.EnsayosService;
+import LengBD.service.MaterialEstudioService;
+import LengBD.service.ObraService;
 import LengBD.service.PresentacionService;
 import LengBD.service.RolUsuariosService;
 import LengBD.service.SeccionService;
 import LengBD.service.SolicitudIngresoService;
+import LengBD.service.TipoService;
 import LengBD.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,6 +51,16 @@ public class SeccionesController {
     @Autowired
     private PresentacionService presentacionService;
 
+    @Autowired
+    private ObraService obraService;
+    
+    
+    @Autowired
+    private MaterialEstudioService materialEstudioService;
+    
+    @Autowired
+    private TipoService tipoService;
+    
     @GetMapping("/banda/secciones/listadoDirector")
     public String cargarPantallaDirector(Model model, Authentication auth) {
         UsuarioLoginDTO director = usuarioRepository.buscarPorCorreo(auth.getName());
@@ -60,6 +73,12 @@ public class SeccionesController {
         model.addAttribute("secciones", seccionService.readSeccionPorBanda(idBanda)); 
         model.addAttribute("ensayos", ensayosService.readEnsayosPorBanda(idBanda));
         model.addAttribute("presentaciones", presentacionService.readPresentacionPorBanda(idBanda));
+        model.addAttribute("obras", obraService.readObrasPorBanda(idBanda));
+        model.addAttribute("obra", new LengBD.domain.Obra());
+        model.addAttribute("tipos", tipoService.readAllTipo());
+        model.addAttribute("materiales", materialEstudioService.readMaterialPorBanda(idBanda));
+        model.addAttribute("materialEstudio", new LengBD.domain.MaterialEstudioListadoDTO());
+        
         return "seccion/listadoDirector";
     }
 }

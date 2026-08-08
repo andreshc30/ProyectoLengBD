@@ -36,6 +36,7 @@ public class UsuarioRepository {
     private SimpleJdbcCall usuarioReadAllCall;
     private SimpleJdbcCall cambiarPasswordCall;
     private SimpleJdbcCall usuarioPorBandaCall;
+    private SimpleJdbcCall usuarioPorSeccionCall;
     // CORREGIDO: mapeo POR POSICION (indice de columna), no por nombre.
     // El mapeo por nombre fallaba (ORA-17006) porque varias tablas del JOIN
     // (Usuario, Seccion, Banda) comparten columnas fisicas llamadas "NOMBRE",
@@ -110,6 +111,10 @@ public class UsuarioRepository {
         usuarioPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_USUARIO_POR_BANDA_SP")
+                .returningResultSet("p_cursor", USUARIO_ROW_MAPPER);
+        usuarioPorSeccionCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_USUARIO_POR_SECCION_SP")
                 .returningResultSet("p_cursor", USUARIO_ROW_MAPPER);
         
     }
@@ -217,5 +222,13 @@ public class UsuarioRepository {
         List<UsuarioListadoDTO> lista = (List<UsuarioListadoDTO>) result.get("p_cursor");
         return lista == null ? new ArrayList<>() : lista;
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public List<UsuarioListadoDTO> readUsuariosPorSeccion(Integer idSeccion) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_SECCION", idSeccion);
+        Map<String, Object> result = usuarioPorSeccionCall.execute(params);
+        List<UsuarioListadoDTO> lista = (List<UsuarioListadoDTO>) result.get("p_cursor");
+        return lista == null ? new ArrayList<>() : lista;
+    }
 }

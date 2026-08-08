@@ -54,4 +54,9 @@ public class UsuarioService {
     public List<UsuarioListadoDTO> readUsuariosPorBanda(Integer idBanda) {
         return usuarioRepository.readUsuariosPorBanda(idBanda);
     }
+  
+    public List<UsuarioListadoDTO> readUsuariosPorSeccion(Integer idSeccion) {
+        return usuarioRepository.readUsuariosPorSeccion(idSeccion);
+    }
 }
+

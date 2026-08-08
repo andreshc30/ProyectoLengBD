@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+    <style>
+        #tabsSeccion .nav-link {
+            color: #5a5c69;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #tabsSeccion .nav-link:hover {
+            color: #4e73df;
+            border-color: #e3e6f0 #e3e6f0 #fff;
+        }
+        #tabsSeccion .nav-link.active {
+            color: #4e73df;
+            background: #fff;
+            border-color: #dddfeb #dddfeb #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+         background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
+        <div class="spinner-border text-primary" style="width:3rem; height:3rem;" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+<div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
+<section th:fragment="Page-Wrapper">
+    <div id="wrapper" class="d-flex">
+        <div th:replace="~{general/fragmentos :: sidebar('')}"></div>
+        <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
+            <div id="content">
+                <div class="container-fluid mt-4">
+
+                    <!-- Encabezado de la sección -->
+                    <div class="card shadow mb-4 border-left-primary">
+                        <div class="card-body">
+                            <h3 class="mb-1" th:text="${seccion.nombre}">Cajas</h3>
+                            <p class="text-muted mb-0" th:text="${seccion.descripcion}">Descripción de la sección</p>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑAS ===== -->
+                    <ul class="nav nav-tabs mb-4" id="tabsSeccion">
+                        <li class="nav-item">
+                            <button class="nav-link active" type="button" onclick="mostrarTab('tab-integrantes', this)">
+                                <i class="fas fa-users me-1"></i> Integrantes
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" type="button" onclick="mostrarTab('tab-lideres', this)">
+                                <i class="fas fa-user-tie me-1"></i> Líderes
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
+                                <i class="fas fa-compact-disc me-1"></i> Obras
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" type="button" onclick="mostrarTab('tab-material', this)">
+                                <i class="fas fa-folder-open me-1"></i> Material
+                            </button>
+                        </li>
+                        
+                        <li class="nav-item" sec:authorize="hasAnyRole('LIDER_SECCION','ADMIN','SUPER_ADMIN')">
+                            <button class="nav-link" type="button" onclick="mostrarTab('tab-lista', this)">
+                                <i class="fas fa-clipboard-check me-1"></i> Pasar lista
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- ============ TAB: INTEGRANTES ============ -->
+                    <div id="tab-integrantes" class="tab-contenido">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-users me-2"></i>Integrantes de la sección</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Cédula</th>
+                                                <th>Nombre completo</th>
+                                                <th>Correo</th>
+                                                <th>Teléfono</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="u : ${integrantes}">
+                                                <td th:text="${u.cedula}">1-1234-5678</td>
+                                                <td th:text="${u.nombre + ' ' + u.primerApellido + ' ' + u.segundoApellido}">Nombre</td>
+                                                <td th:text="${u.correo}">correo</td>
+                                                <td th:text="${u.telefono}">8888-8888</td>
+                                                <td><span class="badge bg-success" th:text="${u.estado}">Activo</span></td>
+                                            </tr>
+                                            <tr th:if="${#lists.isEmpty(integrantes)}">
+                                                <td colspan="5" class="text-center text-muted py-3">No hay integrantes en esta sección</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============ TAB: LÍDERES ============ -->
+                    <div id="tab-lideres" class="tab-contenido" style="display:none;">
+                        <div class="card shadow mb-4 border-left-info">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-info"><i class="fas fa-user-tie me-2"></i>Líderes de la sección</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3" th:each="lid : ${lideres}">
+                                        <div class="d-flex align-items-center p-3 border rounded">
+                                            <i class="fas fa-user-tie fa-2x text-info me-3"></i>
+                                            <div>
+                                                <strong th:text="${lid.nombreUsuario}">Nombre</strong><br>
+                                                <small class="text-muted" th:text="${lid.correo}">correo</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center text-muted py-3" th:if="${#lists.isEmpty(lideres)}">
+                                        Esta sección no tiene líderes asignados
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============ TAB: OBRAS ============ -->
+                    <div id="tab-obras" class="tab-contenido" style="display:none;">
+                        <div class="card shadow mb-4 border-left-success">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-compact-disc me-2"></i>Obras de la banda</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3" th:each="obra : ${obras}">
+                                        <div class="border rounded p-3 h-100">
+                                            <h6 class="mb-1" th:text="${obra.nombre}">Nombre de la obra</h6>
+                                            <p class="text-muted small mb-2" th:text="${obra.detalle}">Detalle</p>
+                                            <a th:if="${obra.rutaObra != null and obra.rutaObra != ''}"
+                                               th:href="${obra.rutaObra}" target="_blank"
+                                               class="btn btn-sm btn-outline-success">
+                                                <i class="fas fa-external-link-alt me-1"></i> Ver material
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center text-muted py-3" th:if="${#lists.isEmpty(obras)}">
+                                        No hay obras registradas para la banda
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+
+                    <!-- ============ TAB: MATERIAL ============ -->
+                    <div id="tab-material" class="tab-contenido" style="display:none;">
+                        <div class="card shadow mb-4 border-left-warning">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-warning"><i class="fas fa-folder-open me-2"></i>Material de estudio de la sección</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3" th:each="mat : ${materiales}">
+                                        <div class="border rounded p-3 h-100">
+                                            <h6 class="mb-2" th:text="${mat.nombre}">Nombre del material</h6>
+                                            <a th:if="${mat.rutaMaterialEstudio != null and mat.rutaMaterialEstudio != ''}"
+                                               th:href="${mat.rutaMaterialEstudio}" target="_blank"
+                                               class="btn btn-sm btn-outline-warning">
+                                                <i class="fas fa-external-link-alt me-1"></i> Abrir
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center text-muted py-3" th:if="${#lists.isEmpty(materiales)}">
+                                        Esta sección no tiene material de estudio
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- ============ TAB: PASAR LISTA ============ -->
+                    <div id="tab-lista" class="tab-contenido" style="display:none;"
+                         sec:authorize="hasAnyRole('LIDER_SECCION','ADMIN','SUPER_ADMIN')">
+                        <div class="card shadow mb-4 border-left-primary">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-clipboard-check me-2"></i>Pasar lista — Ensayos</h6>
+                            </div>
+                            <div class="card-body">
+
+                                <!-- Selector de ensayo (recarga la página con el ensayo elegido) -->
+                                <form method="get" th:action="@{/seccion/ver/{id}(id=${seccion.idSeccion})}" class="mb-4">
+                                    <div class="row g-2 align-items-end">
+                                        <div class="col-md-8">
+                                            <label class="form-label fw-bold">Seleccioná el ensayo</label>
+                                            <select class="form-select" name="idEnsayo" onchange="mostrarCarga(); this.form.submit();">
+                                                <option value="">-- Elegí un ensayo --</option>
+                                                <option th:each="ens : ${ensayos}"
+                                                        th:value="${ens.idEnsayo}"
+                                                        th:text="${ens.nombre + ' — ' + #temporals.format(ens.fechaInicio, 'dd/MM/yyyy HH:mm')}"
+                                                        th:selected="${idEnsayoSel != null and idEnsayoSel == ens.idEnsayo}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div th:if="${idEnsayoSel != null}">
+                                    <form method="post" th:action="@{/seccion/ver/{id}/asistencia(id=${seccion.idSeccion})}">
+                                        <input type="hidden" name="idEnsayo" th:value="${idEnsayoSel}">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Cédula</th>
+                                                        <th>Integrante</th>
+                                                        <th class="text-center">Presente</th>
+                                                        <th class="text-center">Ausente</th>
+                                                        <th class="text-center">Justificado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="a : ${asistencias}">
+                                                        <td th:text="${a.cedula}">118450789</td>
+                                                        <td th:text="${a.nombreCompleto}">Nombre</td>
+                                                        <td class="text-center">
+                                                            <input type="radio" th:name="'estado_' + ${a.cedula}" value="11"
+                                                                   th:checked="${a.idEstado != null and a.idEstado == 11}">
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input type="radio" th:name="'estado_' + ${a.cedula}" value="12"
+                                                                   th:checked="${a.idEstado != null and a.idEstado == 12}">
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input type="radio" th:name="'estado_' + ${a.cedula}" value="13"
+                                                                   th:checked="${a.idEstado != null and a.idEstado == 13}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(asistencias)}">
+                                                        <td colspan="5" class="text-center text-muted py-3">No hay integrantes en esta sección</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3" th:if="${not #lists.isEmpty(asistencias)}">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save me-1"></i> Guardar asistencia
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div th:if="${idEnsayoSel == null}" class="text-center text-muted py-3">
+                                    Elegí un ensayo para pasar lista.
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+
+<script th:inline="javascript">
+    function mostrarTab(idTab, boton) {
+        document.querySelectorAll('.tab-contenido').forEach(function (div) {
+            div.style.display = 'none';
+        });
+        document.getElementById(idTab).style.display = 'block';
+        document.querySelectorAll('#tabsSeccion .nav-link').forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+        boton.classList.add('active');
+    }
+
+    function mostrarCarga() {
+        var ov = document.getElementById('loadingOverlay');
+        if (ov) ov.style.display = 'flex';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var hayEnsayo = /*[[${idEnsayoSel != null}]]*/ false;
+        if (hayEnsayo) {
+            document.querySelectorAll('.tab-contenido').forEach(function (div) {
+                div.style.display = 'none';
+            });
+            var panel = document.getElementById('tab-lista');
+            if (panel) panel.style.display = 'block';
+            document.querySelectorAll('#tabsSeccion .nav-link').forEach(function (btn) {
+                btn.classList.remove('active');
+                if (btn.textContent.trim().indexOf('Pasar lista') !== -1) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+</body>
+</html>

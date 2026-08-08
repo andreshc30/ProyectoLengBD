@@ -138,6 +138,19 @@
                                                         <i class="fas fa-music me-1"></i> Presentaciones
                                                     </button>
                                                 </li>
+
+                                                <li class="nav-item">
+                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
+                                                        <i class="fas fa-compact-disc me-1"></i> Obras
+                                                    </button>
+                                                </li>
+
+                                                <li class="nav-item">
+                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-material', this)">
+                                                        <i class="fas fa-folder-open me-1"></i> Material Estudio
+                                                    </button>
+                                                </li>
+                                                
                                                 <li class="nav-item">
                                                     <button class="nav-link" type="button" onclick="mostrarTab('tab-asistente', this)">
                                                         <i class="fas fa-robot me-1"></i> Maestro IA
@@ -555,6 +568,149 @@
                                                 </div>
                                             </div>
 
+                                            html
+                                                <li class="nav-item">
+                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
+                                                        <i class="fas fa-compact-disc me-1"></i> Obras
+                                                    </button>
+                                                </li>
+
+                                            <!-- ============ TAB: OBRAS ============ -->
+                                            <div id="tab-obras" class="tab-contenido" style="display:none;">
+                                                <div class="card shadow mb-4 border-left-success">
+                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                                        <h6 class="m-0 font-weight-bold text-success">Repertorio / Obras de la Banda</h6>
+                                                        <a th:href="@{/obra/nuevoD}" class="btn btn-sm btn-success">
+                                                            <i class="fas fa-plus me-1"></i> Nueva Obra
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-hover" id="tablaObras">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th>Nombre</th>
+                                                                        <th>Tipo</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Detalle</th>
+                                                                        <th>Material</th>
+                                                                        <th>Estado</th>
+                                                                        <th class="text-center">Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="ob : ${obras}" class="fila-obra">
+                                                                        <td th:text="${ob.nombre}">Marcha X</td>
+                                                                        <td th:text="${ob.nombreTipo}">Marcha</td>
+                                                                        <td th:text="${ob.fecha != null ? #temporals.format(ob.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
+                                                                        <td th:text="${ob.detalle}">Detalle</td>
+                                                                        <td>
+                                                                            <a th:if="${ob.rutaObra != null and ob.rutaObra != ''}"
+                                                                               th:href="${ob.rutaObra}" target="_blank"
+                                                                               class="btn btn-sm btn-outline-success">
+                                                                                <i class="fas fa-external-link-alt"></i> Ver
+                                                                            </a>
+                                                                            <span th:if="${ob.rutaObra == null or ob.rutaObra == ''}" class="text-muted small">—</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span th:text="${ob.estado}"
+                                                                                  th:classappend="${ob.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <a th:href="@{/obra/editarD/{id}(id=${ob.idObra})}"
+                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                                            <form th:action="@{/obra/eliminarD}" method="post" style="display:inline;"
+                                                                                  onsubmit="return confirm('¿Eliminar esta obra?');">
+                                                                                <input type="hidden" name="idObra" th:value="${ob.idObra}">
+                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr th:if="${#lists.isEmpty(obras)}">
+                                                                        <td colspan="7" class="text-center text-muted py-3">No hay obras registradas</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                                            <span id="infoPaginaObr" class="text-muted small"></span>
+                                                            <div>
+                                                                <button id="btnAnteriorObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(-1)">Anterior</button>
+                                                                <span id="numPaginaObr" class="mx-2"></span>
+                                                                <button id="btnSiguienteObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(1)">Siguiente</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ============ TAB: MATERIAL DE ESTUDIO ============ -->
+                                            <div id="tab-material" class="tab-contenido" style="display:none;">
+                                                <div class="card shadow mb-4 border-left-warning">
+                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                                        <h6 class="m-0 font-weight-bold text-warning">Material de Estudio por Sección</h6>
+                                                        <a th:href="@{/materialEstudio/nuevoD}" class="btn btn-sm btn-warning text-white">
+                                                            <i class="fas fa-plus me-1"></i> Nuevo Material
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-hover" id="tablaMaterial">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th>Nombre</th>
+                                                                        <th>Sección</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Enlace</th>
+                                                                        <th>Estado</th>
+                                                                        <th class="text-center">Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="mat : ${materiales}" class="fila-material">
+                                                                        <td th:text="${mat.nombre}">Cadencia cajas</td>
+                                                                        <td th:text="${mat.nombreSeccion}">Cajas</td>
+                                                                        <td th:text="${mat.fecha != null ? #temporals.format(mat.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
+                                                                        <td>
+                                                                            <a th:if="${mat.rutaMaterialEstudio != null and mat.rutaMaterialEstudio != ''}"
+                                                                               th:href="${mat.rutaMaterialEstudio}" target="_blank"
+                                                                               class="btn btn-sm btn-outline-warning">
+                                                                                <i class="fas fa-external-link-alt"></i> Ver
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span th:text="${mat.estado}"
+                                                                                  th:classappend="${mat.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <a th:href="@{/materialEstudio/editarD/{id}(id=${mat.idMaterial})}"
+                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                                            <form th:action="@{/materialEstudio/eliminarD}" method="post" style="display:inline;"
+                                                                                  onsubmit="return confirm('¿Eliminar este material?');">
+                                                                                <input type="hidden" name="idMaterial" th:value="${mat.idMaterial}">
+                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr th:if="${#lists.isEmpty(materiales)}">
+                                                                        <td colspan="6" class="text-center text-muted py-3">No hay material registrado</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                                            <span id="infoPaginaMat" class="text-muted small"></span>
+                                                            <div>
+                                                                <button id="btnAnteriorMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(-1)">Anterior</button>
+                                                                <span id="numPaginaMat" class="mx-2"></span>
+                                                                <button id="btnSiguienteMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(1)">Siguiente</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
                                             <!-- ============ TAB: ASISTENTE IA ============ -->
                                             <div id="tab-asistente" class="tab-contenido" style="display:none;">
                                                 <div class="card shadow mb-4 border-left-warning">
@@ -614,7 +770,9 @@
                                         asignaciones: {pagina: 1, filaClass: 'fila-asignacion', num: 'numPaginaAsig', info: 'infoPaginaAsig', prev: 'btnAnteriorAsig', next: 'btnSiguienteAsig'},
                                         solicitudes: {pagina: 1, filaClass: 'fila-solicitud', num: 'numPaginaSol', info: 'infoPaginaSol', prev: 'btnAnteriorSol', next: 'btnSiguienteSol'},
                                         ensayos: {pagina: 1, filaClass: 'fila-ensayo', num: 'numPaginaEns', info: 'infoPaginaEns', prev: 'btnAnteriorEns', next: 'btnSiguienteEns'},
-                                        presentaciones: { pagina: 1, filaClass: 'fila-presentacion', num: 'numPaginaPre', info: 'infoPaginaPre', prev: 'btnAnteriorPre', next: 'btnSiguientePre' }
+                                        presentaciones: { pagina: 1, filaClass: 'fila-presentacion', num: 'numPaginaPre', info: 'infoPaginaPre', prev: 'btnAnteriorPre', next: 'btnSiguientePre' },
+                                        obras: { pagina: 1, filaClass: 'fila-obra', num: 'numPaginaObr', info: 'infoPaginaObr', prev: 'btnAnteriorObr', next: 'btnSiguienteObr' },
+                                        material: { pagina: 1, filaClass: 'fila-material', num: 'numPaginaMat', info: 'infoPaginaMat', prev: 'btnAnteriorMat', next: 'btnSiguienteMat' }
                                     };
 
                                     function mostrarPagina(clave) {
@@ -676,6 +834,14 @@
                                         paginadores.presentaciones.pagina += d; 
                                         mostrarPagina('presentaciones'); 
                                     }
+                                    function cambiarPaginaObr (d){
+                                        paginadores.obras.pagina += d;
+                                        mostrarPagina('obras');
+                                    }
+                                    function cambiarPaginaMat (d){
+                                        paginadores.material.pagina += d;
+                                        mostrarPagina('material')
+                                    }
 
 
                                     document.addEventListener('DOMContentLoaded', function () {
@@ -685,8 +851,11 @@
                                         mostrarPagina('asignaciones');
                                         mostrarPagina('solicitudes');
                                         mostrarPagina('ensayos');
-                                        mostrarPagina('presentaciones')
+                                        mostrarPagina('presentaciones');
+                                        mostrarPagina('obras');
+                                        mostrarPagina('material');
                                     });
+                                    
 
                                     // ===== CHAT MAESTRO =====
                                     function agregarMensaje(texto, esUsuario) {

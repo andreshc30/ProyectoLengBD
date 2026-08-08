@@ -22,17 +22,12 @@ public class MaterialEstudioListadoDTO implements Serializable {
     private static final long serialVersionUID = 1l;
     
     private Integer idMaterial;
-    
     private String nombre;
-    private String nombreSeccion;
-    private String estado;
-    
     private LocalDate fecha;
-    
     private String rutaMaterialEstudio;
-    
     private Integer idSeccion;
-    
-    private Integer idEstado; 
+    private String nombreSeccion;
+    private Integer idEstado;
+    private String estado;
 
 }

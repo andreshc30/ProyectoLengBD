@@ -22,20 +22,14 @@ public class ObraListadoDTO implements Serializable {
     private static final long serialVersionUID = 1l;
     
     private Integer idObra;
-    
     private String nombre;
-    
     private LocalDate fecha;
-    
     private String detalle;
-    private String nombreTipo;
-    private String nombrebanda;
-    private String estado;
-    
+    private String rutaObra;
     private Integer idTipo;
-    
+    private String nombreTipo;
+    private Integer idEstado;
+    private String estado;
     private Integer idBanda;
-
-    private Integer idEstado; 
-
+    
 }

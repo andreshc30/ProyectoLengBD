@@ -36,6 +36,8 @@ public class MaterialEstudioRepository {
     private SimpleJdbcCall materialEstudioUpdateCall;
     private SimpleJdbcCall materialEstudioDeleteCall;
     private SimpleJdbcCall materialEstudioReadAllCall;
+    private SimpleJdbcCall materialPorSeccionCall;
+    private SimpleJdbcCall materialPorBandaCall;
 
     @PostConstruct
     public void init() {
@@ -56,6 +58,16 @@ public class MaterialEstudioRepository {
                 .withProcedureName("FIDE_LISTAR_MATERIAL_ESTUDIO_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(MaterialEstudioListadoDTO.class));;
+        materialPorSeccionCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_MATERIAL_POR_SECCION_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(MaterialEstudioListadoDTO.class));
+        materialPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_MATERIAL_POR_BANDA_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(MaterialEstudioListadoDTO.class));
     }
 
     public void insertarMaterialEstudio(MaterialEstudio materialEstudio) {
@@ -88,6 +100,24 @@ public class MaterialEstudioRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_MATERIAL", materialEstudio.getIdMaterial());
         materialEstudioDeleteCall.execute(params);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<MaterialEstudioListadoDTO> readMaterialPorSeccion(Integer idSeccion) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_SECCION", idSeccion);
+        Map<String, Object> result = materialPorSeccionCall.execute(params);
+        List<MaterialEstudioListadoDTO> lista = (List<MaterialEstudioListadoDTO>) result.get("p_cursor");
+        return lista == null ? new java.util.ArrayList<>() : lista;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<MaterialEstudioListadoDTO> readMaterialPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = materialPorBandaCall.execute(params);
+        List<MaterialEstudioListadoDTO> lista = (List<MaterialEstudioListadoDTO>) result.get("p_cursor");
+        return lista == null ? new java.util.ArrayList<>() : lista;
     }
 
 }

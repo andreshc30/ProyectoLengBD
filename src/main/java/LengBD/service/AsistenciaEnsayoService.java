@@ -6,6 +6,7 @@ package LengBD.service;
 
 import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.AsistenciaEnsayo;
+import LengBD.domain.AsistenciaEnsayoDTO;
 import LengBD.domain.AsistenciaEnsayoListadoDTO;
 import LengBD.repository.AsistenciaEnsayoRepository;
 import java.util.List;
@@ -45,6 +46,14 @@ public class AsistenciaEnsayoService {
                 .filter(asisEns -> asisEns.getIdAsistenciaEnsayos().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+    
+    public List<AsistenciaEnsayoDTO> listar(Integer idEnsayo, Integer idSeccion) {
+        return asistenciaEnsayoRepository.listar(idEnsayo, idSeccion);
+    }
+
+    public void guardar(Integer idEnsayo, Integer cedula, Integer idEstado) {
+        asistenciaEnsayoRepository.guardar(idEnsayo, cedula, idEstado);
     }
     
 }

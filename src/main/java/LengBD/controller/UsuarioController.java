@@ -1,5 +1,6 @@
 package LengBD.controller;
 
+import LengBD.domain.RolUsuario;
 import LengBD.domain.Usuario;
 import LengBD.domain.UsuarioListadoDTO;
 import LengBD.service.AsignacionInstrumentoService;
@@ -25,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import LengBD.domain.UsuarioLoginDTO;
 import LengBD.repository.UsuarioRepository;
+import LengBD.service.RolUsuariosService;
 import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -65,6 +67,9 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private RolUsuariosService rolUsuariosService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
@@ -142,7 +147,7 @@ public class UsuarioController {
 
     
     
-    @PostMapping("/guardarD")
+ @PostMapping("/guardarD")
     public String guardarD(@ModelAttribute UsuarioListadoDTO dto, RedirectAttributes ra) {
         try {
             Usuario usuario = new Usuario();
@@ -158,18 +163,25 @@ public class UsuarioController {
             usuario.setIdDireccion(dto.getIdDireccion());
             usuario.setIdBanda(dto.getIdBanda());
             usuario.setIdEstado(dto.getIdEstado());
+
             if (usuarioService.buscarPorId(dto.getCedula()) != null) {
                 usuarioService.actualizarUsuario(usuario);
             } else {
                 usuario.setPassword(passwordEncoder.encode(String.valueOf(dto.getCedula())));
                 usuarioService.insertarUsuario(usuario);
+
+                RolUsuario rol = new RolUsuario();
+                rol.setCedula(dto.getCedula());
+                rol.setIdRol(5);
+                rol.setIdEstado(1);
+                rolUsuariosService.insertarRolUsuario(rol);
             }
             ra.addFlashAttribute("todoOk", "Usuario guardado correctamente");
         } catch (Exception ex) {
             ex.printStackTrace();
             ra.addFlashAttribute("error", "Error al guardar: " + ex.getMessage());
         }
-            return "redirect:/banda/secciones/listadoDirector";
+        return "redirect:/banda/secciones/listadoDirector";
     }
     
     @PostMapping("/eliminarD")

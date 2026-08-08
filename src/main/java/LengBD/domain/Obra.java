@@ -44,5 +44,7 @@ public class Obra implements Serializable {
 
     @Column(name="ID_ESTADO")
     private Integer idEstado; 
-
+    
+    @Column(name="RUTA_OBRA")
+    private String rutaObra;
 }

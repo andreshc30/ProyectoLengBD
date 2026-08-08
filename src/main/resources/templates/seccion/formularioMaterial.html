@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+</head>
+<body>
+<div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
+
+<section>
+    <div id="wrapper" class="d-flex">
+        <div th:replace="~{general/fragmentos :: sidebar('')}"></div>
+
+        <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
+            <div id="content">
+                <div class="container-fluid mt-4">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800"
+                            th:text="${materialEstudio.idMaterial != null} ? 'Editar Material' : 'Nuevo Material de Estudio'">Nuevo Material</h1>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <form th:action="@{/materialEstudio/guardarD}" method="post">
+                                <input type="hidden" name="idMaterial" th:value="${materialEstudio.idMaterial}">
+                                <input type="hidden" name="idEstado" th:value="${materialEstudio.idEstado != null ? materialEstudio.idEstado : 1}">
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Nombre del material</label>
+                                    <input type="text" class="form-control" name="nombre"
+                                           th:value="${materialEstudio.nombre}" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Sección a la que se envía</label>
+                                    <select class="form-select" name="idSeccion" required>
+                                        <option value="">-- Seleccione sección --</option>
+                                        <option th:each="s : ${secciones}"
+                                                th:value="${s.idSeccion}"
+                                                th:text="${s.nombre}"
+                                                th:selected="${materialEstudio.idSeccion != null and materialEstudio.idSeccion == s.idSeccion}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Fecha</label>
+                                    <input type="date" class="form-control" name="fecha"
+                                           th:value="${materialEstudio.fecha}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Enlace (YouTube, Drive, PDF, etc.)</label>
+                                    <input type="url" class="form-control" name="rutaMaterialEstudio"
+                                           th:value="${materialEstudio.rutaMaterialEstudio}" placeholder="https://..." required>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <a th:href="@{/banda/secciones/listadoDirector}" class="btn btn-secondary me-2">Cancelar</a>
+                                    <button type="submit" class="btn btn-warning text-white">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+</body>
+</html>

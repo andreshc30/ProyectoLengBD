@@ -10,9 +10,11 @@ package LengBD.repository;
  */
 import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.AsistenciaEnsayo;
+import LengBD.domain.AsistenciaEnsayoDTO;
 import LengBD.domain.AsistenciaEnsayoListadoDTO;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,8 @@ public class AsistenciaEnsayoRepository {
     private SimpleJdbcCall asistenciaEnsayoUpdateCall;
     private SimpleJdbcCall asistenciaEnsayoDeleteCall;
     private SimpleJdbcCall asistenciaEnsayoReadAllCall;
-
+    private SimpleJdbcCall listarCall;
+    private SimpleJdbcCall guardarCall;
     @PostConstruct
     public void init() {
         asistenciaEnsayoInsertCall = new SimpleJdbcCall(jdbcTemplate)
@@ -55,6 +58,16 @@ public class AsistenciaEnsayoRepository {
                 .withProcedureName("FIDE_LISTAR_ASISTENCIA_ENSAYOS_SP")
                 .returningResultSet("p_cursor",
                 BeanPropertyRowMapper.newInstance(AsistenciaEnsayoListadoDTO.class));;
+        listarCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_ASISTENCIA_ENSAYO_SP")
+                .returningResultSet("p_cursor",
+                        BeanPropertyRowMapper.newInstance(AsistenciaEnsayoDTO.class));
+
+        guardarCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_GUARDAR_ASISTENCIA_ENSAYO_SP");
+    
     }
 
     public void insertarAsistenciaEnsayo(AsistenciaEnsayo asistenciaEnsayo) {
@@ -84,5 +97,22 @@ public class AsistenciaEnsayoRepository {
         params.put("P_ID_ASISTENCIA_ENSAYOS", asistenciaEnsayo.getIdAsistenciaEnsayos());
         asistenciaEnsayoDeleteCall.execute(params);
     }
+    
+        @SuppressWarnings("unchecked")
+    public List<AsistenciaEnsayoDTO> listar(Integer idEnsayo, Integer idSeccion) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_ENSAYO", idEnsayo);
+        params.put("P_ID_SECCION", idSeccion);
+        Map<String, Object> result = listarCall.execute(params);
+        List<AsistenciaEnsayoDTO> lista = (List<AsistenciaEnsayoDTO>) result.get("p_cursor");
+        return lista == null ? new ArrayList<>() : lista;
+    }
 
+    public void guardar(Integer idEnsayo, Integer cedula, Integer idEstado) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_ENSAYO", idEnsayo);
+        params.put("P_CEDULA", cedula);
+        params.put("P_ID_ESTADO", idEstado);
+        guardarCall.execute(params);
+    }
 }

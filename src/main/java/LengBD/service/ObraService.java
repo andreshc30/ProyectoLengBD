@@ -46,5 +46,11 @@ public class ObraService {
                 .findFirst()
                 .orElse(null);
     }
+
+    public List<ObraListadoDTO> readObrasPorBanda(Integer idBanda) {
+        return obraRepository.readObrasPorBanda(idBanda);
+    }
     
+    
+
 }

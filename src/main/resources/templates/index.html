@@ -9,54 +9,16 @@
     </head>
 
     <body>
-        <body>
-            <div class="app-layout">
-                <header>
-                    <div class="Center">
-                        <div class="site-logo">
-                            <h1><a th:href="@{/}">BandCore</a></h1>
-                        </div>
-
-                        <nav class="Navigation">
-                            <ul>
-                                <li class="active">                                
-                                    <a th:href="@{/}">Inicio</a>
-                                    <span class="menu-item-bg"></span>
-                                </li>
-                                <li>                                
-                                    <a th:href="@{/audiciones/listado}">Audiciones</a>
-                                    <span class="menu-item-bg"></span>
-                                </li>
-                                <li>
-                                    <a th:href="@{/banda/listado}">Banda</a>
-                                    <span class="menu-item-bg"></span>
-                                </li>
-                                <li>
-                                    <a th:href="@{/eventos/listado}">Eventos</a>
-                                    <span class="menu-item-bg"></span>
-                                </li>
-                                <li>
-                                    <a th:href="@{/planes/listado}">Planes</a>
-                                    <span class="menu-item-bg"></span>
-                                </li>
-                            </ul>
-                        </nav>
-
-                        <div id="mobile_sec">
-                            <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
-                        </div>
-
-                        <div class="clear"></div>
-                    </div>
-                </header>
-                <section class="hero-section" id="home">
+        <div class="app-layout">
+            <div th:replace="~{general/fragmentos :: topnav('inicio')}"></div>
+            <section class="hero-section" id="home">
                     <div class="hero-wrapper">
                         <div class="container">
 
                             <div class="hero-text">
                                 <h3 class="hero-title">Gestiona tu banda con <span>precisión maestra.</span></h3>
                                 <p class="hero-description">La plataforma integral para músicos. Integrantes, ensayos, finanzas y repertorio en un solo sistema estructurado.</p>
-                                <a class="btn-primary" th:href="@{/suscripcion/listado}">COMENZAR</a>
+                                <a class="btn-primary" th:href="@{/planes/listado}">COMENZAR</a>
                             </div>
 
                             <div class="hero-gallery">
@@ -239,7 +201,7 @@
                                 <div class="plan__feature">Gestión de<br>repertorio</div>
                                 <div class="plan__feature">Soporte<br>por correo</div>
                             </div>
-                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                            <a th:href="@{/planes/listado}" class="plan__cta">Elegir plan</a>
                         </div>
 
                         <div class="plan">
@@ -254,7 +216,7 @@
                                 <div class="plan__feature">Módulo<br>financiero</div>
                                 <div class="plan__feature">Soporte<br>prioritario</div>
                             </div>
-                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                            <a th:href="@{/planes/listado}" class="plan__cta">Elegir plan</a>
                         </div>
 
                         <div class="plan plan--featured">
@@ -269,7 +231,7 @@
                                 <div class="plan__feature">Finanzas<br>completas</div>
                                 <div class="plan__feature">Soporte<br>dedicado</div>
                             </div>
-                            <a th:href="@{/suscripcion/listado}" class="plan__cta">Elegir plan</a>
+                            <a th:href="@{/planes/listado}" class="plan__cta">Elegir plan</a>
                         </div>
 
                     </div>

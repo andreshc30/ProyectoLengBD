@@ -77,7 +77,10 @@
                         <a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span>
                     </li>
                     <li th:classappend="${activo == 'suscripcion'} ? 'active' : ''">
-                        <a th:href="@{/planes/listado}">Suscripción</a><span class="menu-item-bg"></span>
+                        <a th:href="@{/planes/listado}">Planes</a><span class="menu-item-bg"></span>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" th:classappend="${activo == 'minisite'} ? 'active' : ''">
+                        <a th:href="@{/minisite/configuracion}">Mi Minisite</a><span class="menu-item-bg"></span>
                     </li>
                 </ul>
             </nav>

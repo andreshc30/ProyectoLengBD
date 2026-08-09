@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Hero superior: reusa .evento-hero (mismo estilo que la pagina publica de Eventos) -->
+    <div th:fragment="heroMinisite(icono, titulo, subtitulo)">
+        <section class="evento-hero mb-4 text-center">
+            <div class="evento-icono" th:text="${icono}">🎺</div>
+            <h1 class="evento-titulo" th:text="${titulo}">Mi Minisite</h1>
+            <p class="evento-subtitulo" th:text="${subtitulo}">Subtítulo</p>
+        </section>
+    </div>
+
+    <!-- Sub-navegacion entre las 5 secciones. 'activo' decide cual pestaña se marca.
+         Uso clases propias (.minisite-subnav / .minisite-tab) en vez de las de
+         Bootstrap (nav-tabs/nav-item/nav-link) para que no choque con NINGUNA otra
+         regla del proyecto, sea la del sidebar o cualquier otra que use esos
+         nombres genericos. El CSS de estas clases va en el bloque de abajo. -->
+    <div th:fragment="subnav(activo)">
+        <ul class="minisite-subnav">
+            <li>
+                <a class="minisite-tab" th:classappend="${activo == 'configuracion'} ? 'active' : ''"
+                   th:href="@{/minisite/configuracion}">Inicio</a>
+            </li>
+            <li>
+                <a class="minisite-tab" th:classappend="${activo == 'galeria'} ? 'active' : ''"
+                   th:href="@{/minisite/galeria}">Galería</a>
+            </li>
+            <li>
+                <a class="minisite-tab" th:classappend="${activo == 'eventos'} ? 'active' : ''"
+                   th:href="@{/minisite/eventos}">Próximos eventos</a>
+            </li>
+            <li>
+                <a class="minisite-tab" th:classappend="${activo == 'repertorio'} ? 'active' : ''"
+                   th:href="@{/minisite/repertorio}">Repertorio</a>
+            </li>
+            <li>
+                <a class="minisite-tab" th:classappend="${activo == 'logros'} ? 'active' : ''"
+                   th:href="@{/minisite/logros}">Logros</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

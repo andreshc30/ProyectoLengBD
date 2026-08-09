@@ -32,6 +32,7 @@ public class EventoRepository {
     private SimpleJdbcCall eventoReadAllCall;
     private SimpleJdbcCall totalEventosActivosCall;
     private SimpleJdbcCall obtenerNombreEventoCall;
+    private SimpleJdbcCall eventoPorBandaCall;
 
     @PostConstruct
     public void init() {
@@ -60,6 +61,12 @@ public class EventoRepository {
         obtenerNombreEventoCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withFunctionName("FIDE_OBTENER_NOMBRE_EVENTO_FN");
+        
+        eventoPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_EVENTO_POR_BANDA_SP")
+                .returningResultSet("P_CURSOR",
+                 BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
     }
 
     public void insertarEvento(Evento evento) {
@@ -106,6 +113,15 @@ public class EventoRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_EVENTO", idEvento);
         return obtenerNombreEventoCall.executeFunction(String.class, params);
+    }
+    
+      @SuppressWarnings("unchecked")
+    public List<EventoListadoDTO> readEventosPorBanda(Integer idBanda) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_BANDA", idBanda);
+        Map<String, Object> result = eventoPorBandaCall.execute(params);
+        List<EventoListadoDTO> lista = (List<EventoListadoDTO>) result.get("P_CURSOR");
+        return lista == null ? new java.util.ArrayList<>() : lista;
     }
 
     public List<EventoListadoDTO> obtenerEventosBusqueda() {

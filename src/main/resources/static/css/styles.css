@@ -1529,3 +1529,44 @@ footer {
     align-items:center;
     font-size:1.2rem;
 }
+
+/* =========================================
+   Sub-navegacion del Minisite (Modulo 11)
+   Clases propias para no chocar con ninguna otra
+   regla del proyecto (sidebar, nav-tabs, etc.)
+   ========================================= */
+.minisite-subnav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3rem 0;
+    border-bottom: 2px solid var(--border-color, #e9ecef);
+}
+
+.minisite-subnav li {
+    margin-bottom: -2px;
+}
+
+.minisite-tab {
+    display: inline-block;
+    color: var(--text-secondary, #6c757d) !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    text-decoration: none !important;
+    padding: 0.8rem 1rem !important;
+    border-bottom: 2px solid transparent !important;
+    background: transparent !important;
+    transition: all 0.3s ease;
+}
+
+.minisite-tab:hover {
+    color: var(--text-primary, #2b2b2b) !important;
+}
+
+.minisite-tab.active {
+    color: var(--text-primary, #2b2b2b) !important;
+    border-bottom-color: var(--accent-color, #000000) !important;
+}

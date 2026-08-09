@@ -61,4 +61,8 @@ public class EventoService {
     public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
         return eventoRepository.obtenerDetalleEvento(idEvento);
     }
+    
+    public List<EventoListadoDTO> readEventosPorBanda(Integer idBanda) {
+        return eventoRepository.readEventosPorBanda(idBanda);
+    }
 }

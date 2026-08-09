@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+    <body>
+        <header>
+            <div class="Center">
+                <div class="site-logo">
+                    <h1><a th:href="@{/}">BandCore</a></h1>
+                </div>
+                <nav class="Navigation">
+                    <ul>
+                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/suscripcion/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
+                        <li class="active"><a th:href="@{/minisite/configuracion}">Mi Minisite</a><span class="menu-item-bg"></span></li>
+                    </ul>
+                </nav>
+                <div id="mobile_sec"><div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div></div>
+                <div class="clear"></div>
+            </div>
+        </header>
+
+        <main class="container my-4 principal">
+
+            <div th:replace="~{minisite/fragmentos :: heroMinisite('📸', 'Galería', 'Momentos capturados de ' + ${banda.nombre} + '.')}"></div>
+            <div th:replace="~{minisite/fragmentos :: subnav('galeria')}"></div>
+
+            <section class="mb-5">
+                <div class="row g-4">
+                    <div class="col-md-4" th:each="foto : ${fotos}">
+                        <div class="band-card">
+                            <div class="card-image-wrapper">
+                                <img th:src="${foto}" class="card-image" alt="Foto de la banda">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-muted text-center mt-4 small">
+                    Galería de demostración — imágenes de ejemplo.
+                </p>
+            </section>
+
+        </main>
+
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
+</html>

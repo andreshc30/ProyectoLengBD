@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <th:block th:replace="~{general/fragmentos :: head}"></th:block>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    </head>
+    <body>
+        <header>
+            <div class="Center">
+                <div class="site-logo">
+                    <h1><a th:href="@{/}">BandCore</a></h1>
+                </div>
+                <nav class="Navigation">
+                    <ul>
+                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
+                        <li><a th:href="@{/planes/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
+                        <li class="active"><a th:href="@{/minisite/configuracion}">Mi Minisite</a><span class="menu-item-bg"></span></li>
+                    </ul>
+                </nav>
+                <div id="mobile_sec"><div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div></div>
+                <div class="clear"></div>
+            </div>
+        </header>
+
+        <main class="container my-4 principal">
+
+            <div th:replace="~{minisite/fragmentos :: heroMinisite('🎼', ${banda.nombre}, 'La cara pública de tu agrupación.')}"></div>
+            <div th:replace="~{minisite/fragmentos :: subnav('configuracion')}"></div>
+
+            <section class="mb-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-4 text-center">
+                        <img th:if="${banda.logoUrl != null}" th:src="${banda.logoUrl}"
+                             class="img-fluid rounded-circle shadow" style="max-width: 220px;" alt="Logo de la banda">
+                        <!-- Sin logo cargado: placeholder con las iniciales de la banda, mismo celeste de marca -->
+                        <img th:if="${banda.logoUrl == null}"
+                             th:src="'https://ui-avatars.com/api/?name=' + ${#uris.escapePathSegment(banda.nombre)} + '&size=220&background=4dabf7&color=fff&bold=true'"
+                             class="img-fluid rounded-circle shadow" style="max-width: 220px;" alt="Logo de la banda">
+                    </div>
+                    <div class="col-lg-8">
+                        <h3 class="seccion-titulo">Sobre nosotros</h3>
+                        <p class="seccion-texto" th:text="${biografia}">Biografía de la banda.</p>
+                        <p class="text-muted mt-3" th:if="${banda.fechaFundacion != null}">
+                            Fundada el <span th:text="${#temporals.format(banda.fechaFundacion, 'dd/MM/yyyy')}"></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+    </body>
+</html>

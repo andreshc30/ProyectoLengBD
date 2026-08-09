@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="gestionAudiciones">
+
+        <div th:if="${todoOk}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${todoOk}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="audiciones__scroll">
+
+            <div class="banda-card" th:each="banda : ${bandas}">
+
+                <img th:src="${banda.logoUrl != null ? banda.logoUrl : '/img/default-logo.png'}" alt="Logo de la banda" class="banda-card__logo">
+                <h3 class="banda-card__nombre" th:text="${banda.nombre}">Nombre de la Banda</h3>
+
+                <a th:if="${banda.estado == 'Activo'}"
+                   th:href="@{/solicitudIngreso/nuevo(bandaPreseleccionada=${banda.idBanda})}"
+                   class="banda-card__btn banda-card__btn--activo">Postularme</a>
+
+                <button th:unless="${banda.estado == 'Activo'}"
+                        class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
+            </div>
+
+            <div th:if="${#lists.isEmpty(bandas)}" class="text-center" style="width: 100%; padding: 2rem;">
+                <h3>No hay bandas registradas en este momento.</h3>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

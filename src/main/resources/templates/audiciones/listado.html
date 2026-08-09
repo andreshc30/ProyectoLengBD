@@ -9,69 +9,11 @@
     </head>
 
     <body>
-        <header>
-            <div class="Center">
-                <div class="site-logo">
-                    <h1><a th:href="@{/}">BandCore</a></h1>
-                </div>
-
-                <nav class="Navigation">
-                    <ul>
-                        <li>                                
-                            <a th:href="@{/}">Inicio</a>
-                            <span class="menu-item-bg"></span>
-                        </li>
-                        <li class="active">                                
-                            <a th:href="@{/audiciones/listado}">Audiciones</a>
-                            <span class="menu-item-bg"></span>
-                        </li>
-                        <li>
-                            <a th:href="@{/banda/listado}">Banda</a>
-                            <span class="menu-item-bg"></span>
-                        </li>
-                        <li>
-                            <a th:href="@{/eventos/listado}">Eventos</a>
-                            <span class="menu-item-bg"></span>
-                        </li>
-                        <li>
-                            <a th:href="@{/suscripcion/listado}">Suscripción</a>
-                            <span class="menu-item-bg"></span>
-                        </li>
-                    </ul>
-                </nav>
-
-                <div id="mobile_sec">
-                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </header>
+        <div th:replace="~{general/fragmentos :: topnav('audiciones')}"></div>
 
         <section>
-
-            <div th:if="${todoOk}" class="alert alert-success alert-dismissible fade show" role="alert">
-                <span th:text="${todoOk}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <div class="audiciones__scroll">
-                
-                <div class="banda-card" th:each="banda : ${bandas}">
-
-                    <img th:src="${banda.logoUrl != null ? banda.logoUrl : '/img/default-logo.png'}" alt="Logo de la banda" class="banda-card__logo">
-                        <h3 class="banda-card__nombre" th:text="${banda.nombre}">Nombre de la Banda</h3>
-
-                        <a th:if="${banda.estado == 'Activo'}"
-                           th:href="@{/solicitudIngreso/nuevo(bandaPreseleccionada=${banda.idBanda})}"
-                           class="banda-card__btn banda-card__btn--activo">Postularme</a>
-
-                        <button th:unless="${banda.estado == 'Activo'}"
-                                class="banda-card__btn banda-card__btn--inactivo" disabled>Audiciones cerradas</button>
-                </div>
-                
-                <div th:if="${#lists.isEmpty(bandas)}" class="text-center" style="width: 100%; padding: 2rem;">
-                    <h3>No hay bandas registradas en este momento.</h3>
-                </div>
-
+            <div class="container">
+                <div th:replace="~{audiciones/fragmentos :: gestionAudiciones}"></div>
             </div>
         </section>
 

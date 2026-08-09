@@ -8,6 +8,7 @@ import LengBD.domain.AsignacionListadoDTO;
 import LengBD.domain.Cuota;
 import LengBD.domain.CuotaListadoDTO;
 import LengBD.repository.CuotaRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -45,6 +46,10 @@ public class CuotaService {
                 .filter(cuota -> cuota.getIdCuota().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+    
+        public void registrarPago(Long cedula, BigDecimal monto) {
+        cuotaRepository.registrarPago(cedula, monto);
     }
     
 }

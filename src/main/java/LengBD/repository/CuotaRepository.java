@@ -13,6 +13,7 @@ import LengBD.domain.Cuota;
 import LengBD.domain.CuotaListadoDTO;
 import LengBD.domain.CuotaListadoDTO;
 import jakarta.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ public class CuotaRepository {
     private SimpleJdbcCall cuotaUpdateCall;
     private SimpleJdbcCall cuotaDeleteCall;
     private SimpleJdbcCall cuotaReadAllCall;
+    private SimpleJdbcCall registrarPagoCall;
 
     @PostConstruct
     public void init() {
@@ -55,7 +57,11 @@ public class CuotaRepository {
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_CUOTA_SP")
                 .returningResultSet("p_cursor",
-                BeanPropertyRowMapper.newInstance(CuotaListadoDTO.class));;
+                BeanPropertyRowMapper.newInstance(CuotaListadoDTO.class));
+        
+        registrarPagoCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_REGISTRAR_PAGO_CUOTA_SP");
     }
 
     public void insertarCuota(Cuota cuota) {
@@ -87,6 +93,13 @@ public class CuotaRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_CUOTA", cuota.getIdCuota());
         cuotaDeleteCall.execute(params);
+    }
+    
+    public void registrarPago(Long cedula, BigDecimal monto) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_CEDULA", cedula);
+        params.put("P_MONTO", monto);
+        registrarPagoCall.execute(params);
     }
 
 }

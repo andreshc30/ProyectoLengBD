@@ -2,32 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
     <head>
         <th:block th:replace="~{general/fragmentos :: head}"></th:block>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     </head>
-
     <body>
         <div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
-
-
         <section th:fragment="Page-Wrapper">
             <div id="wrapper" class="d-flex">
                 <div th:replace="~{general/fragmentos :: sidebar('')}"></div>
-
                 <div id="content-wrapper" class="d-flex flex-column flex-grow-1 w-100">
                     <div id="content">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <div class="identity-banner w-100">
-                                <div class="identity-overlay"></div>
-                                <div class="identity-content p-4 text-white bg-dark"> <h1 class="h3 mb-0" th:text="${nombreBanda}">CACA</h1>
-                                    <p class="identity-lema mb-0">El ritmo que nos une</p>
-                                </div>
+
+                        <!-- ===== Banner de identidad ===== -->
+                        <div class="identity-banner w-100 mb-4">
+                            <div class="identity-overlay"></div>
+                            <div class="identity-content p-4 text-white">
+                                <h1 class="h3 mb-0" th:text="${nombreBanda}">Banda</h1>
+                                <p class="identity-lema mb-0">El ritmo que nos une</p>
                             </div>
                         </div>
 
                         <div class="container-fluid">
+
+                            <!-- ===== Fila de tarjetas de estadísticas ===== -->
                             <div class="row">
                                 <div class="col-lg-4 col-md-6 mb-4">
                                     <div class="card border-left-primary shadow h-100 py-2">
@@ -46,7 +44,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-4 col-md-6 mb-4">
                                     <div class="card border-left-success shadow h-100 py-2">
                                         <div class="card-body">
@@ -64,7 +61,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-4 col-md-6 mb-4">
                                     <div class="card border-left-info shadow h-100 py-2">
                                         <div class="card-body">
@@ -84,125 +80,129 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 mb-4">
-                                <div class="card shadow h-100">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-calendar-days me-2"></i>Calendario de Ensayos</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush">
-                                            <li th:each="ens : ${ensayos}"
-                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                <span>
-                                                    <span th:text="${ens.nombre}">Ensayo general</span>
-                                                    <br>
-                                                        <small class="text-muted" th:text="${#temporals.format(ens.fechaInicio, 'dd MMM yyyy, HH:mm')}">04 Jul 2026</small>
-                                                </span>
-                                                <span class="badge bg-success">Ensayo</span>
-                                            </li>
-                                            <li th:if="${#lists.isEmpty(ensayos)}"
-                                                class="list-group-item text-center text-muted">
-                                                No hay ensayos programados
-                                            </li>
-                                        </ul>
+                            <!-- ===== Fila: Ensayos + Presentaciones + Cuenta regresiva ===== -->
+                            <div class="row">
+                                <div class="col-lg-5 mb-4">
+                                    <div class="card shadow h-100">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-calendar-days me-2"></i>Calendario de Ensayos</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li th:each="ens : ${ensayos}"
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span th:text="${ens.nombre}">Ensayo general</span>
+                                                        <br>
+                                                            <small class="text-muted" th:text="${#temporals.format(ens.fechaInicio, 'dd MMM yyyy, HH:mm')}">04 Jul 2026</small>
+                                                    </span>
+                                                    <span class="badge bg-success">Ensayo</span>
+                                                </li>
+                                                <li th:if="${#lists.isEmpty(ensayos)}"
+                                                    class="list-group-item text-center text-muted">
+                                                    No hay ensayos programados
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-6 mb-4">
-                                <div class="card shadow h-100">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-music me-2"></i>Próximas Presentaciones</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush">
-                                            <li th:each="pre : ${presentaciones}"
-                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                <span>
-                                                    <span th:text="${pre.nombre}">Concierto de gala</span>
-                                                    <br>
-                                                        <small class="text-muted">
-                                                            <span th:text="${#temporals.format(pre.fecha, 'dd MMM yyyy, HH:mm')}">15 Ago 2026</span>
-                                                            · <span th:text="${pre.nombreLugar}">Teatro Nacional</span>
-                                                        </small>
-                                                </span>
-                                                <span class="badge bg-success">Show</span>
-                                            </li>
-                                            <li th:if="${#lists.isEmpty(presentaciones)}"
-                                                class="list-group-item text-center text-muted">
-                                                No hay presentaciones programadas
-                                            </li>
-                                        </ul>
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card shadow h-100">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-music me-2"></i>Próximas Presentaciones</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li th:each="pre : ${presentaciones}"
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span th:text="${pre.nombre}">Concierto de gala</span>
+                                                        <br>
+                                                            <small class="text-muted">
+                                                                <span th:text="${#temporals.format(pre.fecha, 'dd MMM yyyy, HH:mm')}">15 Ago 2026</span>
+                                                                · <span th:text="${pre.nombreLugar}">Teatro Nacional</span>
+                                                            </small>
+                                                    </span>
+                                                    <span class="badge bg-success">Show</span>
+                                                </li>
+                                                <li th:if="${#lists.isEmpty(presentaciones)}"
+                                                    class="list-group-item text-center text-muted">
+                                                    No hay presentaciones programadas
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card shadow h-100 border-left-warning">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
-                                    <i class="fas fa-hourglass-half fa-3x mb-3 text-warning"></i>
-                                    <div class="text-xs font-weight-bold text-uppercase mb-2" style="opacity:.85; letter-spacing:.05em;">
-                                        Próxima presentación
-                                    </div>
-                                    <div class="display-6 font-weight-bold text-warning" id="cuenta-regresiva">Cargando...</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                        <div class="row">
-                            <div class="col-lg-8 mb-4">
-                                <div class="card shadow h-100">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Anuncios Recientes</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item d-flex align-items-start border-0 border-bottom">
-                                                <i class="fas fa-bullhorn fa-lg text-primary mr-3 mt-1"></i>
-                                                <div class="w-100 ms-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <span class="font-weight-bold">Director</span>
-                                                        <span class="text-muted small">08 Jul 2026</span>
-                                                    </div>
-                                                    <div class="mt-1">Recuerden traer el uniforme completo para el ensayo del 18 de Julio.</div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex align-items-start border-0 border-bottom">
-                                                <i class="fas fa-bullhorn fa-lg text-warning mr-3 mt-1"></i>
-                                                <div class="w-100 ms-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <span class="font-weight-bold">Lider de Seccion - Liras</span>
-                                                        <span class="text-muted small">05 Jul 2026</span>
-                                                    </div>
-                                                    <div class="mt-1">Ensayo extra de sección el sábado a las 3pm, punto de encuentro de siempre.</div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 mb-4">
-                                <div class="card shadow h-100">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Publicar anuncio</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-group mb-3">
-                                                <textarea class="form-control" rows="4" placeholder="Escribe un anuncio para la banda..."></textarea>
+                                <div class="col-lg-3 mb-4">
+                                    <div class="card shadow h-100 border-left-warning">
+                                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                                            <i class="fas fa-hourglass-half fa-3x mb-3 text-warning"></i>
+                                            <div class="text-xs font-weight-bold text-uppercase mb-2" style="opacity:.85; letter-spacing:.05em;">
+                                                Próxima presentación
                                             </div>
-                                            <button type="button" class="btn btn-primary w-100" disabled>Publicar</button>
-                                            <div class="text-center mt-2"><small class="text-muted">Disponible al conectar el backend.</small></div>
-                                        </form>
+                                            <div class="h4 font-weight-bold text-warning mb-0" id="cuenta-regresiva">Cargando...</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- ===== Fila: Anuncios + Publicar ===== -->
+                            <div class="row">
+                                <div class="col-lg-8 mb-4">
+                                    <div class="card shadow h-100">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Anuncios Recientes</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex align-items-start border-0 border-bottom">
+                                                    <i class="fas fa-bullhorn fa-lg text-primary mr-3 mt-1"></i>
+                                                    <div class="w-100 ms-3">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span class="font-weight-bold">Director</span>
+                                                            <span class="text-muted small">08 Jul 2026</span>
+                                                        </div>
+                                                        <div class="mt-1">Recuerden traer el uniforme completo para el ensayo del 18 de Julio.</div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item d-flex align-items-start border-0 border-bottom">
+                                                    <i class="fas fa-bullhorn fa-lg text-warning mr-3 mt-1"></i>
+                                                    <div class="w-100 ms-3">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span class="font-weight-bold">Lider de Seccion - Liras</span>
+                                                            <span class="text-muted small">05 Jul 2026</span>
+                                                        </div>
+                                                        <div class="mt-1">Ensayo extra de sección el sábado a las 3pm, punto de encuentro de siempre.</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card shadow h-100">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Publicar anuncio</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="form-group mb-3">
+                                                    <textarea class="form-control" rows="4" placeholder="Escribe un anuncio para la banda..."></textarea>
+                                                </div>
+                                                <button type="button" class="btn btn-primary w-100" disabled>Publicar</button>
+                                                <div class="text-center mt-2"><small class="text-muted">Disponible al conectar el backend.</small></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </section>
 
@@ -210,7 +210,6 @@
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
-
             <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -231,24 +230,23 @@
         </section>
 
         <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+        <script th:inline="javascript">
+            // Fecha de la próxima presentación (viene del backend); si es nula, usamos una por defecto
+            var fechaString = /*[[${fechaEvento}]]*/ "";
+            var fechaDestino = (fechaString && fechaString !== "")
+                    ? new Date(fechaString).getTime()
+                    : new Date("2026-08-15").getTime();
 
-        <script>
-            // Si la fecha viene nula o vacía, ponemos una fecha por defecto para evitar errores en el JS visual
-            const fechaString = "[[${fechaEvento}]]";
-            const fechaDestino = fechaString && fechaString !== "" ? new Date(fechaString).getTime() : new Date("2026-08-15").getTime();
-
-            const x = setInterval(function () {
-                const ahora = new Date().getTime();
-                const distancia = fechaDestino - ahora;
-
-                const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-                const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-                const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-
-                const el = document.getElementById("cuenta-regresiva");
+            var x = setInterval(function () {
+                var ahora = new Date().getTime();
+                var distancia = fechaDestino - ahora;
+                var dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                var horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                var segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+                var el = document.getElementById("cuenta-regresiva");
                 if (el) {
-                    el.innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
+                    el.innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
                     if (distancia < 0) {
                         clearInterval(x);
                         el.innerHTML = "¡Evento en curso!";
@@ -258,8 +256,6 @@
         </script>
     </body>
 </html>
-
-
 
 <!--
 PARTE DE BANER ESTÁTICA

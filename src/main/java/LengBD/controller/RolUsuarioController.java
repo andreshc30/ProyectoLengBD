@@ -29,8 +29,6 @@ public class RolUsuarioController {
     @Autowired
     private RolService rolService;
 
-    // TODO: usando IntegrantesService (ya confirmado en AsignacionInstrumentoController)
-    // para el combo de cedula/usuarios. Confirmar si es el service correcto para este contexto.
     @Autowired
     private IntegrantesService integrantesService;
 

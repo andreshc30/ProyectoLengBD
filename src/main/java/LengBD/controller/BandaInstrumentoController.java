@@ -19,11 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-/*
- * NOTA: FIDE_BANDA_INSTRUMENTO_TB usa clave compuesta (idBanda + idInstrumento).
- * Mismo patrón que RolUsuarioController: se usa un campo oculto "editando" en el
- * formulario para distinguir alta de edición.
- */
 @Controller
 @RequestMapping("/bandaInstrumento")
 public class BandaInstrumentoController {

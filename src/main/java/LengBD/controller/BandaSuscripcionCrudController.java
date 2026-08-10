@@ -42,16 +42,11 @@ public class BandaSuscripcionCrudController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        //List<AsignacionListadoDTO> lista = asignacionInstrumentoService.readAllAsignacionInstrumento();
-        //model.addAttribute("asignaciones", lista);
         model.addAttribute("nuevaAsignacion", new AsignacionListadoDTO());
         cargarCombos(model);
         return "asignacionInstrumento/listado";
     }
 
-    // NOTA: estos dos métodos quedan sin usar ahora que el patrón es modal
-    // (todo vive en /listado). Se pueden borrar si querés, no rompen nada por
-    // quedarse.
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());
@@ -61,7 +56,7 @@ public class BandaSuscripcionCrudController {
 
     @GetMapping("/editar/{idAsignacion}")
     public String editar(@PathVariable("idAsignacion") Integer id, Model model) {
-        //model.addAttribute("asignacionInstrumento", asignacionInstrumentoService.buscarPorId(id));
+
         cargarCombos(model);
         return "formularioIntegrantes";
     }

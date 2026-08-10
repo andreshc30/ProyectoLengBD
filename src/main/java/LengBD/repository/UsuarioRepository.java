@@ -37,18 +37,7 @@ public class UsuarioRepository {
     private SimpleJdbcCall cambiarPasswordCall;
     private SimpleJdbcCall usuarioPorBandaCall;
     private SimpleJdbcCall usuarioPorSeccionCall;
-    // CORREGIDO: mapeo POR POSICION (indice de columna), no por nombre.
-    // El mapeo por nombre fallaba (ORA-17006) porque varias tablas del JOIN
-    // (Usuario, Seccion, Banda) comparten columnas fisicas llamadas "NOMBRE",
-    // y el driver de Oracle no resolvia bien los alias en el cursor devuelto
-    // por el CallableStatement. Por posicion es 100% confiable porque no
-    // depende de como el driver interprete los labels -- solo del orden
-    // exacto de columnas del SELECT dentro del SP:
-    //  1 CEDULA, 2 NOMBRE, 3 PRIMER_APELLIDO, 4 SEGUNDO_APELLIDO,
-    //  5 FECHA_INGRESO, 6 LOGO_URL, 7 ID_TELEFONO, 8 TELEFONO,
-    //  9 ID_CORREO, 10 CORREO, 11 ESTADO, 12 ID_ESTADO, 13 ID_SECCION,
-    //  14 NOMBRE_SECCION, 15 ID_DIRECCION, 16 NOMBRE_DIRECCION,
-    //  17 ID_BANDA, 18 NOMBRE_BANDA
+
     private static final RowMapper<UsuarioListadoDTO> USUARIO_ROW_MAPPER = new RowMapper<UsuarioListadoDTO>() {
         @Override
         public UsuarioListadoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -195,9 +184,6 @@ public class UsuarioRepository {
     private SimpleJdbcCall loginCall;
     private SimpleJdbcCall rolesCall;
 
-    // Orden del SELECT en FIDE_LOGIN_USUARIO_SP:
-    // 1 CEDULA, 2 PASSWORD, 3 NOMBRE, 4 PRIMER_APELLIDO,
-    // 5 ID_ESTADO, 6 ID_BANDA, 7 NOMBRE_BANDA, 8 CORREO
     private static final RowMapper<UsuarioLoginDTO> LOGIN_ROW_MAPPER = (rs, rowNum) -> {
         UsuarioLoginDTO dto = new UsuarioLoginDTO();
         dto.setCedula(rs.getObject(1) != null ? rs.getInt(1) : null);

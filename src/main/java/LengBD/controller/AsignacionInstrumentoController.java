@@ -47,9 +47,6 @@ public class AsignacionInstrumentoController {
         return "asignacionInstrumento/listado";
     }
 
-    // NOTA: estos dos métodos quedan sin usar ahora que el patrón es modal
-    // (todo vive en /listado). Se pueden borrar si querés, no rompen nada por
-    // quedarse.
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("asignacionInstrumento", new AsignacionListadoDTO());

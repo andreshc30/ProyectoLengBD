@@ -20,11 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-/*
- * NOTA: ruta "/bandas" (plural) en vez de "/banda" porque "/banda/listado" ya está
- * tomada por la vista de hub/dashboard administrativo (BandaController.java existente).
- * Confirmar con el equipo si este es el nombre de ruta preferido antes de mergear.
- */
+
 @Controller
 @RequestMapping("/bandas")
 public class BandaCrudController {

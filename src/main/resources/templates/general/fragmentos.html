@@ -52,6 +52,24 @@
                 nombreSpan.textContent = boton.dataset.nombreMostrar;
             }
         });
+ 
+        function initBuscadorTexto(inputId, botonId, filaSelector, dataAttr) {
+            dataAttr = dataAttr || 'data-busqueda';
+            const input = document.getElementById(inputId);
+            const boton = botonId ? document.getElementById(botonId) : null;
+            if (!input) return;
+ 
+            function filtrar() {
+                const texto = input.value.toLowerCase().trim();
+                document.querySelectorAll(filaSelector).forEach(function (fila) {
+                    const valor = (fila.getAttribute(dataAttr) || '').toLowerCase();
+                    fila.style.display = valor.includes(texto) ? '' : 'none';
+                });
+            }
+ 
+            if (boton) boton.addEventListener('click', filtrar);
+            input.addEventListener('input', filtrar); 
+        }
     </script>
 </footer>
 

@@ -84,13 +84,6 @@
                                     <label class="form-label">Nombre</label>
                                     <input type="text" name="nombre" class="form-control" th:value="${p.nombre}">
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Estado</label>
-                                    <select class="form-select" name="idEstado">
-                                        <option value="">-- Seleccione --</option>
-                                        <option th:each="es : ${estados}" th:value="${es.idEstado}" th:text="${es.estado}" th:selected="${es.idEstado == p.idEstado}"></option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

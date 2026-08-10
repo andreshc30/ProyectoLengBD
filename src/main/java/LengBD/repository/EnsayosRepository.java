@@ -37,7 +37,6 @@ public class EnsayosRepository {
         ensayosUpdateCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_ENSAYOS_UPDATE_SP");
-        // CORREGIDO: el procedure real se llama FIDE_ENSAYOS_DELETE_LOGICO_SP, no FIDE_ENSAYOS_DELETE_SP
         ensayosDeleteCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_ENSAYOS_DELETE_LOGICO_SP");

@@ -20,8 +20,6 @@ public class IntegrantesService {
 
     @SuppressWarnings("unchecked")
     public List<IntegranteComboDTO> listarIntegrantes() {
-        // CORREGIDO: el procedure real es FIDE_LISTAR_USUARIO_SP (no FIDE_INTEGRANTES_READ_ALL_SP,
-        // que no existe en el package), y el cursor se llama P_CURSOR (no P_REGISTRO).
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_USUARIO_SP")

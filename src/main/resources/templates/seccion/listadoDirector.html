@@ -2,916 +2,805 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
     <head>
         <th:block th:replace="~{general/fragmentos :: head}"></th:block>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-
             <style>
-                /* ===== Pestañas del panel director ===== */
                 #tabsDirector .nav-link {
-                    color: #5a5c69;               /* gris oscuro, legible */
+                    color: #5a5c69;
                     background: transparent;
                     border: 1px solid transparent;
                     cursor: pointer;
                     font-weight: 600;
                 }
-
                 #tabsDirector .nav-link:hover {
-                    color: #4e73df;               /* azul al pasar el mouse */
+                    color: #4e73df;
                     border-color: #e3e6f0 #e3e6f0 #fff;
                 }
-
                 #tabsDirector .nav-link.active {
-                    color: #4e73df;               /* azul en la activa */
+                    color: #4e73df;
                     background: #fff;
                     border-color: #dddfeb #dddfeb #fff;
                 }
             </style>
     </head>
-
     <body>
-        <header>
-            <div class="Center">
-                <div class="site-logo">
-                    <h1><a th:href="@{/}">BandCore</a></h1>
-                </div>
-                <nav class="Navigation">
-                    <ul>
-                        <li><a th:href="@{/}">Inicio</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/audiciones/listado}">Audiciones</a><span class="menu-item-bg"></span></li>
-                        <li class="active"><a th:href="@{/banda/listado}">Banda</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/eventos/listado}">Eventos</a><span class="menu-item-bg"></span></li>
-                        <li><a th:href="@{/suscripcion/listado}">Suscripción</a><span class="menu-item-bg"></span></li>
-                    </ul>
-                </nav>
-                <div id="mobile_sec">
-                    <div class="mobile"><i class="fa fa-bars"></i><i class="fa fa-times"></i></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </header>
-
+        <div th:replace="~{general/fragmentos :: topnav('banda')}"></div>
         <section th:fragment="Page-Wrapper">
-            <div id="wrapper">
-
-                <ul class="navbar-nav-blcm bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/inicio/listado}">
-                        <div class="sidebar">
-                            <i class="fas fa-laugh-wink"></i>
-                        </div>
-                        <div class="sidebar-brand-text mx-3">BLCM</div>
-                    </a>
-                    <hr class="sidebar-divider my-0">
-
-                        <a href="#" class="btn btn-dark m-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Salir</a>
-
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/banda/listado}">
-                                <i class="fas fa-fw"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <hr class="sidebar-divider">
-                            <li class="nav-item active">
-                                <a class="nav-link" th:href="@{/banda/secciones/listadoDirector}">Director</a>
-                            </li>
-                            <hr class="sidebar-divider">
+            <div id="wrapper" class="d-flex">
+                <div th:replace="~{general/fragmentos :: sidebar('')}"></div>
+                <div id="content-wrapper" class="d-flex flex-column w-100">
+                    <div id="content">
+                        <div class="container-fluid mt-4">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
+                            </div>
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                            <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
+                            <!-- ===== PESTAÑAS ===== -->
+                            <ul class="nav nav-tabs mb-4" id="tabsDirector">
                                 <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/banda/secciones/adminListado}">Admin</a>
+                                    <button class="nav-link active" type="button" onclick="mostrarTab('tab-integrantes', this)">
+                                        <i class="fas fa-users me-1"></i> Integrantes
+                                    </button>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="#">Cajas</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Liras</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Principales</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Bombos</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Tenores</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Güiros</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Folclore</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Color Guard</a></li>
-                                </ul>
-
-                                <div id="content-wrapper" class="d-flex flex-column w-100">
-                                    <div id="content">
-                                        <div class="container-fluid mt-4">
-
-                                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                                <h1 class="h3 mb-0 text-gray-800">Panel de Dirección</h1>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-secciones', this)">
+                                        <i class="fas fa-layer-group me-1"></i> Secciones
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-lideres', this)">
+                                        <i class="fas fa-user-tie me-1"></i> Líderes
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-asignaciones', this)">
+                                        <i class="fas fa-drum me-1"></i> Asignaciones
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-solicitudes', this)">
+                                        <i class="fas fa-inbox me-1"></i> Solicitudes
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-ensayos', this)">
+                                        <i class="fas fa-calendar-days me-1"></i> Ensayos
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-presentaciones', this)">
+                                        <i class="fas fa-music me-1"></i> Presentaciones
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
+                                        <i class="fas fa-compact-disc me-1"></i> Obras
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-material', this)">
+                                        <i class="fas fa-folder-open me-1"></i> Material Estudio
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-asistente', this)">
+                                        <i class="fas fa-robot me-1"></i> Maestro IA
+                                    </button>
+                                </li>
+                            </ul>
+                            <!-- ============ TAB: INTEGRANTES ============ -->
+                            <div id="tab-integrantes" class="tab-contenido">
+                                <div class="card shadow mb-4 border-left-primary">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
+                                        <a th:href="@{/usuario/nuevo}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-plus me-1"></i> Nuevo Integrante
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaUsuarios">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Cédula</th>
+                                                        <th>Nombre Completo</th>
+                                                        <th>Sección</th>
+                                                        <th>Correo</th>
+                                                        <th>Fecha Ingreso</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="u : ${usuarios}" class="fila-usuario">
+                                                        <td class="align-middle" th:text="${u.cedula}">114560789</td>
+                                                        <td class="font-weight-bold align-middle"
+                                                            th:text="${u.nombre + ' ' + u.primerApellido + ' ' + (u.segundoApellido != null ? u.segundoApellido : '')}">Carlos Méndez</td>
+                                                        <td class="align-middle" th:text="${u.nombreSeccion}">Trompetas</td>
+                                                        <td class="align-middle" th:text="${u.correo}">correo@x.com</td>
+                                                        <td class="align-middle" th:text="${u.fechaIngreso}">2026-02-15</td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/usuario/editar/{cedula}(cedula=${u.cedula})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/usuario/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar este integrante?');">
+                                                                <input type="hidden" name="cedula" th:value="${u.cedula}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay integrantes registrados</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaUsu" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(-1)">Anterior</button>
+                                                <span id="numPaginaUsu" class="mx-2"></span>
+                                                <button id="btnSiguienteUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(1)">Siguiente</button>
                                             </div>
-
-                                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                                            <div th:if="${todoOk}" class="alert alert-success" th:text="${todoOk}"></div>
-
-                                            <!-- ===== PESTAÑAS ===== -->
-                                            <ul class="nav nav-tabs mb-4" id="tabsDirector">
-                                                <li class="nav-item">
-                                                    <button class="nav-link active" type="button" onclick="mostrarTab('tab-integrantes', this)">
-                                                        <i class="fas fa-users me-1"></i> Integrantes
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-secciones', this)">
-                                                        <i class="fas fa-layer-group me-1"></i> Secciones
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-lideres', this)">
-                                                        <i class="fas fa-user-tie me-1"></i> Líderes
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-asignaciones', this)">
-                                                        <i class="fas fa-drum me-1"></i> Asignaciones
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-solicitudes', this)">
-                                                        <i class="fas fa-inbox me-1"></i> Solicitudes
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-ensayos', this)">
-                                                        <i class="fas fa-calendar-days me-1"></i> Ensayos
-                                                    </button>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-presentaciones', this)">
-                                                        <i class="fas fa-music me-1"></i> Presentaciones
-                                                    </button>
-                                                </li>
-
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
-                                                        <i class="fas fa-compact-disc me-1"></i> Obras
-                                                    </button>
-                                                </li>
-
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-material', this)">
-                                                        <i class="fas fa-folder-open me-1"></i> Material Estudio
-                                                    </button>
-                                                </li>
-                                                
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-asistente', this)">
-                                                        <i class="fas fa-robot me-1"></i> Maestro IA
-                                                    </button>
-                                                </li>
-                                            </ul>
-
-                                            <!-- ============ TAB: INTEGRANTES ============ -->
-                                            <div id="tab-integrantes" class="tab-contenido">
-                                                <div class="card shadow mb-4 border-left-primary">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Gestión de Integrantes</h6>
-                                                        <a th:href="@{/usuario/nuevo}" class="btn btn-sm btn-primary">
-                                                            <i class="fas fa-plus me-1"></i> Nuevo Integrante
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaUsuarios">
-                                                                <thead class="thead-light">
-                                                                    <tr>
-                                                                        <th>Cédula</th>
-                                                                        <th>Nombre Completo</th>
-                                                                        <th>Sección</th>
-                                                                        <th>Correo</th>
-                                                                        <th>Fecha Ingreso</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="u : ${usuarios}" class="fila-usuario">
-                                                                        <td class="align-middle" th:text="${u.cedula}">114560789</td>
-                                                                        <td class="font-weight-bold align-middle"
-                                                                            th:text="${u.nombre + ' ' + u.primerApellido + ' ' + (u.segundoApellido != null ? u.segundoApellido : '')}">Carlos Méndez</td>
-                                                                        <td class="align-middle" th:text="${u.nombreSeccion}">Trompetas</td>
-                                                                        <td class="align-middle" th:text="${u.correo}">correo@x.com</td>
-                                                                        <td class="align-middle" th:text="${u.fechaIngreso}">2026-02-15</td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/usuario/editar/{cedula}(cedula=${u.cedula})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/usuario/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar este integrante?');">
-                                                                                <input type="hidden" name="cedula" th:value="${u.cedula}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(usuarios)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay integrantes registrados</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaUsu" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(-1)">Anterior</button>
-                                                                <span id="numPaginaUsu" class="mx-2"></span>
-                                                                <button id="btnSiguienteUsu" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaUsu(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- ============ TAB: SECCIONES ============ -->
-                                            <div id="tab-secciones" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-info">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
-                                                        <a th:href="@{/seccion/nuevoD}" class="btn btn-sm btn-info text-white">
-                                                            <i class="fas fa-plus me-1"></i> Nueva Sección
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaSecciones">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-                                                                        <th>Descripción</th>
-                                                                        <th>Banda</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="sec : ${secciones}" class="fila-seccion">
-                                                                        <td th:text="${sec.nombre}">Cajas</td>
-                                                                        <td th:text="${sec.descripcion}">Percusión menor</td>
-                                                                        <td th:text="${sec.nombreBanda}">Banda Moravia</td>
-                                                                        <td>
-                                                                            <span th:text="${sec.estado}"
-                                                                                  th:classappend="${sec.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/seccion/editarD/{id}(id=${sec.idSeccion})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/seccion/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar esta sección?');">
-                                                                                <input type="hidden" name="idSeccion" th:value="${sec.idSeccion}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(secciones)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay secciones registradas</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaSec" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(-1)">Anterior</button>
-                                                                <span id="numPaginaSec" class="mx-2"></span>
-                                                                <button id="btnSiguienteSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- ============ TAB: LÍDERES ============ -->
-                                            <div id="tab-lideres" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-info">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-info">Gestión de Líderes de Sección</h6>
-                                                        <a th:href="@{/lider/nuevo}" class="btn btn-sm btn-info text-white">
-                                                            <i class="fas fa-plus me-1"></i> Nuevo Líder
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaLideres">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Cédula</th>
-                                                                        <th>Nombre completo</th>
-                                                                        <th>Sección a cargo</th>
-                                                                        <th>Correo</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="lid : ${lideres}" class="fila-lider">
-                                                                        <td th:text="${lid.cedula}">1-1234-5678</td>
-                                                                        <td th:text="${lid.nombreUsuario}">José Pablo Ramírez</td>
-                                                                        <td th:text="${lid.nombreSeccion}">Cajas</td>
-                                                                        <td th:text="${lid.correo}">pepe@blcm.cr</td>
-                                                                        <td>
-                                                                            <span th:text="${lid.estado}"
-                                                                                  th:classappend="${lid.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <form th:action="@{/lider/revocar}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Revocar el rol de líder a esta persona?');">
-                                                                                <input type="hidden" name="cedula" th:value="${lid.cedula}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">
-                                                                                        <i class="fas fa-trash me-1"></i> Revocar
-                                                                                    </button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(lideres)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay líderes asignados</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaLid" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(-1)">Anterior</button>
-                                                                <span id="numPaginaLid" class="mx-2"></span>
-                                                                <button id="btnSiguienteLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- ============ TAB: ASIGNACIONES ============ -->
-                                            <div id="tab-asignaciones" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-success">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
-                                                        <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
-                                                            <i class="fas fa-plus me-1"></i> Nueva Asignación
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaAsignaciones">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Integrante</th>
-                                                                        <th>Instrumento</th>
-                                                                        <th>Fecha Inicio</th>
-                                                                        <th>Motivo</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="asig : ${asignaciones}" class="fila-asignacion">
-                                                                        <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
-                                                                        <td th:text="${asig.nombreInstrumento}">Trompeta</td>
-                                                                        <td th:text="${asig.fechaInicio}">2026-07-11</td>
-                                                                        <td th:text="${asig.motivo}">Préstamo temporal</td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1">Editar</a>
-                                                                            <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar esta asignación?');">
-                                                                                <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(asignaciones)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay asignaciones registradas</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaAsig" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
-                                                                <span id="numPaginaAsig" class="mx-2"></span>
-                                                                <button id="btnSiguienteAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- ============ TAB: SOLICITUDES ============ -->
-                                            <div id="tab-solicitudes" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-primary">
-                                                    <div class="card-header py-3">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso (Aspirantes)</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaSolicitudes">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Candidato</th>
-                                                                        <th>Correo</th>
-                                                                        <th>Teléfono</th>
-                                                                        <th>Mensaje</th>
-                                                                        <th>Estado</th>
-                                                                        <th>Sección</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
-                                                                        <td th:text="${sol.nombre + ' ' + sol.primerApellido + ' ' + (sol.segundoApellido != null ? sol.segundoApellido : '')}">Juan Pérez</td>
-                                                                        <td th:text="${sol.correo}">correo@x.com</td>
-                                                                        <td th:text="${sol.telefono}">8888-8888</td>
-                                                                        <td th:text="${sol.mensaje}">Mensaje...</td>
-                                                                        <td>
-                                                                            <span th:text="${sol.estado}"
-                                                                                  th:classappend="${sol.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td th:text="${sol.nombreSeccion}">Sección</td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/solicitudIngreso/editarDirector/{id}(id=${sol.idSolicitud})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1">Editar</a>
-                                                                            <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar esta solicitud?');">
-                                                                                <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(solicitudes)}">
-                                                                        <td colspan="8" class="text-center text-muted py-3">No hay solicitudes pendientes</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaSol" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(-1)">Anterior</button>
-                                                                <span id="numPaginaSol" class="mx-2"></span>
-                                                                <button id="btnSiguienteSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div id="tab-ensayos" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-primary">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Gestión de Ensayos</h6>
-                                                        <a th:href="@{/ensayos/nuevoD}" class="btn btn-sm btn-primary">
-                                                            <i class="fas fa-plus me-1"></i> Nuevo Ensayo
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaEnsayos">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-                                                                        <th>Fecha Inicio</th>
-                                                                        <th>Fecha Fin</th>
-                                                                        <th>Descripción</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="ens : ${ensayos}" class="fila-ensayo">
-                                                                        <td th:text="${ens.nombre}">Ensayo general</td>
-                                                                        <td th:text="${#temporals.format(ens.fechaInicio, 'dd/MM/yyyy HH:mm')}">04/07/2026</td>
-                                                                        <td th:text="${#temporals.format(ens.fechaFin, 'dd/MM/yyyy HH:mm')}">04/07/2026</td>
-                                                                        <td th:text="${ens.descripcion}">Repaso de repertorio</td>
-                                                                        <td>
-                                                                            <span th:text="${ens.estado}"
-                                                                                  th:classappend="${ens.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/ensayos/editarD/{id}(id=${ens.idEnsayo})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/ensayos/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar este ensayo?');">
-                                                                                <input type="hidden" name="idEnsayo" th:value="${ens.idEnsayo}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(ensayos)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay ensayos registrados</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaEns" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorEns" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaEns(-1)">Anterior</button>
-                                                                <span id="numPaginaEns" class="mx-2"></span>
-                                                                <button id="btnSiguienteEns" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaEns(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div id="tab-presentaciones" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-success">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-success">Gestión de Presentaciones</h6>
-                                                        <a th:href="@{/presentacion/nuevoD}" class="btn btn-sm btn-success">
-                                                            <i class="fas fa-plus me-1"></i> Nueva Presentación
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaPresentaciones">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-                                                                        <th>Fecha</th>
-                                                                        <th>Lugar</th>
-                                                                        <th>Descripción</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="pre : ${presentaciones}" class="fila-presentacion">
-                                                                        <td th:text="${pre.nombre}">Concierto de gala</td>
-                                                                        <td th:text="${#temporals.format(pre.fecha, 'dd/MM/yyyy HH:mm')}">15/08/2026</td>
-                                                                        <td th:text="${pre.nombreLugar}">Teatro Nacional</td>
-                                                                        <td th:text="${pre.descripcion}">Presentación anual</td>
-                                                                        <td>
-                                                                            <span th:text="${pre.estado}"
-                                                                                  th:classappend="${pre.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/presentacion/editarD/{id}(id=${pre.idPresentacion})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/presentacion/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar esta presentación?');">
-                                                                                <input type="hidden" name="idPresentacion" th:value="${pre.idPresentacion}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(presentaciones)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay presentaciones registradas</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaPre" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorPre" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaPre(-1)">Anterior</button>
-                                                                <span id="numPaginaPre" class="mx-2"></span>
-                                                                <button id="btnSiguientePre" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaPre(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            html
-                                                <li class="nav-item">
-                                                    <button class="nav-link" type="button" onclick="mostrarTab('tab-obras', this)">
-                                                        <i class="fas fa-compact-disc me-1"></i> Obras
-                                                    </button>
-                                                </li>
-
-                                            <!-- ============ TAB: OBRAS ============ -->
-                                            <div id="tab-obras" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-success">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-success">Repertorio / Obras de la Banda</h6>
-                                                        <a th:href="@{/obra/nuevoD}" class="btn btn-sm btn-success">
-                                                            <i class="fas fa-plus me-1"></i> Nueva Obra
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaObras">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-                                                                        <th>Tipo</th>
-                                                                        <th>Fecha</th>
-                                                                        <th>Detalle</th>
-                                                                        <th>Material</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="ob : ${obras}" class="fila-obra">
-                                                                        <td th:text="${ob.nombre}">Marcha X</td>
-                                                                        <td th:text="${ob.nombreTipo}">Marcha</td>
-                                                                        <td th:text="${ob.fecha != null ? #temporals.format(ob.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
-                                                                        <td th:text="${ob.detalle}">Detalle</td>
-                                                                        <td>
-                                                                            <a th:if="${ob.rutaObra != null and ob.rutaObra != ''}"
-                                                                               th:href="${ob.rutaObra}" target="_blank"
-                                                                               class="btn btn-sm btn-outline-success">
-                                                                                <i class="fas fa-external-link-alt"></i> Ver
-                                                                            </a>
-                                                                            <span th:if="${ob.rutaObra == null or ob.rutaObra == ''}" class="text-muted small">—</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span th:text="${ob.estado}"
-                                                                                  th:classappend="${ob.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/obra/editarD/{id}(id=${ob.idObra})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/obra/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar esta obra?');">
-                                                                                <input type="hidden" name="idObra" th:value="${ob.idObra}">
-                                                                                <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(obras)}">
-                                                                        <td colspan="7" class="text-center text-muted py-3">No hay obras registradas</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaObr" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(-1)">Anterior</button>
-                                                                <span id="numPaginaObr" class="mx-2"></span>
-                                                                <button id="btnSiguienteObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- ============ TAB: MATERIAL DE ESTUDIO ============ -->
-                                            <div id="tab-material" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-warning">
-                                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                                        <h6 class="m-0 font-weight-bold text-warning">Material de Estudio por Sección</h6>
-                                                        <a th:href="@{/materialEstudio/nuevoD}" class="btn btn-sm btn-warning text-white">
-                                                            <i class="fas fa-plus me-1"></i> Nuevo Material
-                                                        </a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-hover" id="tablaMaterial">
-                                                                <thead class="table-light">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-                                                                        <th>Sección</th>
-                                                                        <th>Fecha</th>
-                                                                        <th>Enlace</th>
-                                                                        <th>Estado</th>
-                                                                        <th class="text-center">Acciones</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr th:each="mat : ${materiales}" class="fila-material">
-                                                                        <td th:text="${mat.nombre}">Cadencia cajas</td>
-                                                                        <td th:text="${mat.nombreSeccion}">Cajas</td>
-                                                                        <td th:text="${mat.fecha != null ? #temporals.format(mat.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
-                                                                        <td>
-                                                                            <a th:if="${mat.rutaMaterialEstudio != null and mat.rutaMaterialEstudio != ''}"
-                                                                               th:href="${mat.rutaMaterialEstudio}" target="_blank"
-                                                                               class="btn btn-sm btn-outline-warning">
-                                                                                <i class="fas fa-external-link-alt"></i> Ver
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span th:text="${mat.estado}"
-                                                                                  th:classappend="${mat.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a th:href="@{/materialEstudio/editarD/{id}(id=${mat.idMaterial})}"
-                                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
-                                                                            <form th:action="@{/materialEstudio/eliminarD}" method="post" style="display:inline;"
-                                                                                  onsubmit="return confirm('¿Eliminar este material?');">
-                                                                                <input type="hidden" name="idMaterial" th:value="${mat.idMaterial}">
-                                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr th:if="${#lists.isEmpty(materiales)}">
-                                                                        <td colspan="6" class="text-center text-muted py-3">No hay material registrado</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                                            <span id="infoPaginaMat" class="text-muted small"></span>
-                                                            <div>
-                                                                <button id="btnAnteriorMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(-1)">Anterior</button>
-                                                                <span id="numPaginaMat" class="mx-2"></span>
-                                                                <button id="btnSiguienteMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(1)">Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            
-                                            <!-- ============ TAB: ASISTENTE IA ============ -->
-                                            <div id="tab-asistente" class="tab-contenido" style="display:none;">
-                                                <div class="card shadow mb-4 border-left-warning">
-                                                    <div class="card-header py-3">
-                                                        <h6 class="m-0 font-weight-bold text-warning">
-                                                            <i class="fas fa-robot me-1"></i> Maestro — Asistente de la Banda
-                                                        </h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div id="chatMensajes" style="height: 350px; overflow-y: auto; border: 1px solid #e3e6f0; border-radius: 8px; padding: 15px; margin-bottom: 12px; background: #f8f9fc;">
-                                                            <div class="text-muted small">
-                                                                ¡Hola! Soy Maestro. Puedo ayudarte con la gestión de tu banda o darte recomendaciones de repertorio. ¿En qué te ayudo?
-                                                            </div>
-                                                        </div>
-                                                        <div class="input-group">
-                                                            <input type="text" id="chatInput" class="form-control"
-                                                                   placeholder="Escribí tu pregunta..." onkeydown="if (event.key === 'Enter') {
-                                                                               enviarMensaje();
-                                                                           }">
-                                                                <button class="btn btn-warning text-white" onclick="enviarMensaje()" id="chatBtn">
-                                                                    <i class="fas fa-paper-plane"></i> Enviar
-                                                                </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                            <!-- ============ TAB: SECCIONES ============ -->
+                            <div id="tab-secciones" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-info">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-info">Gestión de Secciones Musicales</h6>
+                                        <a th:href="@{/seccion/nuevoD}" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-plus me-1"></i> Nueva Sección
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaSecciones">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Descripción</th>
+                                                        <th>Banda</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="sec : ${secciones}" class="fila-seccion">
+                                                        <td th:text="${sec.nombre}">Cajas</td>
+                                                        <td th:text="${sec.descripcion}">Percusión menor</td>
+                                                        <td th:text="${sec.nombreBanda}">Banda Moravia</td>
+                                                        <td>
+                                                            <span th:text="${sec.estado}"
+                                                                  th:classappend="${sec.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/seccion/editarD/{id}(id=${sec.idSeccion})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/seccion/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar esta sección?');">
+                                                                <input type="hidden" name="idSeccion" th:value="${sec.idSeccion}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(secciones)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay secciones registradas</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaSec" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(-1)">Anterior</button>
+                                                <span id="numPaginaSec" class="mx-2"></span>
+                                                <button id="btnSiguienteSec" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSec(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                </section>
-
-                                <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
-
-                                <script>
-                                    // ===== PESTAÑAS =====
-                                    function mostrarTab(idTab, boton) {
-                                        document.querySelectorAll('.tab-contenido').forEach(function (div) {
-                                            div.style.display = 'none';
-                                        });
-                                        document.getElementById(idTab).style.display = 'block';
-                                        document.querySelectorAll('#tabsDirector .nav-link').forEach(function (btn) {
-                                            btn.classList.remove('active');
-                                        });
-                                        boton.classList.add('active');
-                                    }
-
-                                    // ===== PAGINACIÓN =====
-                                    const FILAS_POR_PAGINA = 25;
-
-                                    const paginadores = {
-                                        usuarios: {pagina: 1, filaClass: 'fila-usuario', num: 'numPaginaUsu', info: 'infoPaginaUsu', prev: 'btnAnteriorUsu', next: 'btnSiguienteUsu'},
-                                        secciones: {pagina: 1, filaClass: 'fila-seccion', num: 'numPaginaSec', info: 'infoPaginaSec', prev: 'btnAnteriorSec', next: 'btnSiguienteSec'},
-                                        lideres: {pagina: 1, filaClass: 'fila-lider', num: 'numPaginaLid', info: 'infoPaginaLid', prev: 'btnAnteriorLid', next: 'btnSiguienteLid'},
-                                        asignaciones: {pagina: 1, filaClass: 'fila-asignacion', num: 'numPaginaAsig', info: 'infoPaginaAsig', prev: 'btnAnteriorAsig', next: 'btnSiguienteAsig'},
-                                        solicitudes: {pagina: 1, filaClass: 'fila-solicitud', num: 'numPaginaSol', info: 'infoPaginaSol', prev: 'btnAnteriorSol', next: 'btnSiguienteSol'},
-                                        ensayos: {pagina: 1, filaClass: 'fila-ensayo', num: 'numPaginaEns', info: 'infoPaginaEns', prev: 'btnAnteriorEns', next: 'btnSiguienteEns'},
-                                        presentaciones: { pagina: 1, filaClass: 'fila-presentacion', num: 'numPaginaPre', info: 'infoPaginaPre', prev: 'btnAnteriorPre', next: 'btnSiguientePre' },
-                                        obras: { pagina: 1, filaClass: 'fila-obra', num: 'numPaginaObr', info: 'infoPaginaObr', prev: 'btnAnteriorObr', next: 'btnSiguienteObr' },
-                                        material: { pagina: 1, filaClass: 'fila-material', num: 'numPaginaMat', info: 'infoPaginaMat', prev: 'btnAnteriorMat', next: 'btnSiguienteMat' }
-                                    };
-
-                                    function mostrarPagina(clave) {
-                                        const p = paginadores[clave];
-                                        const filas = document.querySelectorAll('.' + p.filaClass);
-                                        const total = filas.length;
-                                        const totalPaginas = Math.ceil(total / FILAS_POR_PAGINA) || 1;
-
-                                        if (p.pagina < 1)
-                                            p.pagina = 1;
-                                        if (p.pagina > totalPaginas)
-                                            p.pagina = totalPaginas;
-
-                                        const inicio = (p.pagina - 1) * FILAS_POR_PAGINA;
-                                        const fin = inicio + FILAS_POR_PAGINA;
-
-                                        filas.forEach(function (fila, i) {
-                                            fila.style.display = (i >= inicio && i < fin) ? '' : 'none';
-                                        });
-
-                                        const el = function (id) {
-                                            return document.getElementById(id);
-                                        };
-                                        if (el(p.num))
-                                            el(p.num).textContent = 'Página ' + p.pagina + ' de ' + totalPaginas;
-                                        if (el(p.info))
-                                            el(p.info).textContent = total + ' registros en total';
-                                        if (el(p.prev))
-                                            el(p.prev).disabled = (p.pagina === 1);
-                                        if (el(p.next))
-                                            el(p.next).disabled = (p.pagina === totalPaginas);
-                                    }
-
-                                    function cambiarPaginaUsu(d) {
-                                        paginadores.usuarios.pagina += d;
-                                        mostrarPagina('usuarios');
-                                    }
-                                    function cambiarPaginaSec(d) {
-                                        paginadores.secciones.pagina += d;
-                                        mostrarPagina('secciones');
-                                    }
-                                    function cambiarPaginaLid(d) {
-                                        paginadores.lideres.pagina += d;
-                                        mostrarPagina('lideres');
-                                    }
-                                    function cambiarPaginaAsig(d) {
-                                        paginadores.asignaciones.pagina += d;
-                                        mostrarPagina('asignaciones');
-                                    }
-                                    function cambiarPaginaSol(d) {
-                                        paginadores.solicitudes.pagina += d;
-                                        mostrarPagina('solicitudes');
-                                    }
-                                    function cambiarPaginaEns(d) {
-                                        paginadores.ensayos.pagina += d;
-                                        mostrarPagina('ensayos');
-                                    }
-                                    function cambiarPaginaPre(d) {
-                                        paginadores.presentaciones.pagina += d; 
-                                        mostrarPagina('presentaciones'); 
-                                    }
-                                    function cambiarPaginaObr (d){
-                                        paginadores.obras.pagina += d;
-                                        mostrarPagina('obras');
-                                    }
-                                    function cambiarPaginaMat (d){
-                                        paginadores.material.pagina += d;
-                                        mostrarPagina('material')
-                                    }
-
-
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        mostrarPagina('usuarios');
-                                        mostrarPagina('secciones');
-                                        mostrarPagina('lideres');
-                                        mostrarPagina('asignaciones');
-                                        mostrarPagina('solicitudes');
-                                        mostrarPagina('ensayos');
-                                        mostrarPagina('presentaciones');
-                                        mostrarPagina('obras');
-                                        mostrarPagina('material');
-                                    });
-                                    
-
-                                    // ===== CHAT MAESTRO =====
-                                    function agregarMensaje(texto, esUsuario) {
-                                        const cont = document.getElementById('chatMensajes');
-                                        const div = document.createElement('div');
-                                        div.className = 'mb-2';
-                                        div.style.textAlign = esUsuario ? 'right' : 'left';
-
-                                        const burbuja = document.createElement('span');
-                                        burbuja.style.display = 'inline-block';
-                                        burbuja.style.padding = '8px 12px';
-                                        burbuja.style.borderRadius = '12px';
-                                        burbuja.style.maxWidth = '80%';
-                                        burbuja.style.whiteSpace = 'pre-wrap';
-                                        burbuja.style.background = esUsuario ? '#4e73df' : '#e3e6f0';
-                                        burbuja.style.color = esUsuario ? '#fff' : '#000';
-                                        burbuja.textContent = texto;
-
-                                        div.appendChild(burbuja);
-                                        cont.appendChild(div);
-                                        cont.scrollTop = cont.scrollHeight;
-                                    }
-
-                                    async function enviarMensaje() {
-                                        const input = document.getElementById('chatInput');
-                                        const btn = document.getElementById('chatBtn');
-                                        const mensaje = input.value.trim();
-                                        if (!mensaje)
-                                            return;
-
-                                        agregarMensaje(mensaje, true);
-                                        input.value = '';
-                                        btn.disabled = true;
-
-                                        agregarMensaje('Maestro está escribiendo...', false);
-                                        const cont = document.getElementById('chatMensajes');
-                                        const escribiendo = cont.lastChild;
-
-                                        try {
-                                            const resp = await fetch('/api/chat', {
-                                                method: 'POST',
-                                                headers: {'Content-Type': 'application/json'},
-                                                body: JSON.stringify({mensaje: mensaje})
-                                            });
-                                            const texto = await resp.text();
-                                            cont.removeChild(escribiendo);
-                                            agregarMensaje(texto, false);
-                                        } catch (e) {
-                                            cont.removeChild(escribiendo);
-                                            agregarMensaje('Hubo un error al conectar. Intentá de nuevo.', false);
-                                        } finally {
-                                            btn.disabled = false;
-                                            input.focus();
-                                        }
-                                    }
-                                </script>
-
-                                </body>
-                                </html>
+                            </div>
+                            <!-- ============ TAB: LÍDERES ============ -->
+                            <div id="tab-lideres" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-info">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-info">Gestión de Líderes de Sección</h6>
+                                        <a th:href="@{/lider/nuevo}" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-plus me-1"></i> Nuevo Líder
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaLideres">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Cédula</th>
+                                                        <th>Nombre completo</th>
+                                                        <th>Sección a cargo</th>
+                                                        <th>Correo</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="lid : ${lideres}" class="fila-lider">
+                                                        <td th:text="${lid.cedula}">1-1234-5678</td>
+                                                        <td th:text="${lid.nombreUsuario}">José Pablo Ramírez</td>
+                                                        <td th:text="${lid.nombreSeccion}">Cajas</td>
+                                                        <td th:text="${lid.correo}">pepe@blcm.cr</td>
+                                                        <td>
+                                                            <span th:text="${lid.estado}"
+                                                                  th:classappend="${lid.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <form th:action="@{/lider/revocar}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Revocar el rol de líder a esta persona?');">
+                                                                <input type="hidden" name="cedula" th:value="${lid.cedula}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">
+                                                                        <i class="fas fa-trash me-1"></i> Revocar
+                                                                    </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(lideres)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay líderes asignados</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaLid" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(-1)">Anterior</button>
+                                                <span id="numPaginaLid" class="mx-2"></span>
+                                                <button id="btnSiguienteLid" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaLid(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: ASIGNACIONES ============ -->
+                            <div id="tab-asignaciones" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-success">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-success">Control de Asignaciones de Instrumentos</h6>
+                                        <a th:href="@{/asignacionInstrumento/nuevo}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus me-1"></i> Nueva Asignación
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaAsignaciones">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Integrante</th>
+                                                        <th>Instrumento</th>
+                                                        <th>Fecha Inicio</th>
+                                                        <th>Motivo</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="asig : ${asignaciones}" class="fila-asignacion">
+                                                        <td th:text="${asig.nombreIntegrante}">Juan Pérez</td>
+                                                        <td th:text="${asig.nombreInstrumento}">Trompeta</td>
+                                                        <td th:text="${asig.fechaInicio}">2026-07-11</td>
+                                                        <td th:text="${asig.motivo}">Préstamo temporal</td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/asignacionInstrumento/editar/{id}(id=${asig.idAsignacion})}"
+                                                               class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                            <form th:action="@{/asignacionInstrumento/eliminar}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar esta asignación?');">
+                                                                <input type="hidden" name="idAsignacion" th:value="${asig.idAsignacion}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(asignaciones)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay asignaciones registradas</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaAsig" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(-1)">Anterior</button>
+                                                <span id="numPaginaAsig" class="mx-2"></span>
+                                                <button id="btnSiguienteAsig" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaAsig(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: SOLICITUDES ============ -->
+                            <div id="tab-solicitudes" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-primary">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Ingreso (Aspirantes)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaSolicitudes">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Candidato</th>
+                                                        <th>Correo</th>
+                                                        <th>Teléfono</th>
+                                                        <th>Mensaje</th>
+                                                        <th>Estado</th>
+                                                        <th>Sección</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="sol : ${solicitudes}" class="fila-solicitud">
+                                                        <td th:text="${sol.nombre + ' ' + sol.primerApellido + ' ' + (sol.segundoApellido != null ? sol.segundoApellido : '')}">Juan Pérez</td>
+                                                        <td th:text="${sol.correo}">correo@x.com</td>
+                                                        <td th:text="${sol.telefono}">8888-8888</td>
+                                                        <td th:text="${sol.mensaje}">Mensaje...</td>
+                                                        <td>
+                                                            <span th:text="${sol.estado}"
+                                                                  th:classappend="${sol.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td th:text="${sol.nombreSeccion}">Sección</td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/solicitudIngreso/editarDirector/{id}(id=${sol.idSolicitud})}"
+                                                               class="btn btn-sm btn-info text-white mb-1">Editar</a>
+                                                            <form th:action="@{/solicitudIngreso/eliminar}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar esta solicitud?');">
+                                                                <input type="hidden" name="idSolicitud" th:value="${sol.idSolicitud}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(solicitudes)}">
+                                                        <td colspan="8" class="text-center text-muted py-3">No hay solicitudes pendientes</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaSol" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(-1)">Anterior</button>
+                                                <span id="numPaginaSol" class="mx-2"></span>
+                                                <button id="btnSiguienteSol" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaSol(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: ENSAYOS ============ -->
+                            <div id="tab-ensayos" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-primary">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-primary">Gestión de Ensayos</h6>
+                                        <a th:href="@{/ensayos/nuevoD}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-plus me-1"></i> Nuevo Ensayo
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaEnsayos">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Fecha Inicio</th>
+                                                        <th>Fecha Fin</th>
+                                                        <th>Descripción</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="ens : ${ensayos}" class="fila-ensayo">
+                                                        <td th:text="${ens.nombre}">Ensayo general</td>
+                                                        <td th:text="${#temporals.format(ens.fechaInicio, 'dd/MM/yyyy HH:mm')}">04/07/2026</td>
+                                                        <td th:text="${#temporals.format(ens.fechaFin, 'dd/MM/yyyy HH:mm')}">04/07/2026</td>
+                                                        <td th:text="${ens.descripcion}">Repaso de repertorio</td>
+                                                        <td>
+                                                            <span th:text="${ens.estado}"
+                                                                  th:classappend="${ens.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/ensayos/editarD/{id}(id=${ens.idEnsayo})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/ensayos/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar este ensayo?');">
+                                                                <input type="hidden" name="idEnsayo" th:value="${ens.idEnsayo}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(ensayos)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay ensayos registrados</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaEns" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorEns" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaEns(-1)">Anterior</button>
+                                                <span id="numPaginaEns" class="mx-2"></span>
+                                                <button id="btnSiguienteEns" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaEns(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: PRESENTACIONES ============ -->
+                            <div id="tab-presentaciones" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-success">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-success">Gestión de Presentaciones</h6>
+                                        <a th:href="@{/presentacion/nuevoD}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus me-1"></i> Nueva Presentación
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaPresentaciones">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Fecha</th>
+                                                        <th>Lugar</th>
+                                                        <th>Descripción</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="pre : ${presentaciones}" class="fila-presentacion">
+                                                        <td th:text="${pre.nombre}">Concierto de gala</td>
+                                                        <td th:text="${#temporals.format(pre.fecha, 'dd/MM/yyyy HH:mm')}">15/08/2026</td>
+                                                        <td th:text="${pre.nombreLugar}">Teatro Nacional</td>
+                                                        <td th:text="${pre.descripcion}">Presentación anual</td>
+                                                        <td>
+                                                            <span th:text="${pre.estado}"
+                                                                  th:classappend="${pre.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/presentacion/editarD/{id}(id=${pre.idPresentacion})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/presentacion/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar esta presentación?');">
+                                                                <input type="hidden" name="idPresentacion" th:value="${pre.idPresentacion}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(presentaciones)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay presentaciones registradas</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaPre" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorPre" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaPre(-1)">Anterior</button>
+                                                <span id="numPaginaPre" class="mx-2"></span>
+                                                <button id="btnSiguientePre" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaPre(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: OBRAS ============ -->
+                            <div id="tab-obras" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-success">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-success">Repertorio / Obras de la Banda</h6>
+                                        <a th:href="@{/obra/nuevoD}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus me-1"></i> Nueva Obra
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaObras">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Tipo</th>
+                                                        <th>Fecha</th>
+                                                        <th>Detalle</th>
+                                                        <th>Material</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="ob : ${obras}" class="fila-obra">
+                                                        <td th:text="${ob.nombre}">Marcha X</td>
+                                                        <td th:text="${ob.nombreTipo}">Marcha</td>
+                                                        <td th:text="${ob.fecha != null ? #temporals.format(ob.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
+                                                        <td th:text="${ob.detalle}">Detalle</td>
+                                                        <td>
+                                                            <a th:if="${ob.rutaObra != null and ob.rutaObra != ''}"
+                                                               th:href="${ob.rutaObra}" target="_blank"
+                                                               class="btn btn-sm btn-outline-success">
+                                                                <i class="fas fa-external-link-alt"></i> Ver
+                                                            </a>
+                                                            <span th:if="${ob.rutaObra == null or ob.rutaObra == ''}" class="text-muted small">—</span>
+                                                        </td>
+                                                        <td>
+                                                            <span th:text="${ob.estado}"
+                                                                  th:classappend="${ob.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/obra/editarD/{id}(id=${ob.idObra})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/obra/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar esta obra?');">
+                                                                <input type="hidden" name="idObra" th:value="${ob.idObra}">
+                                                                <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(obras)}">
+                                                        <td colspan="7" class="text-center text-muted py-3">No hay obras registradas</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaObr" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(-1)">Anterior</button>
+                                                <span id="numPaginaObr" class="mx-2"></span>
+                                                <button id="btnSiguienteObr" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaObr(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: MATERIAL DE ESTUDIO ============ -->
+                            <div id="tab-material" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-warning">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-warning">Material de Estudio por Sección</h6>
+                                        <a th:href="@{/materialEstudio/nuevoD}" class="btn btn-sm btn-warning text-white">
+                                            <i class="fas fa-plus me-1"></i> Nuevo Material
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="tablaMaterial">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Sección</th>
+                                                        <th>Fecha</th>
+                                                        <th>Enlace</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="mat : ${materiales}" class="fila-material">
+                                                        <td th:text="${mat.nombre}">Cadencia cajas</td>
+                                                        <td th:text="${mat.nombreSeccion}">Cajas</td>
+                                                        <td th:text="${mat.fecha != null ? #temporals.format(mat.fecha, 'dd/MM/yyyy') : ''}">01/01/2026</td>
+                                                        <td>
+                                                            <a th:if="${mat.rutaMaterialEstudio != null and mat.rutaMaterialEstudio != ''}"
+                                                               th:href="${mat.rutaMaterialEstudio}" target="_blank"
+                                                               class="btn btn-sm btn-outline-warning">
+                                                                <i class="fas fa-external-link-alt"></i> Ver
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <span th:text="${mat.estado}"
+                                                                  th:classappend="${mat.idEstado == 2} ? 'badge bg-danger' : 'badge bg-success'">Activo</span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a th:href="@{/materialEstudio/editarD/{id}(id=${mat.idMaterial})}"
+                                                               class="btn btn-sm btn-info text-white mb-1"><i class="fas fa-edit me-1"></i> Editar</a>
+                                                            <form th:action="@{/materialEstudio/eliminarD}" method="post" style="display:inline;"
+                                                                  onsubmit="return confirm('¿Eliminar este material?');">
+                                                                <input type="hidden" name="idMaterial" th:value="${mat.idMaterial}">
+                                                                    <button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fas fa-trash me-1"></i> Eliminar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr th:if="${#lists.isEmpty(materiales)}">
+                                                        <td colspan="6" class="text-center text-muted py-3">No hay material registrado</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span id="infoPaginaMat" class="text-muted small"></span>
+                                            <div>
+                                                <button id="btnAnteriorMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(-1)">Anterior</button>
+                                                <span id="numPaginaMat" class="mx-2"></span>
+                                                <button id="btnSiguienteMat" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaMat(1)">Siguiente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============ TAB: ASISTENTE IA ============ -->
+                            <div id="tab-asistente" class="tab-contenido" style="display:none;">
+                                <div class="card shadow mb-4 border-left-warning">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-warning">
+                                            <i class="fas fa-robot me-1"></i> Maestro — Asistente de la Banda
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chatMensajes" style="height: 350px; overflow-y: auto; border: 1px solid #e3e6f0; border-radius: 8px; padding: 15px; margin-bottom: 12px; background: #f8f9fc;">
+                                            <div class="text-muted small">
+                                                ¡Hola! Soy Maestro. Puedo ayudarte con la gestión de tu banda o darte recomendaciones de repertorio. ¿En qué te ayudo?
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" id="chatInput" class="form-control"
+                                                   placeholder="Escribí tu pregunta..." onkeydown="if (event.key === 'Enter') { enviarMensaje(); }">
+                                                <button class="btn btn-warning text-white" onclick="enviarMensaje()" id="chatBtn">
+                                                    <i class="fas fa-paper-plane"></i> Enviar
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <th:block th:replace="~{general/fragmentos :: footer}"></th:block>
+        <script>
+            // ===== PESTAÑAS =====
+            function mostrarTab(idTab, boton) {
+                document.querySelectorAll('.tab-contenido').forEach(function (div) {
+                    div.style.display = 'none';
+                });
+                document.getElementById(idTab).style.display = 'block';
+                document.querySelectorAll('#tabsDirector .nav-link').forEach(function (btn) {
+                    btn.classList.remove('active');
+                });
+                boton.classList.add('active');
+            }
+            // ===== PAGINACIÓN =====
+            const FILAS_POR_PAGINA = 25;
+            const paginadores = {
+                usuarios: {pagina: 1, filaClass: 'fila-usuario', num: 'numPaginaUsu', info: 'infoPaginaUsu', prev: 'btnAnteriorUsu', next: 'btnSiguienteUsu'},
+                secciones: {pagina: 1, filaClass: 'fila-seccion', num: 'numPaginaSec', info: 'infoPaginaSec', prev: 'btnAnteriorSec', next: 'btnSiguienteSec'},
+                lideres: {pagina: 1, filaClass: 'fila-lider', num: 'numPaginaLid', info: 'infoPaginaLid', prev: 'btnAnteriorLid', next: 'btnSiguienteLid'},
+                asignaciones: {pagina: 1, filaClass: 'fila-asignacion', num: 'numPaginaAsig', info: 'infoPaginaAsig', prev: 'btnAnteriorAsig', next: 'btnSiguienteAsig'},
+                solicitudes: {pagina: 1, filaClass: 'fila-solicitud', num: 'numPaginaSol', info: 'infoPaginaSol', prev: 'btnAnteriorSol', next: 'btnSiguienteSol'},
+                ensayos: {pagina: 1, filaClass: 'fila-ensayo', num: 'numPaginaEns', info: 'infoPaginaEns', prev: 'btnAnteriorEns', next: 'btnSiguienteEns'},
+                presentaciones: { pagina: 1, filaClass: 'fila-presentacion', num: 'numPaginaPre', info: 'infoPaginaPre', prev: 'btnAnteriorPre', next: 'btnSiguientePre' },
+                obras: { pagina: 1, filaClass: 'fila-obra', num: 'numPaginaObr', info: 'infoPaginaObr', prev: 'btnAnteriorObr', next: 'btnSiguienteObr' },
+                material: { pagina: 1, filaClass: 'fila-material', num: 'numPaginaMat', info: 'infoPaginaMat', prev: 'btnAnteriorMat', next: 'btnSiguienteMat' }
+            };
+            function mostrarPagina(clave) {
+                const p = paginadores[clave];
+                const filas = document.querySelectorAll('.' + p.filaClass);
+                const total = filas.length;
+                const totalPaginas = Math.ceil(total / FILAS_POR_PAGINA) || 1;
+                if (p.pagina < 1)
+                    p.pagina = 1;
+                if (p.pagina > totalPaginas)
+                    p.pagina = totalPaginas;
+                const inicio = (p.pagina - 1) * FILAS_POR_PAGINA;
+                const fin = inicio + FILAS_POR_PAGINA;
+                filas.forEach(function (fila, i) {
+                    fila.style.display = (i >= inicio && i < fin) ? '' : 'none';
+                });
+                const el = function (id) {
+                    return document.getElementById(id);
+                };
+                if (el(p.num))
+                    el(p.num).textContent = 'Página ' + p.pagina + ' de ' + totalPaginas;
+                if (el(p.info))
+                    el(p.info).textContent = total + ' registros en total';
+                if (el(p.prev))
+                    el(p.prev).disabled = (p.pagina === 1);
+                if (el(p.next))
+                    el(p.next).disabled = (p.pagina === totalPaginas);
+            }
+            function cambiarPaginaUsu(d) {
+                paginadores.usuarios.pagina += d;
+                mostrarPagina('usuarios');
+            }
+            function cambiarPaginaSec(d) {
+                paginadores.secciones.pagina += d;
+                mostrarPagina('secciones');
+            }
+            function cambiarPaginaLid(d) {
+                paginadores.lideres.pagina += d;
+                mostrarPagina('lideres');
+            }
+            function cambiarPaginaAsig(d) {
+                paginadores.asignaciones.pagina += d;
+                mostrarPagina('asignaciones');
+            }
+            function cambiarPaginaSol(d) {
+                paginadores.solicitudes.pagina += d;
+                mostrarPagina('solicitudes');
+            }
+            function cambiarPaginaEns(d) {
+                paginadores.ensayos.pagina += d;
+                mostrarPagina('ensayos');
+            }
+            function cambiarPaginaPre(d) {
+                paginadores.presentaciones.pagina += d;
+                mostrarPagina('presentaciones');
+            }
+            function cambiarPaginaObr(d) {
+                paginadores.obras.pagina += d;
+                mostrarPagina('obras');
+            }
+            function cambiarPaginaMat(d) {
+                paginadores.material.pagina += d;
+                mostrarPagina('material');
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                mostrarPagina('usuarios');
+                mostrarPagina('secciones');
+                mostrarPagina('lideres');
+                mostrarPagina('asignaciones');
+                mostrarPagina('solicitudes');
+                mostrarPagina('ensayos');
+                mostrarPagina('presentaciones');
+                mostrarPagina('obras');
+                mostrarPagina('material');
+            });
+            function agregarMensaje(texto, esUsuario) {
+                const cont = document.getElementById('chatMensajes');
+                const div = document.createElement('div');
+                div.className = 'mb-2';
+                div.style.textAlign = esUsuario ? 'right' : 'left';
+                const burbuja = document.createElement('span');
+                burbuja.style.display = 'inline-block';
+                burbuja.style.padding = '8px 12px';
+                burbuja.style.borderRadius = '12px';
+                burbuja.style.maxWidth = '80%';
+                burbuja.style.whiteSpace = 'pre-wrap';
+                burbuja.style.background = esUsuario ? '#4e73df' : '#e3e6f0';
+                burbuja.style.color = esUsuario ? '#fff' : '#000';
+                burbuja.textContent = texto;
+                div.appendChild(burbuja);
+                cont.appendChild(div);
+                cont.scrollTop = cont.scrollHeight;
+            }
+            async function enviarMensaje() {
+                const input = document.getElementById('chatInput');
+                const btn = document.getElementById('chatBtn');
+                const mensaje = input.value.trim();
+                if (!mensaje)
+                    return;
+                agregarMensaje(mensaje, true);
+                input.value = '';
+                btn.disabled = true;
+                agregarMensaje('Maestro está escribiendo...', false);
+                const cont = document.getElementById('chatMensajes');
+                const escribiendo = cont.lastChild;
+                try {
+                    const resp = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({mensaje: mensaje})
+                    });
+                    const texto = await resp.text();
+                    cont.removeChild(escribiendo);
+                    agregarMensaje(texto, false);
+                } catch (e) {
+                    cont.removeChild(escribiendo);
+                    agregarMensaje('Hubo un error al conectar. Intentá de nuevo.', false);
+                } finally {
+                    btn.disabled = false;
+                    input.focus();
+                }
+            }
+        </script>
+    </body>
+</html>

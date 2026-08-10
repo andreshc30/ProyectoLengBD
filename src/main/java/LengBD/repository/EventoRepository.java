@@ -33,6 +33,9 @@ public class EventoRepository {
     private SimpleJdbcCall totalEventosActivosCall;
     private SimpleJdbcCall obtenerNombreEventoCall;
     private SimpleJdbcCall eventoPorBandaCall;
+    private SimpleJdbcCall eventosBusquedaCall;
+    private SimpleJdbcCall proximosEventosCall;
+    private SimpleJdbcCall detalleEventoCall;
 
     @PostConstruct
     public void init() {
@@ -61,12 +64,30 @@ public class EventoRepository {
         obtenerNombreEventoCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withFunctionName("FIDE_OBTENER_NOMBRE_EVENTO_FN");
-        
+
         eventoPorBandaCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
                 .withProcedureName("FIDE_LISTAR_EVENTO_POR_BANDA_SP")
                 .returningResultSet("P_CURSOR",
-                 BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
+                        BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
+
+        eventosBusquedaCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_EVENTOS_BUSQUEDA_SP")
+                .returningResultSet("P_CURSOR",
+                        BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
+
+        proximosEventosCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_LISTAR_PROXIMOS_EVENTOS_SP")
+                .returningResultSet("P_CURSOR",
+                        BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
+
+        detalleEventoCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("FIDE_PROYECTO_LENGUAJES_PCK")
+                .withProcedureName("FIDE_OBTENER_DETALLE_EVENTO_SP")
+                .returningResultSet("P_CURSOR",
+                        BeanPropertyRowMapper.newInstance(EventoListadoDTO.class));
     }
 
     public void insertarEvento(Evento evento) {
@@ -114,8 +135,8 @@ public class EventoRepository {
         params.put("P_ID_EVENTO", idEvento);
         return obtenerNombreEventoCall.executeFunction(String.class, params);
     }
-    
-      @SuppressWarnings("unchecked")
+
+    @SuppressWarnings("unchecked")
     public List<EventoListadoDTO> readEventosPorBanda(Integer idBanda) {
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_BANDA", idBanda);
@@ -125,60 +146,26 @@ public class EventoRepository {
     }
 
     public List<EventoListadoDTO> obtenerEventosBusqueda() {
-
-        String sql = """
-        SELECT
-            ID_EVENTO,
-            NOMBRE_EVENTO AS NOMBRE
-        FROM FIDE_EVENTOS_BUSQUEDA_V
-        """;
-
-        return jdbcTemplate.query(
-                sql,
-                BeanPropertyRowMapper.newInstance(EventoListadoDTO.class)
-        );
+        Map<String, Object> result = eventosBusquedaCall.execute();
+        return (List<EventoListadoDTO>) result.get("P_CURSOR");
     }
-    
+
     public List<EventoListadoDTO> obtenerProximosEventos() {
-
-    String sql = """
-        SELECT
-            NOMBRE_EVENTO AS NOMBRE,
-            LUGAR AS NOMBREDIRECCION,
-            FECHA,
-            NOMBRE_BANDA AS NOMBREBANDA
-        FROM FIDE_EVENTO_DETALLE_V
-        WHERE FECHA >= TRUNC(SYSDATE)
-        ORDER BY FECHA
-        FETCH FIRST 3 ROWS ONLY
-        """;
-
-    return jdbcTemplate.query(
-            sql,
-            BeanPropertyRowMapper.newInstance(EventoListadoDTO.class)
-    );
-}
+        Map<String, Object> result = proximosEventosCall.execute();
+        return (List<EventoListadoDTO>) result.get("P_CURSOR");
+    }
 
     public EventoListadoDTO obtenerDetalleEvento(Integer idEvento) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("P_ID_EVENTO", idEvento);
+        Map<String, Object> result = detalleEventoCall.execute(params);
+        List<EventoListadoDTO> lista
+                = (List<EventoListadoDTO>) result.get("P_CURSOR");
+        if (lista != null && !lista.isEmpty()) {
+            return lista.get(0);
+        }
 
-        String sql = """
-    SELECT
-        ID_EVENTO,
-        NOMBRE_EVENTO AS NOMBRE,
-        DETALLE,
-        FECHA,
-        NOMBRE_BANDA AS NOMBREBANDA,
-        LUGAR AS NOMBREDIRECCION,
-        ESTADO
-    FROM FIDE_EVENTO_DETALLE_V
-    WHERE ID_EVENTO = ?
-    """;
-
-        return jdbcTemplate.queryForObject(
-                sql,
-                BeanPropertyRowMapper.newInstance(EventoListadoDTO.class),
-                idEvento);
+        return null;
     }
-    
-    
+
 }

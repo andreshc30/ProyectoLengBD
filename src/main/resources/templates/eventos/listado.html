@@ -84,7 +84,6 @@
 
                             </button>
 
-                            </form>
 
 
                         </div>
@@ -101,41 +100,49 @@
                     Próximas presentaciones
                 </h3>
 
-                <div class="col-lg-4"
-                     th:each="evento : ${proximosEventos}">
+                <div class="row g-4">
 
-                    <div class="presentacion-card">
+                    <div class="col-12 col-md-6 col-lg-4"
+                         th:each="evento : ${proximosEventos}">
 
-                        <div class="presentacion-icono">
-                            📍
+                        <div class="presentacion-card h-100">
+
+                            <div class="presentacion-icono">
+                                📍
+                            </div>
+
+                            <h5 th:text="${evento.direccion}">
+                                Lugar del evento
+                            </h5>
+
+                            <p class="evento-nombre"
+                               th:text="${evento.nombre}">
+                                Nombre del evento
+                            </p>
+
+                            <p class="evento-fecha">
+                                📅
+                                <span th:text="${evento.fecha}">
+                                    Fecha
+                                </span>
+                            </p>
+
+                            <p class="evento-bandas">
+                                🎺
+                                <span th:text="${evento.nombreBanda}">
+                                    Banda participante
+                                </span>
+                            </p>
+
+                            <button type="button"
+                                    class="btn evento-btn btnVerEvento"
+                                    th:data-id-evento="${evento.idEvento}">
+
+                                Ver información
+
+                            </button>
+
                         </div>
-
-                        <h5 th:text="${evento.nombreDireccion}">
-                            Lugar
-                        </h5>
-
-                        <p class="evento-nombre"
-                           th:text="${evento.nombre}">
-                            Nombre del evento
-                        </p>
-
-                        <p class="evento-fecha">
-                            📅
-                            <span th:text="${evento.fecha}"></span>
-                        </p>
-
-                        <p class="evento-bandas">
-                            🎺
-                            <span th:text="${evento.nombreBanda}"></span>
-                        </p>
-
-                        <button class="btn evento-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalBanda">
-
-                            Ver banda
-
-                        </button>
 
                     </div>
 
@@ -210,97 +217,77 @@
 
         </div>
 
-        <!-- Modal Bandas Participantes -->
 
-        <div class="modal fade"
-             id="modalBanda"
-             tabindex="-1"
-             aria-labelledby="modalBandaLabel"
-             aria-hidden="true">
-
-            <div class="modal-dialog modal-dialog-centered">
-
-                <div class="modal-content evento-modal">
-
-                    <div class="modal-header">
-
-                        <h4 class="modal-title" id="modalBandaLabel">
-                            🎺 Banda Municipal de Tibás
-                        </h4>
-
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Cerrar">
-                        </button>
-
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div class="detalle-item">
-                            <strong>🎺 Banda</strong>
-                            <p>Banda Municipal de Tibás</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>🎵 Evento</strong>
-                            <p>Festival Nacional de Bandas</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>📍 Lugar</strong>
-                            <p>Parque Central, San José</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>📅 Fecha</strong>
-                            <p>15 Agosto 2026</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>🕒 Hora</strong>
-                            <p>6:00 PM</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>👥 Director</strong>
-                            <p>Carlos Ramírez</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>🎼 Tipo de banda</strong>
-                            <p>Banda Municipal</p>
-                        </div>
-
-                        <div class="detalle-item">
-                            <strong>🟢 Estado</strong>
-                            <p>Activa</p>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-
-                        <button type="button"
-                                class="btn evento-btn"
-                                data-bs-dismiss="modal">
-
-                            Cerrar
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
 
         <script>
+
+            document.querySelectorAll(".btnVerEvento").forEach(function (boton) {
+
+                boton.addEventListener("click", function () {
+
+                    console.log("BOTÓN PRESIONADO");
+
+                    const idEvento = this.getAttribute("data-id-evento");
+
+                    console.log("ID DEL EVENTO:", idEvento);
+
+                    fetch("/eventos/detalle/" + idEvento)
+
+                            .then(response => {
+
+                                console.log("RESPUESTA DEL SERVIDOR:", response);
+
+                                if (!response.ok) {
+                                    throw new Error("Error al obtener el evento");
+                                }
+
+                                return response.json();
+
+                            })
+
+                            .then(data => {
+
+                                console.log("DATOS DEL EVENTO:", data);
+
+                                document.getElementById("modalNombreEvento").innerHTML =
+                                        "🎺 " + (data.nombre || "Evento");
+
+                                document.getElementById("modalNombreBanda").innerHTML =
+                                        data.nombreBanda || "No disponible";
+
+                                document.getElementById("modalLugar").innerHTML =
+                                        data.direccion || "No disponible";
+
+                                document.getElementById("modalFecha").innerHTML =
+                                        data.fecha || "No disponible";
+
+                                document.getElementById("modalDetalle").innerHTML =
+                                        data.detalle || "No disponible";
+
+                                document.getElementById("modalEstado").innerHTML =
+                                        data.estado || "No disponible";
+
+                                const modal = new bootstrap.Modal(
+                                        document.getElementById("modalEvento")
+                                        );
+
+                                modal.show();
+
+                            })
+
+                            .catch(error => {
+
+                                console.error("ERROR:", error);
+
+                                alert("No se pudo cargar la información del evento.");
+
+                            });
+
+                });
+
+            });
 
             document.getElementById("btnVerEvento").addEventListener("click", function () {
 
@@ -312,30 +299,52 @@
                 }
 
                 fetch("/eventos/detalle/" + idEvento)
-                        .then(response => response.json())
+
+                        .then(response => {
+
+                            if (!response.ok) {
+                                throw new Error("No se pudo obtener la información del evento.");
+                            }
+
+                            return response.json();
+
+                        })
+
                         .then(data => {
 
+                            console.log("Evento seleccionado:", data);
+
                             document.getElementById("modalNombreEvento").innerHTML =
-                                    "🎺 " + data.nombre;
+                                    "🎺 " + (data.nombre || "Evento");
 
                             document.getElementById("modalNombreBanda").innerHTML =
-                                    data.nombreBanda;
+                                    data.nombreBanda || "No disponible";
 
                             document.getElementById("modalLugar").innerHTML =
-                                    data.nombreDireccion;
+                                    data.direccion || "No disponible";
 
                             document.getElementById("modalFecha").innerHTML =
-                                    data.fecha;
+                                    data.fecha || "No disponible";
 
                             document.getElementById("modalDetalle").innerHTML =
-                                    data.detalle;
+                                    data.detalle || "No disponible";
 
                             document.getElementById("modalEstado").innerHTML =
-                                    data.estado;
+                                    data.estado || "No disponible";
 
-                            new bootstrap.Modal(
+                            const modal = new bootstrap.Modal(
                                     document.getElementById("modalEvento")
-                                    ).show();
+                                    );
+
+                            modal.show();
+
+                        })
+
+                        .catch(error => {
+
+                            console.error("Error:", error);
+
+                            alert("No se pudo cargar la información del evento.");
 
                         });
 

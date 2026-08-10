@@ -31,6 +31,7 @@ public class SecurityConfig {
                     "/login",
                     "/audiciones/listado",
                     "/eventos/listado",
+                    "/eventos/detalle/**",
                     "/suscripcion/listado",
                     "/solicitudIngreso/nuevo",
                     "/solicitudIngreso/guardar",

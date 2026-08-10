@@ -93,7 +93,8 @@ public class EventoController {
             evento.setFecha(dto.getFecha());
             evento.setDireccion(dto.getIdDireccion());
             evento.setIdBanda(dto.getIdBanda());
-            evento.setIdEstado(dto.getIdEstado());
+            evento.setIdEstado(1);
+            
 
             if (dto.getIdEvento() != null) {
                 eventoService.actualizarEvento(evento);
